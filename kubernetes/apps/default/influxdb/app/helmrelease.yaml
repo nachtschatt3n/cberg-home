@@ -58,9 +58,10 @@ spec:
             - *host
     persistence:
       enabled: true
-      storageClassName: local-hostpath
-    testFramework:
-      enabled: false
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      storageClass: local-hostpath
+      size: 10Gi
     # resources:
     #   requests:
     #     cpu: 30m
