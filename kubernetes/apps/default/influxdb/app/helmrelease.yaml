@@ -61,7 +61,7 @@ spec:
       storageClassName: local-hostpath
     testFramework:
       enabled: false
-    resources:
-      requests:
-        cpu: 30m
-        memory: 500M
+    # resources:
+    #   requests:
+    #     cpu: 30m
+    #     memory: 500M
