@@ -1,0 +1,131 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iobroker
+  namespace: default
+  labels:
+    app: iobroker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iobroker
+  template:
+    metadata:
+      labels:
+        app: iobroker
+    spec:
+      containers:
+        - name: iobroker
+          #image: buanet/iobroker:v7.0.0
+          image: buanet/iobroker:v7.1.2
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN", "SYS_TIME"]
+          ports:
+            - containerPort: 8081
+            - containerPort: 8082
+            - containerPort: 1885
+            - containerPort: 1880
+            - containerPort: 1883
+            - containerPort: 51989
+            - containerPort: 51988
+            - containerPort: 53388
+          env:
+            - name: AVAHI
+              value: "true"
+            #- name: DEBUG
+            #  value: "false"            
+            # - name: IOB_ADMINPORT
+            #   value: "8081"            
+            # - name: IOB_BACKITUP_EXTDB
+            #   value: "false"            
+            # - name: IOB_MULTIHOST
+            #   value: "none"            
+            # - name: IOB_OBJECTSDB_HOST
+            #   value: "127.0.0.1"            
+            # - name: IOB_OBJECTSDB_PORT
+            #   value: "9001"            
+            # - name: IOB_OBJECTSDB_TYPE
+            #   value: "jsonl" / "file" / "redis"            
+            # - name: IOB_STATESDB_HOST
+            #   value: "127.0.0.1"            
+            # - name: IOB_STATESDB_PORT
+            #   value: "9000"          
+            # - name: IOB_STATESDB_TYPE
+            #   value: "jsonl" / "file" / "redis"            
+            # - name: LANG
+            #  value: "de_DE.UTF-8"            
+            # - name: LANGUAGE
+            #  value: "de_DE.UTF-8"            
+            # - name: LC_ALL
+            #  value: "de_DE.UTF-8"            
+            # - name: PACKAGES
+            #  value: "package1 package2 package3"            
+            # - name: PERMISSION_CHECK
+            #  value: "true"            
+            # - name: SETGID
+            #  value: "1000"            
+            # - name: SETUID
+            #  value: "1000"            
+            # - name: TZ
+            #  value: "Europe/Berlin"            
+            # - name: USBDEVICES
+            #  value: "/dev/ttyACM0"            
+            # - name: ZWAVE
+            #  value: "false"            
+          volumeMounts:
+            - mountPath: /opt/iobroker
+              name: iobroker-data
+      restartPolicy: Always
+      resources: {d}
+      volumes:
+        - name: iobroker-data
+          persistentVolumeClaim:
+            claimName: iobroker-data-vol
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iobroker-service
+  namespace: default
+spec:
+  selector:
+    app: iobroker
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+      name: vis
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      name: admin
+    - protocol: TCP
+      port: 1885
+      targetPort: 1885
+      name: shelly-mqtt
+    - protocol: TCP
+      port: 1883
+      targetPort: 1883
+      name: mqtt-server
+    - protocol: TCP
+      port: 1880
+      targetPort: 1880
+      name: node-red
+    - protocol: TCP
+      port: 51989
+      targetPort: 51989
+      name: nuki-adapter
+    - protocol: TCP
+      port: 51988
+      targetPort: 51988
+      name: alexa2-proxy
+    - protocol: TCP
+      port: 53388
+      targetPort: 53388
+      name: avahi 
+
+  type: LoadBalancer
