@@ -13,7 +13,7 @@ spec:
       interval: 15m
       sourceRef:
         kind: HelmRepository
-        name: common-helm
+        name: bjw-s
         namespace: flux-system
   install:
     remediation:
