@@ -155,7 +155,8 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        storageClass: replicate-nvme
+        #storageClass: replicate-nvme
+        storageClass: local-hostpath
         size: 10Gi
         globalMounts:
           - path: /opt/iobroker
