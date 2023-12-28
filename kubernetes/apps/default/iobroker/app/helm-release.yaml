@@ -132,14 +132,14 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/appName: "Iobroker"
         hosts:
-          - hosts: "iobroker.${SECRET_DOMAIN}"
+          - hosts: &iobroker-host "iobroker.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   name: main
                   port: http
-          - host: "nodered.${SECRET_DOMAIN}"
+          - host: &nodered-host "nodered.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -148,7 +148,8 @@ spec:
                   port: nodered
         tls:
           - hosts:
-            - *host
+            - *iobroker-host
+            - *nodered-host
     persistence:
       config-replicated:
         enabled: true
