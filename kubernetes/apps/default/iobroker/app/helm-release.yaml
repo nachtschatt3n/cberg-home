@@ -164,4 +164,4 @@ spec:
     resources:
       requests:
         cpu: 30m
-        memory: 2G
+        memory: 2.5G
