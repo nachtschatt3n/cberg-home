@@ -62,6 +62,17 @@ spec:
               url: 'https://unifi.ui.com/consoles/245A4C9C82210000000005F03372000000000635C5AC00000000610F7B61:719882696/network/default/dashboard              '
               icon: 'mdi:test-tube'
               info: Network
+      globalBookmarks:
+        - group: Communicate
+          bookmarks:
+          - name: Fefe Blog
+            url: 'https://blog.fefe.de/'
+          - name: Heise
+            url: 'https://heise.de'
+          - name: Tageschau
+            url: 'https://tageschau.de'
+          - name: Golem
+            url: 'https://golem.de'
     ingress:
       main:
         enabled: true
