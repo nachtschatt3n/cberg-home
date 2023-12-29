@@ -58,10 +58,8 @@ spec:
             - *host
     persistence:
       enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      storageClass: local-hostpath
-      size: 10Gi
+      useExisting: true
+      name: influxdb2-data
     # resources:
     #   requests:
     #     cpu: 30m
