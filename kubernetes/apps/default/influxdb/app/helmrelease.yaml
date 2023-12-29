@@ -44,18 +44,19 @@ spec:
       - name: TZ
         value: "${TIMEZONE}"
     ingress:
-      enabled: true
-      ingressClassName: internal
-      annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/appName: "Influx DB"
-        hajimari.io/icon: "database"
-        hajimari.io/group: "databases"
-      hosts:
-        - &host "influx.mathiasuhl.com"
-      tls:
-        - hosts:
-            - *host
+      main:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/appName: "Influx DB"
+          hajimari.io/icon: "database"
+          hajimari.io/group: "databases"
+        hosts:
+          - &host "influx.${SECRET_DOMAIN}"
+        tls:
+          - hosts:
+              - *host
     persistence:
       enabled: true
       useExisting: true
