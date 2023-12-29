@@ -151,12 +151,16 @@ spec:
             - "iobroker.${SECRET_DOMAIN}"
             - "nodered.${SECRET_DOMAIN}"
     persistence:
-      enabled: true
-      useExisting: true
-      name: iobroker-data
-      # globalMounts:
-      # - path: /opt/iobroker
-      #   readOnly: false
+      config-replicated:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        #storageClass: replicate-nvme
+        storageClass: local-hostpath
+        size: 10Gi
+        globalMounts:
+          - path: /opt/iobroker
+            readOnly: false
     resources:
       requests:
         cpu: 30m
