@@ -44,28 +44,26 @@ spec:
       - name: TZ
         value: "${TIMEZONE}"
     service:
-      main:
-        type: LoadBalancer
-        ports:
-          http:
-            port: 8086
-          rpc:
-            enabled: true
-            port: 8088
+      type: LoadBalancer
+      ports:
+        http:
+          port: 8086
+        rpc:
+          enabled: true
+          port: 8088
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/appName: "Influx DB"
-          hajimari.io/icon: "database"
-          hajimari.io/group: "databases"
-        hosts:
-          - &host "influx.${SECRET_DOMAIN}"
-        tls:
-          - hosts:
-              - *host
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/appName: "Influx DB"
+        hajimari.io/icon: "database"
+        hajimari.io/group: "databases"
+      hosts:
+        - &host "influx.${SECRET_DOMAIN}"
+      tls:
+        - hosts:
+            - *host
     persistence:
       enabled: true
       useExisting: true
