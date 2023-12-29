@@ -148,7 +148,7 @@ spec:
                 service:
                   name: main
                   port: nodered
-          - host: "nodered.${SECRET_DOMAIN}"
+          - host: "vis.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
