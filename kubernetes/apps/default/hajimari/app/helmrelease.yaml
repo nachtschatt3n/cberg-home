@@ -34,6 +34,8 @@ spec:
       showBookmarkGroups: true
       showGlobalBookmarks: false
       showAppUrls: false
+      createCRAppSample: true
+
       defaultEnable: true
       namespaceSelector:
         matchNames:
@@ -73,6 +75,8 @@ spec:
             url: 'https://tageschau.de'
           - name: Golem
             url: 'https://golem.de'
+    serviceAccount:
+      create: true
     ingress:
       main:
         enabled: true
