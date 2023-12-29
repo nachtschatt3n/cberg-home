@@ -126,6 +126,9 @@ spec:
           mqttws:
             enabled: true
             port: 1884
+          mqttshelly:
+            enabled: true
+            port: 1885
     ingress:
       main:
         enabled: true
@@ -155,6 +158,20 @@ spec:
                 service:
                   name: main
                   port: vis
+          - host: "mqtt.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: mqtt
+          - host: "mqttshelly.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: mqttshelly
         tls:
           - hosts:
             - "iobroker.${SECRET_DOMAIN}"
