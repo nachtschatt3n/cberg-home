@@ -52,7 +52,7 @@ spec:
         hajimari.io/icon: "database"
         hajimari.io/group: "databases"
       hosts:
-        - &host "influx.${SECRET_DOMAIN}"
+        - &host "influx.mathiasuhl.com"
       tls:
         - hosts:
             - *host
