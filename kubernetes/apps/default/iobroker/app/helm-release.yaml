@@ -108,8 +108,10 @@ spec:
         type: LoadBalancer
         ports:
           http:
+            enabled: true
             port: 8081
           vis:
+            enabled: true
             port: 8082
           nodered:
             enabled: true
@@ -121,14 +123,29 @@ spec:
             enabled: true
             port: 9001
           mqtt:
+            protocol: TCP
             enabled: true
             port: 1883
           mqttws:
+            protocol: TCP
             enabled: true
             port: 1884
           mqttshelly:
+            protocol: TCP
             enabled: true
             port: 1885
+          nuki:
+            protocol: TCP
+            enabled: true
+            port: 51989
+          alexa2-proxy:
+            protocol: TCP
+            enabled: true
+            port: 51988
+          avahi:
+            protocol: TCP
+            enabled: true
+            port: 53388
     ingress:
       main:
         enabled: true
@@ -158,24 +175,11 @@ spec:
                 service:
                   name: main
                   port: vis
-          - host: "mqtt.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: mqtt
-          - host: "mqttshelly.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: mqttshelly
         tls:
           - hosts:
             - "iobroker.${SECRET_DOMAIN}"
             - "nodered.${SECRET_DOMAIN}"
+            - "vis.${SECRET_DOMAIN}"
     persistence:
       config-replicated:
         enabled: true
