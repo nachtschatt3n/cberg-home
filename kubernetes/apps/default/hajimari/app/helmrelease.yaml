@@ -28,10 +28,10 @@ spec:
       title: Apps
       darkTheme: espresso
       alwaysTargetBlank: true
-      showGreeting: false
+      showGreeting: true
       showAppGroups: false
-      showAppStatus: false
-      showBookmarkGroups: false
+      showAppStatus: true
+      showBookmarkGroups: true
       showGlobalBookmarks: false
       showAppUrls: false
       defaultEnable: true
@@ -39,6 +39,29 @@ spec:
         matchNames:
           - default
           - monitoring
+      customApps:
+        - group: Media
+          apps:
+            - name: AdGuard
+              url: 'http://192.168.31.25:3001/'
+              icon: 'mdi:test-tube'
+              info: Where the ads die
+            - name: Kuma
+              url: 'http://192.168.31.25:500/status/overview'
+              icon: 'mdi:test-tube'
+              info: Minimalistic Monitoring
+            - name: Kuma
+              url: 'http://192.168.31.25:500/status/overview'
+              icon: 'mdi:test-tube'
+              info: Minimalistic Monitoring
+            - name: CasaOS
+              url: 'http://192.168.31.25/#/'
+              icon: 'mdi:test-tube'
+              info: Casa OS
+            - name: Unifi Console
+              url: 'https://unifi.ui.com/consoles/245A4C9C82210000000005F03372000000000635C5AC00000000610F7B61:719882696/network/default/dashboard              '
+              icon: 'mdi:test-tube'
+              info: Network
     ingress:
       main:
         enabled: true
