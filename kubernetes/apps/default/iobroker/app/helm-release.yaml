@@ -109,6 +109,8 @@ spec:
         ports:
           http:
             port: 8081
+          vis:
+            port: 8082
           nodered:
             enabled: true
             port: 1880
@@ -146,6 +148,13 @@ spec:
                 service:
                   name: main
                   port: nodered
+          - host: "nodered.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: vis
         tls:
           - hosts:
             - "iobroker.${SECRET_DOMAIN}"
