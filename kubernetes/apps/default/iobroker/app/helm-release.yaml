@@ -6,10 +6,6 @@ metadata:
   namespace: default
 spec:
   interval: 15m
-  hostAliases:
-    - ip: "192.168.33.127"
-      hostnames:
-      - "gateway-2015-7066-8587.local"
   chart:
     spec:
       chart: app-template
@@ -43,6 +39,10 @@ spec:
               repository: buanet/iobroker
               tag: v9.0.1
               pullPolicy: IfNotPresent
+            hostAliases:
+              - ip: "192.168.33.127"
+                hostnames:
+                - "gateway-2015-7066-8587.local"
 
             # -- environment variables.
             # See [image docs](https://docs.buanet.de/iobroker-docker-image/docs/) for more details.
