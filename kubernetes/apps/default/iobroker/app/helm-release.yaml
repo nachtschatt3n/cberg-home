@@ -39,16 +39,53 @@ spec:
               repository: buanet/iobroker
               tag: v9.0.1
               pullPolicy: IfNotPresent
-            hostAliases:
-              - ip: "192.168.33.127"
-                hostnames:
-                - "gateway-2015-7066-8587.local"
 
             # -- environment variables.
             # See [image docs](https://docs.buanet.de/iobroker-docker-image/docs/) for more details.
-            #env:
-              # -- Config dir
-              # DATA_FOLDER: "config"
+            env:
+              - name: AVAHI
+                value: "true"
+              #- name: DEBUG
+              #  value: "false"
+              # - name: IOB_ADMINPORT
+              #   value: "8081"
+              # - name: IOB_BACKITUP_EXTDB
+              #   value: "false"
+              # - name: IOB_MULTIHOST
+              #   value: "none"
+              # - name: IOB_OBJECTSDB_HOST
+              #   value: "127.0.0.1"
+              # - name: IOB_OBJECTSDB_PORT
+              #   value: "9001"
+              # - name: IOB_OBJECTSDB_TYPE
+              #   value: "jsonl" / "file" / "redis"
+              # - name: IOB_STATESDB_HOST
+              #   value: "127.0.0.1"
+              # - name: IOB_STATESDB_PORT
+              #   value: "9000"
+              # - name: IOB_STATESDB_TYPE
+              #   value: "jsonl" / "file" / "redis"
+              # - name: LANG
+              #  value: "de_DE.UTF-8"
+              # - name: LANGUAGE
+              #  value: "de_DE.UTF-8"
+              # - name: LC_ALL
+              #  value: "de_DE.UTF-8"
+              # - name: PACKAGES
+              #  value: "package1 package2 package3"
+              # - name: PERMISSION_CHECK
+              #  value: "true"
+              # - name: SETGID
+              #  value: "1000"
+              # - name: SETUID
+              #  value: "1000"
+              # - name: TZ
+              #  value: "Europe/Berlin"
+              # - name: USBDEVICES
+              #  value: "/dev/ttyACM0"
+              # - name: ZWAVE
+              #  value: "false"
+
             probes:
               # -- Liveness probe configuration
               # @default -- See below
