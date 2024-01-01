@@ -36,18 +36,17 @@ spec:
     ingress:
       enabled: true
       className: internal
-      annotations:
-        hosts:
-          - host: "nextcloud.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-            - "nextcloud.${SECRET_DOMAIN}"
+      hosts:
+        - host: "nextcloud.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - hosts:
+          - "nextcloud.${SECRET_DOMAIN}"
     nextcloud:
       host: drive.${SECRET_DOMAIN}
       phpConfigs: {}
