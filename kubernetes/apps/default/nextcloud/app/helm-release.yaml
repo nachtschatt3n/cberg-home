@@ -1,0 +1,191 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app nextcloud
+spec:
+  interval: 60m
+  chart:
+    spec:
+      chart: *app
+      version: 4.5.10
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: flux-system
+      interval: 60m
+  timeout: 30m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  # Values link: https://github.com/nextcloud/helm/blob/master/charts/nextcloud/values.yaml
+  values:
+    image:
+      repository: nextcloud
+      tag: 28.0.1
+      pullPolicy: IfNotPresent
+    replicaCount: 1
+    ingress:
+      enabled: true
+      className: internal
+      annotations:
+        hosts:
+          - host: "nextcloud.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+            - "nextcloud.${SECRET_DOMAIN}"
+    nextcloud:
+      host: drive.${SECRET_DOMAIN}
+      phpConfigs: {}
+      # Extra config files created in /var/www/html/config/
+      # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
+      configs:
+        custom.config.php: |-
+          <?php
+          $CONFIG = array (
+            'overwriteprotocol' => 'https',
+            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
+            'filelocking.enabled' => 'true',
+            'loglevel' => '2',
+            'enable_previews' => true,
+            'trusted_domains' =>
+              [
+                'nextcloud',
+                'nextcloud.${SECRET_DOMAIN}'
+              ],
+            'trusted_proxies' =>
+              [
+                'nginx'
+              ],
+            'forwarded_for_headers' =>
+              [
+                0 => 'X-Forwarded-For',
+                1 => 'HTTP_X_FORWARDED_FOR',
+              ],
+            'default_phone_region' => 'DE',
+          );
+
+
+
+      strategy:
+        type: Recreate
+
+      ##
+      ## Extra environment variables
+      extraEnv:
+      #  - name: SOME_SECRET_ENV
+      #    valueFrom:
+      #      secretKeyRef:
+      #        name: nextcloud
+      #        key: secret_key
+
+    nginx:
+      enabled: false
+
+    internalDatabase:
+      enabled: true
+
+    mariadb:
+      enabled: true
+    postgresql:
+      enabled: false
+    redis:
+      enabled: false
+
+    cronjob:
+      enabled: true
+      resources:
+        limits:
+          memory: 1024M
+        requests:
+          cpu: 10m
+          memory: 500M
+
+    service:
+      type: ClusterIP
+      port: 8080
+
+    persistence:
+      enabled: true
+      existingClaim: "nextcloud-config"
+
+      nextcloudData:
+        enabled: true
+        existingClaim: "nextcloud-data"
+
+    resources:
+      limits:
+        memory: 512M
+      requests:
+        cpu: 10m
+        memory: 334M
+
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      periodSeconds: 60
+      timeoutSeconds: 5
+      failureThreshold: 10
+      successThreshold: 1
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 10
+      successThreshold: 1
+
+    hpa:
+      enabled: false
+
+    metrics:
+      enabled: true
+      replicaCount: 1
+      https: false
+      timeout: 5s
+
+      image:
+        repository: xperimental/nextcloud-exporter
+        tag: 0.6.2
+        pullPolicy: IfNotPresent
+
+      service:
+        type: ClusterIP
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "9205"
+        labels: {}
+
+      resources:
+        limits:
+          memory: 64M
+        requests:
+          cpu: 10m
+          memory: 64M
+
+    rbac:
+      enabled: false
+      serviceaccount:
+        create: true
+        name: nextcloud-serviceaccount
