@@ -23,3 +23,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  values:
+    kubeletDir: /var/lib/kubelet
+    controller:
+      replicas: 1
+    externalSnapshotter:
+      enabled: false
