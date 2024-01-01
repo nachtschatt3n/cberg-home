@@ -21,7 +21,7 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: nfs-csi
+  storageClassName: csi-driver-nfs
   mountOptions:
     - nfsvers=4.1
   csi:
