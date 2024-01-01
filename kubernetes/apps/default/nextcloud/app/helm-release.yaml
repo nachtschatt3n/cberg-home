@@ -19,18 +19,19 @@ spec:
   install:
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 1
   upgrade:
     cleanupOnFail: true
     remediation:
-      retries: 3
+      retries: 1
   uninstall:
     keepHistory: false
   # Values link: https://github.com/nextcloud/helm/blob/master/charts/nextcloud/values.yaml
   values:
     image:
       repository: nextcloud
-      tag: 28.0.1
+      #tag: 28.0.1
+      tag: stable
       pullPolicy: IfNotPresent
     replicaCount: 1
     ingress:
@@ -77,9 +78,6 @@ spec:
               ],
             'default_phone_region' => 'DE',
           );
-
-
-
       strategy:
         type: Recreate
 
@@ -100,7 +98,7 @@ spec:
         - name: nextcloud-data
           mountPath: /run/nextcloud/data
     nginx:
-      enabled: true
+      enabled: false
 
     internalDatabase:
       enabled: true
