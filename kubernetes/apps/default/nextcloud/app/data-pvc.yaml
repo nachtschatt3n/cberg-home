@@ -25,6 +25,7 @@ spec:
   storageClassName: csi-driver-nfs
   mountOptions:
     - nfsvers=4.1
+    - no_root_squash
   csi:
     driver: nfs.csi.k8s.io
     volumeHandle: "nas_csi_nextcloud_data"
