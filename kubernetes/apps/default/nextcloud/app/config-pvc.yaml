@@ -10,13 +10,10 @@ spec:
     requests:
       storage: 5Gi
   storageClassName: csi-driver-nfs
-
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  annotations:
-    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
   name: pv-nextcloud-config
 spec:
   capacity:
@@ -24,14 +21,12 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: csi-driver-nfs
+  storageClassName: nfs-csi
   mountOptions:
     - nfsvers=4.1
   csi:
     driver: nfs.csi.k8s.io
-    # volumeHandle format: {nfs-server-address}#{sub-dir-name}#{share-name}
-    # make sure this value is unique for every share in the cluster
-    volumeHandle: 192.168.31.226#/mnt/user/#k8s_csi_nextcloud
+    volumeHandle: "nas_csi_nextcloud_config"
     volumeAttributes:
-      server: 192.168.31.226
-      share: /config
+      server: "192.168.31.226"
+      share: "/mnt/user/k8s_csi_nextcloud"
