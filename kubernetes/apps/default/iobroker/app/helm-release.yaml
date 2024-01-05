@@ -154,7 +154,7 @@ spec:
           vis:
             enabled: true
             port: 8082
-          apiiobroker:
+          iobrokerapi:
             enabled: true
             port: 8087
           nodered:
@@ -225,13 +225,13 @@ spec:
                 pathType: Prefix
                 service:
                   name: main
-                  port: vis
+                  port: iobrokerapi
         tls:
           - hosts:
             - "iobroker.${SECRET_DOMAIN}"
             - "nodered.${SECRET_DOMAIN}"
             - "vis.${SECRET_DOMAIN}"
-            - "apiiobroker.${SECRET_DOMAIN}"
+            - "iobrokerapi.${SECRET_DOMAIN}"
     persistence:
       config-replicated:
         enabled: true
