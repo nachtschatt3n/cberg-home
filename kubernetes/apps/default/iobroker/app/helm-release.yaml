@@ -157,7 +157,7 @@ spec:
           iobrokerapi:
             enabled: true
             port: 8087
-          lovelace-ui:
+          lovelace:
             enabled: true
             port: 8091
           nodered:
@@ -235,7 +235,7 @@ spec:
                 pathType: Prefix
                 service:
                   name: main
-                  port: lovelace-uis
+                  port: lovelace
         tls:
           - hosts:
             - "iobroker.${SECRET_DOMAIN}"
