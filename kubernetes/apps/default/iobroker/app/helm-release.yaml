@@ -65,12 +65,12 @@ spec:
               #   value: "9000"
               # - name: IOB_STATESDB_TYPE
               #   value: "jsonl" / "file" / "redis"
-              # - name: LANG
-              #  value: "de_DE.UTF-8"
-              # - name: LANGUAGE
-              #  value: "de_DE.UTF-8"
-              # - name: LC_ALL
-              #  value: "de_DE.UTF-8"
+              - name: LANG
+                value: "de_DE.UTF-8"
+              - name: LANGUAGE
+                value: "de_DE.UTF-8"
+              - name: LC_ALL
+                value: "de_DE.UTF-8"
               - name: PACKAGES
                 value: "default-mysql-client influxdb2-cli redis-tools"
               - name: PERMISSION_CHECK
