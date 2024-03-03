@@ -44,7 +44,7 @@ spec:
             # See [image docs](https://docs.buanet.de/iobroker-docker-image/docs/) for more details.
             env:
               - name: AVAHI
-                value: "false"
+                value: "true"
               #- name: DEBUG
               #  value: "false"
               # - name: IOB_ADMINPORT
@@ -91,7 +91,7 @@ spec:
               # @default -- See below
               liveness:
                 # -- Enable the liveness probe
-                enabled: false
+                enabled: true
                 # -- Set this to `true` if you wish to specify your own livenessProbe
                 custom: false
                 # -- sets the probe type when not using a custom probe
@@ -110,7 +110,7 @@ spec:
               # @default -- See below
               readiness:
                 # -- Enable the readiness probe
-                enabled: false
+                enabled: true
                 # -- Set this to `true` if you wish to specify your own readinessProbe
                 custom: false
                 # -- sets the probe type when not using a custom probe
@@ -129,7 +129,7 @@ spec:
               # @default -- See below
               startup:
                 # -- Enable the startup probe
-                enabled: false
+                enabled: true
                 # -- Set this to `true` if you wish to specify your own startupProbe
                 custom: false
                 # -- sets the probe type when not using a custom probe
