@@ -44,7 +44,7 @@ spec:
             # See [image docs](https://docs.buanet.de/iobroker-docker-image/docs/) for more details.
             env:
               - name: AVAHI
-                value: "true"
+                value: "false"
               #- name: DEBUG
               #  value: "false"
               # - name: IOB_ADMINPORT
@@ -142,8 +142,8 @@ spec:
                   initialDelaySeconds: 0
                   timeoutSeconds: 1
                   ## This means it has a maximum of 5*30=150 seconds to start up before it fails
-                  periodSeconds: 5
-                  failureThreshold: 30
+                  periodSeconds: 10
+                  failureThreshold: 60
     service:
       main:
         type: LoadBalancer
