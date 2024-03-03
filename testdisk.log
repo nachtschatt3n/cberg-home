@@ -1,0 +1,102 @@
+
+
+Wed Jan 17 02:28:21 2024
+Command line: TestDisk
+
+TestDisk 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+OS: Darwin, kernel 23.1.0 (Darwin Kernel Version 23.1.0: Mon Oct  9 21:27:27 PDT 2023; root:xnu-10002.41.9~6/RELEASE_X86_64) x86_64
+Compiler: GCC 4.2
+ext2fs lib: none, ntfs lib: none, reiserfs lib: none, ewf lib: none, curses lib: ncurses 6.0
+Hard disk list
+Disk /dev/disk2 - 988 MB / 942 MiB - 1930240 sectors (RO), sector size=512
+Disk /dev/rdisk2 - 988 MB / 942 MiB - 1930240 sectors (RO), sector size=512
+
+Partition table type (auto): Intel
+Media is opened in read-only.
+Disk /dev/rdisk2 - 988 MB / 942 MiB (RO)
+Partition table type: Intel
+
+Analyse Disk /dev/rdisk2 - 988 MB / 942 MiB - 1930240 sectors (RO)
+Geometry from i386 MBR: head=255 sector=63
+BAD_RS LBA=63 1
+FAT16 at 63/0/1
+check_FAT: Unusual number of reserved sectors 8 (FAT), should be 1.
+Info: size boot_sector 1895607, partition 1895607
+FAT1 : 8-239
+FAT2 : 240-471
+start_rootdir : 472
+Data : 504-1895575
+sectors : 1895607
+cluster_size : 32
+no_of_cluster : 59221 (2 - 59222)
+fat_length 232 calculated 232
+FAT differs, FAT sectors=0-16/232
+heads/cylinder 255 (FAT) != 1 (HD)
+sect/track 63 (FAT) != 1 (HD)
+get_geometry_from_list_part_aux head=1 nbr=2
+Current partition structure:
+check_FAT: Unusual number of reserved sectors 8 (FAT), should be 1.
+Warning: number of heads/cylinder mismatches 255 (FAT) != 1 (HD)
+Warning: number of sectors per track mismatches 63 (FAT) != 1 (HD)
+ 1 * FAT16 >32M                    63    1895669    1895607 [NO NAME]
+
+Warning: Bad ending sector (CHS and LBA don't match)
+
+search_part()
+Disk /dev/rdisk2 - 988 MB / 942 MiB - 1930240 sectors (RO)
+FAT16 at 63/0/1
+check_FAT: Unusual number of reserved sectors 8 (FAT), should be 1.
+FAT1 : 8-239
+FAT2 : 240-471
+start_rootdir : 472
+Data : 504-1895575
+sectors : 1895607
+cluster_size : 32
+no_of_cluster : 59221 (2 - 59222)
+fat_length 232 calculated 232
+heads/cylinder 255 (FAT) != 1 (HD)
+sect/track 63 (FAT) != 1 (HD)
+
+FAT16 at 63/0/1
+     FAT16 LBA                     63    1895669    1895607 [NO NAME]
+     FAT16, blocksize=16384, 970 MB / 925 MiB
+get_geometry_from_list_part_aux head=1 nbr=2
+
+Results
+   * FAT16 LBA                     63    1895669    1895607 [NO NAME]
+     FAT16, blocksize=16384, 970 MB / 925 MiB
+
+interface_write()
+ 1 * FAT16 LBA                     63    1895669    1895607 [NO NAME]
+
+interface_write()
+ 1 * FAT16 LBA                     63    1895669    1895607 [NO NAME]
+simulate write!
+
+write_mbr_i386: starting...
+write_all_log_i386: starting...
+No extended partition
+
+Interface Advanced
+Geometry from i386 MBR: head=255 sector=63
+BAD_RS LBA=63 1
+FAT16 at 63/0/1
+check_FAT: Unusual number of reserved sectors 8 (FAT), should be 1.
+Info: size boot_sector 1895607, partition 1895607
+FAT1 : 8-239
+FAT2 : 240-471
+start_rootdir : 472
+Data : 504-1895575
+sectors : 1895607
+cluster_size : 32
+no_of_cluster : 59221 (2 - 59222)
+fat_length 232 calculated 232
+heads/cylinder 255 (FAT) != 1 (HD)
+sect/track 63 (FAT) != 1 (HD)
+get_geometry_from_list_part_aux head=1 nbr=2
+ 1 * FAT16 >32M                    63    1895669    1895607 [NO NAME]
+     FAT16, blocksize=16384, 970 MB / 925 MiB
+
+TestDisk exited normally.
