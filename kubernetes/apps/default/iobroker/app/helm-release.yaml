@@ -92,7 +92,7 @@ spec:
               # @default -- See below
               liveness:
                 # -- Enable the liveness probe
-                enabled: false
+                enabled: true
                 # -- Set this to `true` if you wish to specify your own livenessProbe
                 custom: false
                 # -- sets the probe type when not using a custom probe
@@ -102,7 +102,7 @@ spec:
                 # If you selected `custom: true`, this field holds the definition of the livenessProbe.
                 # @default -- See below
                 spec:
-                  initialDelaySeconds: 0
+                  initialDelaySeconds: 20
                   periodSeconds: 30
                   timeoutSeconds: 1
                   failureThreshold: 3
@@ -111,7 +111,7 @@ spec:
               # @default -- See below
               readiness:
                 # -- Enable the readiness probe
-                enabled: false
+                enabled: true
                 # -- Set this to `true` if you wish to specify your own readinessProbe
                 custom: false
                 # -- sets the probe type when not using a custom probe
@@ -143,8 +143,8 @@ spec:
                   initialDelaySeconds: 0
                   timeoutSeconds: 1
                   ## This means it has a maximum of 5*30=150 seconds to start up before it fails
-                  periodSeconds: 5
-                  failureThreshold: 450
+                  periodSeconds: 15
+                  failureThreshold: 30
     service:
       main:
         type: LoadBalancer
