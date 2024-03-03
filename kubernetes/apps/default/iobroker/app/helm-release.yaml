@@ -130,7 +130,7 @@ spec:
               # @default -- See below
               startup:
                 # -- Enable the startup probe
-                enabled: false
+                enabled: true
                 # -- Set this to `true` if you wish to specify your own startupProbe
                 custom: false
                 # -- sets the probe type when not using a custom probe
@@ -143,8 +143,8 @@ spec:
                   initialDelaySeconds: 0
                   timeoutSeconds: 1
                   ## This means it has a maximum of 5*30=150 seconds to start up before it fails
-                  periodSeconds: 100
-                  failureThreshold: 30
+                  periodSeconds: 5
+                  failureThreshold: 450
     service:
       main:
         type: LoadBalancer
