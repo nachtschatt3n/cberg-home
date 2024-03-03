@@ -44,7 +44,7 @@ spec:
             # See [image docs](https://docs.buanet.de/iobroker-docker-image/docs/) for more details.
             env:
               - name: AVAHI
-                value: "true"
+                value: "false"
               #- name: DEBUG
               #  value: "false"
               # - name: IOB_ADMINPORT
@@ -72,7 +72,8 @@ spec:
               - name: LC_ALL
                 value: "de_DE.UTF-8"
               - name: PACKAGES
-                value: "default-mysql-client influxdb2-cli redis-tools"
+                value: "influxdb2-cli"
+                #value: "default-mysql-client influxdb2-cli redis-tools"
               - name: PERMISSION_CHECK
                 value: "true"
               # - name: SETGID
