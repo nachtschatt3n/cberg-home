@@ -169,7 +169,7 @@ spec:
           memory: 64M
         requests:
           cpu: 10m
-          memory: 64M
+        memory: 64M
 
     rbac:
       enabled: false
