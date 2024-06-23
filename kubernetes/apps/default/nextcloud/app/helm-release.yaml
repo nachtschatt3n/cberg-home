@@ -30,7 +30,6 @@ spec:
   values:
     image:
       repository: nextcloud
-      #tag: 28.0.1
       tag: stable
       pullPolicy: IfNotPresent
     replicaCount: 1
@@ -51,26 +50,14 @@ spec:
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
       phpConfigs:
-      # Default config files
-      # IMPORTANT: Will be used only if you put extra configs, otherwise default will come from nextcloud itself
-      # Default confgurations can be found here: https://github.com/nextcloud/docker/tree/master/16.0/apache/config
       defaultConfigs:
-        # To protect /var/www/html/config
         .htaccess: true
-        # Redis default configuration
         redis.config.php: false
-        # Apache configuration for rewrite urls
         apache-pretty-urls.config.php: true
-        # Define APCu as local cache
         apcu.config.php: true
-        # Apps directory configs
         apps.config.php: true
-        # Used for auto configure database
         autoconfig.php: true
-        # SMTP default configuration
         smtp.config.php: false
-      # Extra config files created in /var/www/html/config/
-      # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
       configs:
         custom.config.php: |-
           <?php
@@ -102,11 +89,6 @@ spec:
       ##
       ## Extra environment variables
       extraEnv:
-      #  - name: SOME_SECRET_ENV
-      #    valueFrom:
-      #      secretKeyRef:
-      #        name: nextcloud
-      #        key: secret_key
     # Extra sidecar containers.
     extraSidecarContainers:
       - name: nextcloud-logger
@@ -158,25 +140,10 @@ spec:
 
     livenessProbe:
       enabled: false
-    #   initialDelaySeconds: 10
-    #   periodSeconds: 30
-    #   timeoutSeconds: 10
-    #   failureThreshold: 3
-    #   successThreshold: 1
     readinessProbe:
       enabled: false
-    #   initialDelaySeconds: 60
-    #   periodSeconds: 60
-    #   timeoutSeconds: 5
-    #   failureThreshold: 10
-    #   successThreshold: 1
     startupProbe:
       enabled: false
-    #   initialDelaySeconds: 60
-    #   periodSeconds: 30
-    #   timeoutSeconds: 5
-    #   failureThreshold: 10
-    #   successThreshold: 1
 
     hpa:
       enabled: false
@@ -211,3 +178,11 @@ spec:
       serviceaccount:
         create: true
         name: nextcloud-serviceaccount
+    ## Add the security context here
+    securityContext:
+      fsGroup: 33
+    containers:
+      - name: nextcloud
+        securityContext:
+          runAsUser: 33
+          runAsGroup: 33
