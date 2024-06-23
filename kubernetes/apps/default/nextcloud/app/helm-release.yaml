@@ -2,12 +2,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app nextcloud
+  name: nextcloud
+  namespace: default
 spec:
   interval: 60m
   chart:
     spec:
-      chart: *app
+      chart: nextcloud
       version: 4.5.10
       sourceRef:
         kind: HelmRepository
@@ -26,7 +27,6 @@ spec:
       retries: 1
   uninstall:
     keepHistory: false
-  # Values link: https://github.com/nextcloud/helm/blob/master/charts/nextcloud/values.yaml
   values:
     image:
       repository: nextcloud
@@ -50,14 +50,14 @@ spec:
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
       phpConfigs:
-      defaultConfigs:
-        .htaccess: true
-        redis.config.php: false
-        apache-pretty-urls.config.php: true
-        apcu.config.php: true
-        apps.config.php: true
-        autoconfig.php: true
-        smtp.config.php: false
+        defaultConfigs:
+          .htaccess: true
+          redis.config.php: false
+          apache-pretty-urls.config.php: true
+          apcu.config.php: true
+          apps.config.php: true
+          autoconfig.php: true
+          smtp.config.php: false
       configs:
         custom.config.php: |-
           <?php
@@ -86,10 +86,8 @@ spec:
       strategy:
         type: Recreate
 
-      ##
-      ## Extra environment variables
-      extraEnv:
-    # Extra sidecar containers.
+      extraEnv: []
+
     extraSidecarContainers:
       - name: nextcloud-logger
         image: busybox
@@ -178,9 +176,10 @@ spec:
       serviceaccount:
         create: true
         name: nextcloud-serviceaccount
-    ## Add the security context here
+
     securityContext:
       fsGroup: 33
+
     containers:
       - name: nextcloud
         securityContext:
