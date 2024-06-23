@@ -29,52 +29,124 @@ spec:
       darkTheme: espresso
       alwaysTargetBlank: true
       showGreeting: true
-      showAppGroups: false
+      showAppGroups: true
       showAppStatus: true
       showBookmarkGroups: true
-      showGlobalBookmarks: false
-      showAppUrls: false
-      createCRAppSample: true
-
+      showGlobalBookmarks: true  # Turned on global bookmarks
+      showAppUrls: true
+      createCRAppSample: false
       defaultEnable: true
       namespaceSelector:
         matchNames:
           - default
           - monitoring
+          - networking
+          - cert-manager
+          - kube-system
+          - flux-system
+          - volsync
       customApps:
-        - group: Media
+        - group: Cluster Services
           apps:
-            - name: AdGuard
-              url: 'http://192.168.31.25:3001/'
-              icon: 'mdi:test-tube'
-              info: Where the ads die
-            - name: Kuma
-              url: 'http://192.168.31.25:500/status/overview'
-              icon: 'mdi:test-tube'
-              info: Minimalistic Monitoring
-            - name: Kuma
-              url: 'http://192.168.31.25:500/status/overview'
-              icon: 'mdi:test-tube'
-              info: Minimalistic Monitoring
-            - name: CasaOS
-              url: 'http://192.168.31.25/#/'
-              icon: 'mdi:test-tube'
-              info: Casa OS
-            - name: Unifi Console
-              url: 'https://unifi.ui.com/consoles/245A4C9C82210000000005F03372000000000635C5AC00000000610F7B61:719882696/network/default/dashboard              '
-              icon: 'mdi:test-tube'
-              info: Network
+            - name: Hajimari
+              url: 'https://hajimari.mathiasuhl.com'
+              icon: 'mdi:view-dashboard'
+              info: Hajimari Dashboard
+            - name: InfluxDB
+              url: 'https://influx.mathiasuhl.com'
+              icon: 'mdi:database'
+              info: InfluxDB
+            - name: IoBroker
+              url: 'https://iobroker.mathiasuhl.com'
+              icon: 'mdi:home-assistant'
+              info: IoBroker
+            - name: Nextcloud
+              url: 'https://nextcloud.mathiasuhl.com'
+              icon: 'mdi:cloud'
+              info: Nextcloud
+            - name: Flux Webhook
+              url: 'https://flux-webhook.mathiasuhl.com'
+              icon: 'mdi:webhook'
+              info: Flux Webhook
+            - name: GitOps
+              url: 'https://gitops.mathiasuhl.com'
+              icon: 'mdi:git'
+              info: GitOps
+            - name: Hubble
+              url: 'https://hubble.mathiasuhl.com'
+              icon: 'mdi:network'
+              info: Hubble
+            - name: Grafana
+              url: 'https://grafana.mathiasuhl.com'
+              icon: 'mdi:chart-bar'
+              info: Grafana
+            - name: Prometheus
+              url: 'https://prometheus.mathiasuhl.com'
+              icon: 'mdi:chart-bar'
+              info: Prometheus
+            - name: Kubernetes Dashboard
+              url: 'https://kubernetes.mathiasuhl.com'
+              icon: 'mdi:view-dashboard'
+              info: Kubernetes Dashboard
+            - name: Echo Server
+              url: 'https://echo-server.mathiasuhl.com'
+              icon: 'mdi:echo'
+              info: Echo Server
       globalBookmarks:
-        - group: Communicate
+        - group: Documentation
           bookmarks:
-          - name: Fefe Blog
-            url: 'https://blog.fefe.de/'
-          - name: Heise
-            url: 'https://heise.de'
-          - name: Tageschau
-            url: 'https://tageschau.de'
-          - name: Golem
-            url: 'https://golem.de'
+            - name: Kubernetes Documentation
+              url: 'https://kubernetes.io/docs/'
+            - name: Helm Documentation
+              url: 'https://helm.sh/docs/'
+            - name: FluxCD Documentation
+              url: 'https://fluxcd.io/docs/'
+            - name: Prometheus Documentation
+              url: 'https://prometheus.io/docs/'
+            - name: Grafana Documentation
+              url: 'https://grafana.com/docs/'
+        - group: Tools and Services
+          bookmarks:
+            - name: GitHub
+              url: 'https://github.com/'
+            - name: Docker Hub
+              url: 'https://hub.docker.com/'
+            - name: Quay.io
+              url: 'https://quay.io/'
+            - name: AWS Console
+              url: 'https://aws.amazon.com/console/'
+            - name: Google Cloud Console
+              url: 'https://console.cloud.google.com/'
+        - group: Monitoring and Logging
+          bookmarks:
+            - name: Prometheus
+              url: 'https://prometheus.mathiasuhl.com'
+            - name: Grafana
+              url: 'https://grafana.mathiasuhl.com'
+            - name: Kibana
+              url: 'https://kibana.mathiasuhl.com'
+        - group: Community and Learning
+          bookmarks:
+            - name: Stack Overflow
+              url: 'https://stackoverflow.com/'
+            - name: Kubernetes Slack
+              url: 'https://slack.k8s.io/'
+            - name: CNCF Landscape
+              url: 'https://landscape.cncf.io/'
+            - name: Dev.to
+              url: 'https://dev.to/'
+            - name: Medium (DevOps)
+              url: 'https://medium.com/tag/devops'
+        - group: News
+          bookmarks:
+            - name: Fefe Blog
+              url: 'https://blog.fefe.de/'
+            - name: Heise
+              url: 'https://heise.de'
+            - name: Tageschau
+              url: 'https://tageschau.de'
+            - name: Golem
+              url: 'https://golem.de'
     serviceAccount:
       create: true
     ingress:
@@ -101,3 +173,22 @@ spec:
       requests:
         cpu: 100m
         memory: 128M
+      limits:
+        cpu: 200m
+        memory: 256M
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 30
+      periodSeconds: 30
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 30
+      periodSeconds: 30
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 3000
+      fsGroup: 2000
