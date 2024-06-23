@@ -49,40 +49,40 @@ spec:
           - "nextcloud.${SECRET_DOMAIN}"
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
-      # phpConfigs:
-      #   defaultConfigs:
-      #     .htaccess: true
-      #     redis.config.php: false
-      #     apache-pretty-urls.config.php: true
-      #     apcu.config.php: true
-      #     apps.config.php: true
-      #     autoconfig.php: true
-      #     smtp.config.php: false
-      # configs:
-      #   custom.config.php: |-
-      #     <?php
-      #     $CONFIG = array (
-      #       'overwriteprotocol' => 'https',
-      #       'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
-      #       'filelocking.enabled' => 'true',
-      #       'loglevel' => '2',
-      #       'enable_previews' => true,
-      #       'trusted_domains' =>
-      #         [
-      #           'nextcloud',
-      #           'nextcloud.${SECRET_DOMAIN}'
-      #         ],
-      #       'trusted_proxies' =>
-      #         [
-      #           'nginx'
-      #         ],
-      #       'forwarded_for_headers' =>
-      #         [
-      #           0 => 'X-Forwarded-For',
-      #           1 => 'HTTP_X_FORWARDED_FOR',
-      #         ],
-      #       'default_phone_region' => 'DE',
-      #     );
+      phpConfigs:
+        defaultConfigs:
+          ".htaccess": "true"
+          "redis.config.php": "false"
+          "apache-pretty-urls.config.php": "true"
+          "apcu.config.php": "true"
+          "apps.config.php": "true"
+          "autoconfig.php": "true"
+          "smtp.config.php": "false"
+      configs:
+        custom.config.php: |-
+          <?php
+          $CONFIG = array (
+            'overwriteprotocol' => 'https',
+            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
+            'filelocking.enabled' => 'true',
+            'loglevel' => '2',
+            'enable_previews' => true,
+            'trusted_domains' =>
+              [
+                'nextcloud',
+                'nextcloud.${SECRET_DOMAIN}'
+              ],
+            'trusted_proxies' =>
+              [
+                'nginx'
+              ],
+            'forwarded_for_headers' =>
+              [
+                0 => 'X-Forwarded-For',
+                1 => 'HTTP_X_FORWARDED_FOR',
+              ],
+            'default_phone_region' => 'DE',
+          );
       strategy:
         type: Recreate
 
@@ -91,7 +91,7 @@ spec:
     extraSidecarContainers:
       - name: nextcloud-logger
         image: busybox
-        command: [/bin/sh, -c, 'while ! test -f "/run/nextcloud/data/nextcloud.log"; do sleep 1; done; tail -n+1 -f /run/nextcloud/data/nextcloud.log']
+        command: ["/bin/sh", "-c", "while ! test -f \"/run/nextcloud/data/nextcloud.log\"; do sleep 1; done; tail -n+1 -f /run/nextcloud/data/nextcloud.log"]
         volumeMounts:
         - name: nextcloud-data
           mountPath: /run/nextcloud/data
@@ -169,7 +169,7 @@ spec:
           memory: 64M
         requests:
           cpu: 10m
-        memory: 64M
+          memory: 64M
 
     rbac:
       enabled: false
