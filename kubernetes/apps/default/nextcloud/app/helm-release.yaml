@@ -37,16 +37,21 @@ spec:
       enabled: true
       className: internal
       annotations:
-        hosts:
-          - host: "nextcloud.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
+        nginx.ingress.kubernetes.io/proxy-body-size: "4G"
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: "nextcloud.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
                 service:
                   name: main
-                  port: http
-        tls:
-          - hosts:
+                  port:
+                    number: http
+      tls:
+        - secretName: nextcloud-tls
+          hosts:
             - "nextcloud.${SECRET_DOMAIN}"
     nextcloud:
       host: drive.${SECRET_DOMAIN}
