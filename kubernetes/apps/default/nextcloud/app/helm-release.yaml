@@ -2,14 +2,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: nextcloud
-  namespace: default
+  name: &app nextcloud
 spec:
   interval: 60m
   chart:
     spec:
-      chart: nextcloud
-      version: 5.0.0
+      chart: *app
+      version: 4.5.10
       sourceRef:
         kind: HelmRepository
         name: nextcloud
@@ -20,65 +19,42 @@ spec:
   install:
     createNamespace: true
     remediation:
-      retries: 1
+      retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
-      retries: 1
+      retries: 3
   uninstall:
     keepHistory: false
+  # Values link: https://github.com/nextcloud/helm/blob/master/charts/nextcloud/values.yaml
   values:
     image:
       repository: nextcloud
-      flavor: apache
-      tag: stable
+      tag: 28.0.1
       pullPolicy: IfNotPresent
-
     replicaCount: 1
-
     ingress:
       enabled: true
       className: internal
       annotations:
-        # Example annotations
-        nginx.ingress.kubernetes.io/proxy-body-size: "4G"
-        kubernetes.io/tls-acme: "true"
-      hosts:
-        - host: "nextcloud.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                name: main
-                port: http
-      tls:
-        - secretName: nextcloud-tls
-          hosts:
+        hosts:
+          - host: "nextcloud.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
             - "nextcloud.${SECRET_DOMAIN}"
-
     nextcloud:
-      host: "nextcloud.${SECRET_DOMAIN}"
-      username: admin
-      password: changeme
-      update: 0
-      containerPort: 80
-      datadir: /var/www/html/data
-      persistence:
-        enabled: true
-        existingClaim: nextcloud-config
-      nextcloudData:
-        enabled: true
-        existingClaim: nextcloud-data
-      defaultConfigs:
-        ".htaccess": "true"
-        "redis.config.php": "true"
-        "apache-pretty-urls.config.php": "true"
-        "apcu.config.php": "true"
-        "apps.config.php": "true"
-        "autoconfig.php": "true"
-        "smtp.config.php": "true"
+      host: drive.${SECRET_DOMAIN}
+      phpConfigs: {}
+      # Extra config files created in /var/www/html/config/
+      # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
       configs:
-        custom.config.php: |
+        custom.config.php: |-
           <?php
           $CONFIG = array (
             'overwriteprotocol' => 'https',
@@ -103,45 +79,113 @@ spec:
             'default_phone_region' => 'DE',
           );
 
+
+
+      strategy:
+        type: Recreate
+
+      ##
+      ## Extra environment variables
+      extraEnv:
+      #  - name: SOME_SECRET_ENV
+      #    valueFrom:
+      #      secretKeyRef:
+      #        name: nextcloud
+      #        key: secret_key
+
+    nginx:
+      enabled: false
+
+    internalDatabase:
+      enabled: true
+
     mariadb:
       enabled: true
-      auth:
-        database: nextcloud
-        username: nextcloud
-        password: changeme
+    postgresql:
+      enabled: false
+    redis:
+      enabled: false
+
+    cronjob:
+      enabled: true
+      resources:
+        limits:
+          memory: 1024M
+        requests:
+          cpu: 10m
+          memory: 500M
 
     service:
       type: ClusterIP
       port: 8080
 
+    persistence:
+      enabled: true
+      existingClaim: "nextcloud-config"
+
+      nextcloudData:
+        enabled: true
+        existingClaim: "nextcloud-data"
+
     resources:
       limits:
-        memory: 512Mi
+        memory: 512M
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 10m
+        memory: 334M
 
     livenessProbe:
       enabled: true
       initialDelaySeconds: 10
-      periodSeconds: 10
-      timeoutSeconds: 5
+      periodSeconds: 30
+      timeoutSeconds: 10
       failureThreshold: 3
       successThreshold: 1
-
     readinessProbe:
       enabled: true
-      initialDelaySeconds: 10
-      periodSeconds: 10
+      initialDelaySeconds: 60
+      periodSeconds: 60
       timeoutSeconds: 5
-      failureThreshold: 3
+      failureThreshold: 10
+      successThreshold: 1
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 10
       successThreshold: 1
 
-    securityContext:
-      fsGroup: 33
+    hpa:
+      enabled: false
 
-    containers:
-      - name: nextcloud
-        securityContext:
-          runAsUser: 33
-          runAsGroup: 33
+    metrics:
+      enabled: true
+      replicaCount: 1
+      https: false
+      timeout: 5s
+
+      image:
+        repository: xperimental/nextcloud-exporter
+        tag: 0.6.2
+        pullPolicy: IfNotPresent
+
+      service:
+        type: ClusterIP
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "9205"
+        labels: {}
+
+      resources:
+        limits:
+          memory: 64M
+        requests:
+          cpu: 10m
+          memory: 64M
+
+    rbac:
+      enabled: false
+      serviceaccount:
+        create: true
+        name: nextcloud-serviceaccount
