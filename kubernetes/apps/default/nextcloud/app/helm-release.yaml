@@ -102,14 +102,67 @@ spec:
       enabled: false
 
     internalDatabase:
+      enabled: false
+    ##
+    ## External database configuration
+    ##
+    externalDatabase:
       enabled: true
 
+      ## Supported database engines: mysql or postgresql
+      type: mysql
+
+      ## Database host
+      # host:
+
+      ## Database name
+      database: nextcloud
+
+      ## Use a existing secret
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-config
+        usernameKey: db-username
+        passwordKey: db-password
+        # hostKey: db-hostname-or-ip
+        # databaseKey: db-name
+        mariadb:
+          enabled: true
+        postgresql:
+          enabled: false
+        redis:
+          enabled: false
+    ##
+    ## MariaDB chart configuration
+    ## ref: https://github.com/bitnami/charts/tree/main/bitnami/mariadb
+    ##
     mariadb:
+      ## Whether to deploy a mariadb server from the bitnami mariab db helm chart
+      # to satisfy the applications database requirements. if you want to deploy this bitnami mariadb, set this and externalDatabase to true
+      # To use an ALREADY DEPLOYED mariadb database, set this to false and configure the externalDatabase parameters
       enabled: true
-    postgresql:
-      enabled: false
-    redis:
-      enabled: false
+
+      auth:
+        database: nextcloud
+        #username: nextcloud
+        #password: changeme
+        # Use existing secret (auth.rootPassword, auth.password, and auth.replicationPassword will be ignored).
+        # secret must contain the keys mariadb-root-password, mariadb-replication-password and mariadb-password
+        existingSecret: nextcloud-config
+
+      architecture: standalone
+
+      ## Enable persistence using Persistent Volume Claims
+      ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+      ##
+      primary:
+        persistence:
+          enabled: true
+          # Use an existing Persistent Volume Claim (must be created ahead of time)
+          # existingClaim: ""
+          # storageClass: ""
+          accessMode: ReadWriteOnce
+          size: 8Gi
 
     cronjob:
       enabled: true
@@ -140,21 +193,21 @@ spec:
         memory: 334M
 
     livenessProbe:
-      enabled: false
+      enabled: true
       initialDelaySeconds: 10
       periodSeconds: 30
       timeoutSeconds: 10
       failureThreshold: 3
       successThreshold: 1
     readinessProbe:
-      enabled: false
+      enabled: true
       initialDelaySeconds: 60
       periodSeconds: 60
       timeoutSeconds: 5
       failureThreshold: 10
       successThreshold: 1
     startupProbe:
-      enabled: false
+      enabled: true
       initialDelaySeconds: 60
       periodSeconds: 30
       timeoutSeconds: 5
