@@ -49,15 +49,15 @@ spec:
           - "nextcloud.${SECRET_DOMAIN}"
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
-      phpConfigs:
-        defaultConfigs:
-          .htaccess: true
-          redis.config.php: false
-          apache-pretty-urls.config.php: true
-          apcu.config.php: true
-          apps.config.php: true
-          autoconfig.php: true
-          smtp.config.php: false
+      # phpConfigs:
+      #   defaultConfigs:
+      #     .htaccess: true
+      #     redis.config.php: false
+      #     apache-pretty-urls.config.php: true
+      #     apcu.config.php: true
+      #     apps.config.php: true
+      #     autoconfig.php: true
+      #     smtp.config.php: false
       # configs:
       #   custom.config.php: |-
       #     <?php
