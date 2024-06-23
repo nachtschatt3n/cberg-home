@@ -25,14 +25,15 @@ spec:
     keepHistory: false
   values:
     hajimari:
-      title: Apps
+      title: Hajimari
       darkTheme: espresso
+      lightTheme: gazette
       alwaysTargetBlank: true
       showGreeting: true
       showAppGroups: true
       showAppStatus: true
       showBookmarkGroups: true
-      showGlobalBookmarks: true  # Turned on global bookmarks
+      showGlobalBookmarks: true
       showAppUrls: true
       createCRAppSample: false
       defaultEnable: true
