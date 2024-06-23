@@ -40,7 +40,7 @@ spec:
           nginx.ingress.kubernetes.io/proxy-body-size: "4G"
           kubernetes.io/tls-acme: "true"
         hosts:
-          - host: "nextcloud.${SECRET_DOMAIN}"
+          - host: "drive.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -52,7 +52,7 @@ spec:
         tls:
           - secretName: nextcloud-tls
             hosts:
-              - "nextcloud.${SECRET_DOMAIN}"
+              - "drive.${SECRET_DOMAIN}"
     nextcloud:
       host: drive.${SECRET_DOMAIN}
       phpConfigs: {}
@@ -63,14 +63,14 @@ spec:
           <?php
           $CONFIG = array (
             'overwriteprotocol' => 'https',
-            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
+            'overwrite.cli.url' => 'https://drive.${SECRET_DOMAIN}',
             'filelocking.enabled' => 'true',
             'loglevel' => '2',
             'enable_previews' => true,
             'trusted_domains' =>
               [
-                'nextcloud',
-                'nextcloud.${SECRET_DOMAIN}'
+                'drive',
+                'drive.${SECRET_DOMAIN}'
               ],
             'trusted_proxies' =>
               [
