@@ -75,17 +75,12 @@ spec:
       annotations:
         hajimari.io/enable: "true"
         hajimari.io/appName: "open-webui"
+      hostname: &host "open-webui.${SECRET_DOMAIN}"
       hosts:
-        - host: "webui.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                name: main
-                port: http
+        - *host
       tls:
         - hosts:
-          - "webui.${SECRET_DOMAIN}"
+            - *host
     persistence:
       enabled: false
       size: 2Gi
