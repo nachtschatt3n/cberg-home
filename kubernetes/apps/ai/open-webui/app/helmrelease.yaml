@@ -64,30 +64,28 @@ spec:
       pullPolicy: "IfNotPresent"
     resources: {}
     service:
-      main:
-        type: LoadBalancer
-        ports:
-          http:
-            enabled: true
-            port: 8080
+      type: LoadBalancer
+      ports:
+        http:
+          enabled: true
+          port: 8080
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/appName: "open-webui"
-        hosts:
-          - host: "open-webui.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-            - "open-webui.${SECRET_DOMAIN}"
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/appName: "open-webui"
+      hosts:
+        - host: "open-webui.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - hosts:
+          - "open-webui.${SECRET_DOMAIN}"
     persistence:
       enabled: false
       size: 2Gi
@@ -115,8 +113,8 @@ spec:
     # -- Additional environments variables on the output Deployment definition. Most up-to-date environment variables can be found here: https://docs.openwebui.com/getting-started/env-configuration/
     extraEnvVars:
       # -- Default API key value for Pipelines. Should be updated in a production deployment, or be changed to the required API key if not using Pipelines
-      - name: OPENAI_API_KEY
-        value: "0p3n-w3bu!"
+      - name: OLLAMA_BASE_URLS
+        value: "http://192.168.31.226:11434"
       # valueFrom:
       #   secretKeyRef:
       #     name: pipelines-api-key
