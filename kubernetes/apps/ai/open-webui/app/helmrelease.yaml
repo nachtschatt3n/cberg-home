@@ -72,7 +72,7 @@ spec:
       labels: {}
       loadBalancerClass: ""
     ingress:
-      enabled: false
+      enabled: truw#e
       class: internal
       # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:
       # nginx.ingress.kubernetes.io/rewrite-target: /
@@ -113,8 +113,8 @@ spec:
       # -- Default API key value for Pipelines. Should be updated in a production deployment, or be changed to the required API key if not using Pipelines
       - name: OLLAMA_BASE_URLS
         value: "http://192.168.31.226:11434"
-      - name: USER_AGENT
-        value: "Open WebUI"
+#      - name: USER_AGENT
+#        value: "Open WebUI"
       - name: WEBUI_URL
         value: *host
 
