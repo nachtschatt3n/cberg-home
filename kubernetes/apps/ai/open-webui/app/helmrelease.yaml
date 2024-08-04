@@ -45,7 +45,7 @@ spec:
 
       pipelines:
         # -- Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
-        enabled: true
+        enabled: false
         # -- This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname)
         extraEnvVars: []
 
@@ -90,7 +90,7 @@ spec:
             - hosts:
               - "open-webui.${SECRET_DOMAIN}"
       persistence:
-        enabled: true
+        enabled: false
         size: 2Gi
         # -- Use existingClaim if you want to re-use an existing Open WebUI PVC instead of creating a new one
         existingClaim: ""
