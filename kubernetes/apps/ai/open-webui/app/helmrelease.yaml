@@ -76,8 +76,8 @@ spec:
       labels: {}
       loadBalancerClass: ""
     ingress:
-      enabled: truw#e
-      class: internal
+      enabled: true
+      class: external
       # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:
       # nginx.ingress.kubernetes.io/rewrite-target: /
       host: &host "open-webui.${SECRET_DOMAIN}"
@@ -121,7 +121,8 @@ spec:
 #        value: "Open WebUI"
       - name: WEBUI_URL
         value: *host
-
+      - name: GLOBAL_LOG_LEVEL
+        value: "DEBUG"
       # valueFrom:
       #   secretKeyRef:
       #     name: pipelines-api-key
