@@ -19,6 +19,7 @@ resources:
   - ./kubernetes-dashboard.yaml
   - ./metrics-server.yaml
   - ./nextcloud.yaml
+  - ./open-webui.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./stakater.yaml
