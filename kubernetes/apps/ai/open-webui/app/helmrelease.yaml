@@ -88,6 +88,7 @@ spec:
         hajimari.io/appName: "open-webui"
         hajimari.io/icon: "web"
         hajimari.io/group: "ai"
+        external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
     persistence:
       enabled: false
       size: 2Gi
