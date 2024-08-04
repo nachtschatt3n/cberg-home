@@ -46,7 +46,11 @@ spec:
       # -- Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
       enabled: false
       # -- This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname)
-      extraEnvVars: []
+      extraEnvVars:
+      - name: RAG_EMBEDDING_MODEL_AUTO_UPDATE
+        value: "False"
+      - name: LITELLM_LOCAL_MODEL_COST_MAP
+        value: "True"
 
     # -- A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
     ollamaUrls: []
