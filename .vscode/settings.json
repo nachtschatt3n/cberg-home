@@ -20,9 +20,11 @@
         "https://json.schemastore.org/kustomization.json": "file:///Users/mathiasuhl/Documents/Code/homeautomation/cberg-home/kubernetes/flux/config/cluster.yaml"
     },
     "vs-kubernetes": {
-        "vs-kubernetes.kubeconfig": "./kubeconfig",
+
+        "vs-kubernetes.kubeconfig": "/Users/mathiasuhl/.kube/config",
         "vs-kubernetes.knownKubeconfigs": [
-          "./kubeconfig"
+          "/Users/mathiasuhl/.kube/config"
       ]
-    }
+    },
+    "vscode-kubernetes.log-viewer.autorun": false
 }
