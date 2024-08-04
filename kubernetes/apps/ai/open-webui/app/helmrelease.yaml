@@ -65,22 +65,25 @@ spec:
     resources: {}
     service:
       type: LoadBalancer
-      ports:
-        http:
-          enabled: true
-          port: 8080
+      annotations: {}
+      port: 80
+      containerPort: 8080
+      nodePort: ""
+      labels: {}
+      loadBalancerClass: ""
     ingress:
-      enabled: true
-      ingressClassName: internal
+      enabled: false
+      class: internal
+      # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:
+      # nginx.ingress.kubernetes.io/rewrite-target: /
+      host: &host "open-webui.${SECRET_DOMAIN}"
+      tls: true
+      existingSecret: ""
       annotations:
         hajimari.io/enable: "true"
         hajimari.io/appName: "open-webui"
-      hostname: &host "open-webui.${SECRET_DOMAIN}"
-      hosts:
-        - *host
-      tls:
-        - hosts:
-            - *host
+        hajimari.io/icon: "web"
+        hajimari.io/group: "ai"
     persistence:
       enabled: false
       size: 2Gi
@@ -110,6 +113,11 @@ spec:
       # -- Default API key value for Pipelines. Should be updated in a production deployment, or be changed to the required API key if not using Pipelines
       - name: OLLAMA_BASE_URLS
         value: "http://192.168.31.226:11434"
+      - name: USER_AGENT
+        value: "Open WebUI"
+      - name: WEBUI_URL
+        value: *host
+
       # valueFrom:
       #   secretKeyRef:
       #     name: pipelines-api-key
