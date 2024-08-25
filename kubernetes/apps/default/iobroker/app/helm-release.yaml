@@ -257,5 +257,10 @@ spec:
             readOnly: false
     resources:
       requests:
-        cpu: 30m
-        memory: 2.5G
+        cpu: 500m
+        memory: 4G
+    securityContext:
+          capabilities:
+            add:
+              - SYS_ADMIN
+              - DAC_READ_SEARCH
