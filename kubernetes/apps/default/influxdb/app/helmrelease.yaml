@@ -61,7 +61,7 @@ spec:
         hajimari.io/group: "databases"
       hostname: &host "influx.${SECRET_DOMAIN}"
       hosts:
-        - *host
+        - &host "influx.${SECRET_DOMAIN}"
       tls:
         - hosts:
             - *host
