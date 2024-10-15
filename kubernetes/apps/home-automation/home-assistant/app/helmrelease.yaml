@@ -12,7 +12,7 @@ spec:
       version: 13.4.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: pajikos
         namespace: flux-system
   maxHistory: 3
   install:
@@ -30,31 +30,27 @@ spec:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2024.10.2
     env:
-      TZ: "${TIMEZONE}"
+      - name: TZ
+        value: "${TIMEZONE}"
     service:
-      main:
-        type: ClusterIP
-        ports:
-          http:
-            port: 8123
+      type: ClusterIP
+      port: 8123
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        annotations:
-          hajimari.io/icon: mdi:home-assistant
-        hosts:
-          - host: &host "hass.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        hajimari.io/icon: mdi:home-assistant
+      hosts:
+        - host: &host "hass.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
     persistence:
-      config:
-        enabled: true
-        existingClaim: home-assistant-config
+      enabled: true
+      existingClaim: home-assistant-config
     addons:
       codeserver:
         enabled: true
@@ -62,7 +58,8 @@ spec:
           repository: ghcr.io/coder/code-server
           tag: 4.19.1
         env:
-          TZ: "${TIMEZONE}"
+          - name: TZ
+            value: "${TIMEZONE}"
         workingDir: "/config"
         args:
           - --auth
@@ -77,16 +74,13 @@ spec:
           annotations:
             hajimari.io/icon: mdi:microsoft-visual-studio-code
           hosts:
-            - host: &host "hass-code.${SECRET_DOMAIN}"
+            - host: &codehost "hass-code.${SECRET_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix
           tls:
             - hosts:
-                - *host
-        volumeMounts:
-          - name: config
-            mountPath: /config
+                - *codehost
     resources:
       requests:
         cpu: 100m
