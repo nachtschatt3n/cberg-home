@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: home-assistant
-      version: 13.4.2
+      version: 0.2.82
       sourceRef:
         kind: HelmRepository
         name: pajikos
