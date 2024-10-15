@@ -52,7 +52,9 @@ spec:
             - *host
     persistence:
       enabled: true
-      existingClaim: home-assistant-config
+      storageClass: local-hostpath
+      accessMode: ReadWriteOnce
+      size: 15Gi
     addons:
       codeserver:
         enabled: true
