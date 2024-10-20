@@ -106,9 +106,8 @@ spec:
     redis:
       enabled: true
       auth:
+        password: changeme
         enabled: true
-        existingSecret: paperless-ngx-secret
-        existingSecretPasswordKey: PAPERLESS_REDIS_PASSWORD
       master:
         persistence:
           enabled: false
