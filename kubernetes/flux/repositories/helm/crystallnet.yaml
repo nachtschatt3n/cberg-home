@@ -5,6 +5,5 @@ metadata:
   name: crystallnet
   namespace: flux-system
 spec:
-  type: oci
   interval: 1h
-  url: oci://harbor.crystalnet.org/charts
+  url: https://charts.crystalnet.org

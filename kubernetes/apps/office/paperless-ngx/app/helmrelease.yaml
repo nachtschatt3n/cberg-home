@@ -47,12 +47,12 @@ spec:
     persistence:
       data:
         enabled: true
-        volumeClaimSpec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 15Gi
+        storageClass: "local-hostpath"
+        size: 10Gi
+      log:
+        enabled: true
+        storageClass: "local-hostpath"
+        size: 1Gi
       media:
         enabled: true
         volumeClaimSpec:
@@ -72,6 +72,11 @@ spec:
             secretKeyRef:
               name: paperless-ngx-secret
               key: PAPERLESS_POSTGRES_PASSWORD
+      primary:
+        persistence:
+          enabled: true
+          storageClass: "local-hostpath"
+          size: 8Gi
 
     redis:
       enabled: true
@@ -82,6 +87,11 @@ spec:
             secretKeyRef:
               name: paperless-ngx-secret
               key: PAPERLESS_REDIS_PASSWORD
+      master:
+        persistence:
+          enabled: true
+          storageClass: "local-hostpath"
+          size: 2Gi
 
     config:
       auth:
