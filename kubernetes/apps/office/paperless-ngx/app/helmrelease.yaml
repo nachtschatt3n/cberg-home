@@ -66,6 +66,7 @@ spec:
         enabled: true
         retain: true
         storageClass: "local-hostpath"
+        accessMode: ReadWriteOnce
         size: 1Gi
       media:
         enabled: true
