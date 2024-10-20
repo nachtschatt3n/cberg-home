@@ -72,12 +72,8 @@ spec:
         enabled: true
         retain: true
         mountPath: /usr/src/paperless/media
-        volumeClaimSpec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 15Gi
+        accessMode: ReadWriteOnce
+        size: 15Gi
       export:
         enabled: true
         mountPath: /usr/src/paperless/export
