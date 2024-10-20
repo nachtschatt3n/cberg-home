@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./paperless-ngx/ks.yaml
-
+  - ./paperless-ngx/app/secret.sops.yaml

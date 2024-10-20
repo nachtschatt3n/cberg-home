@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: paperless-ngx
-      version: 9.5.1
+      version: 0.2.17
       sourceRef:
         kind: HelmRepository
         name: crystallnet
@@ -25,6 +25,29 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      repository: ghcr.io/paperless-ngx/paperless-ngx
+      tag: "2.4.3"
+      pullPolicy: IfNotPresent
+
+    config:
+      auth:
+        username: "admin"
+        password:
+          valueFrom:
+            secretKeyRef:
+              name: paperless-ngx-secret
+              key: PAPERLESS_ADMIN_PASSWORD
+        email:
+          valueFrom:
+            secretKeyRef:
+              name: paperless-ngx-secret
+              key: PAPERLESS_ADMIN_EMAIL
+      paperless_url: "https://paperless.${SECRET_DOMAIN}"
+      ocr_languages: ["eng", "deu"]
+      consumer:
+        recursive: true
+
     ingress:
       main:
         enabled: true
@@ -39,13 +62,48 @@ spec:
         tls:
           - hosts:
               - *host
+
     persistence:
       data:
         enabled: true
         existingClaim: paperless-ngx-data
+        size: 15Gi
       media:
         enabled: true
         existingClaim: paperless-ngx-media
+        size: 15Gi
+
+    postgresql:
+      enabled: true
+      auth:
+        database: paperless
+        username: paperless
+        password:
+          valueFrom:
+            secretKeyRef:
+              name: paperless-ngx-secret
+              key: PAPERLESS_POSTGRES_PASSWORD
+      primary:
+        persistence:
+          enabled: true
+          storageClass: local-hostpath
+          size: 10Gi
+
+    redis:
+      enabled: true
+      auth:
+        enabled: true
+        password:
+          valueFrom:
+            secretKeyRef:
+              name: paperless-ngx-secret
+              key: PAPERLESS_REDIS_PASSWORD
+      master:
+        persistence:
+          enabled: true
+          storageClass: local-hostpath
+          size: 5Gi
+
     resources:
       requests:
         cpu: 100m
