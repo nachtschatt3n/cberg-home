@@ -32,7 +32,7 @@ spec:
 
     config:
       auth:
-        username: "admin"
+        username: "mu"
         password:
           valueFrom:
             secretKeyRef:
