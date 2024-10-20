@@ -92,21 +92,21 @@ spec:
     postgresql:
       enabled: false
     mariadb:
-      enabled: true
-      auth:
-        database: paperless
-        username: paperless
-        password: changeme
-        rootPassword: changeme
-      primary:
-        persistence:
-          enabled: false
-          storageClass: "local-hostpath"
-          size: 8Gi
+      enabled: false
+      # auth:
+      #   database: paperless
+      #   username: paperless
+      #   password: changeme
+      #   rootPassword: changeme
+      # primary:
+      #   persistence:
+      #     enabled: false
+      #     storageClass: "local-hostpath"
+      #     size: 8Gi
     redis:
       enabled: true
       auth:
-        password: changeme
+      #  password: changeme
         enabled: true
       master:
         persistence:
