@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: paperless-ngx
-      version: 0.2.17
+      version: 0.19.1
       sourceRef:
         kind: HelmRepository
-        name: crystallnet
+        name: gabe565
         namespace: flux-system
   maxHistory: 2
   install:
@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
-      tag: "2.4.3"
+      tag: "2.11.6"
       pullPolicy: IfNotPresent
 
     ingress:
@@ -47,14 +47,17 @@ spec:
     persistence:
       data:
         enabled: true
+        retain: true
         storageClass: "local-hostpath"
         size: 10Gi
       log:
         enabled: true
+        retain: true
         storageClass: "local-hostpath"
         size: 1Gi
       media:
         enabled: true
+        retain: true
         volumeClaimSpec:
           accessModes:
             - ReadWriteOnce
@@ -67,11 +70,9 @@ spec:
       auth:
         database: paperless
         username: paperless
-        password:
-          valueFrom:
-            secretKeyRef:
-              name: paperless-ngx-secret
-              key: PAPERLESS_POSTGRES_PASSWORD
+        existingSecret: paperless-ngx-secret
+        secretKeys:
+          adminPasswordKey: PAPERLESS_POSTGRES_PASSWORD
       primary:
         persistence:
           enabled: true
@@ -82,36 +83,44 @@ spec:
       enabled: true
       auth:
         enabled: true
-        password:
-          valueFrom:
-            secretKeyRef:
-              name: paperless-ngx-secret
-              key: PAPERLESS_REDIS_PASSWORD
+        existingSecret: paperless-ngx-secret
+        existingSecretPasswordKey: PAPERLESS_REDIS_PASSWORD
       master:
         persistence:
           enabled: true
           storageClass: "local-hostpath"
           size: 2Gi
 
-    config:
-      auth:
-        username: "admin"
-        password:
-          valueFrom:
-            secretKeyRef:
-              name: paperless-ngx-secret
-              key: PAPERLESS_ADMIN_PASSWORD
-        email:
-          valueFrom:
-            secretKeyRef:
-              name: paperless-ngx-secret
-              key: PAPERLESS_ADMIN_EMAIL
-      paperless_url: "https://paperless.${SECRET_DOMAIN}"
-      ocr_languages:
-        - eng
-        - deu
-      consumer:
-        recursive: true
+    env:
+      TZ: Europe/Berlin
+      PAPERLESS_URL: "https://paperless.${SECRET_DOMAIN}"
+      PAPERLESS_OCR_LANGUAGES: "eng deu"
+      PAPERLESS_CONSUMER_RECURSIVE: "true"
+      PAPERLESS_ADMIN_USER:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: PAPERLESS_ADMIN_USER
+      PAPERLESS_ADMIN_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: PAPERLESS_ADMIN_PASSWORD
+      PAPERLESS_ADMIN_MAIL:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: PAPERLESS_ADMIN_EMAIL
+      PAPERLESS_DBPASS:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: PAPERLESS_POSTGRES_PASSWORD
+      PAPERLESS_REDIS_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: PAPERLESS_REDIS_PASSWORD
 
     resources:
       requests:
