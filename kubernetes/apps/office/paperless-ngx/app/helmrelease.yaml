@@ -73,6 +73,7 @@ spec:
         enabled: true
         retain: true
         mountPath: /usr/src/paperless/media
+        storageClass: "local-hostpath"
         accessMode: ReadWriteOnce
         size: 15Gi
       export:
