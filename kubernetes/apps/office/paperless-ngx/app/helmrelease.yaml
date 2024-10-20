@@ -30,48 +30,37 @@ spec:
       tag: "2.4.3"
       pullPolicy: IfNotPresent
 
-    config:
-      auth:
-        username: "mu"
-        password:
-          valueFrom:
-            secretKeyRef:
-              name: paperless-ngx-secret
-              key: PAPERLESS_ADMIN_PASSWORD
-        email:
-          valueFrom:
-            secretKeyRef:
-              name: paperless-ngx-secret
-              key: PAPERLESS_ADMIN_EMAIL
-      paperless_url: "https://paperless.${SECRET_DOMAIN}"
-      ocr_languages: ["eng", "deu"]
-      consumer:
-        recursive: true
-
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        annotations:
-          hajimari.io/icon: mdi:file-document-multiple
-        hosts:
-          - host: &host "paperless.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
+      enabled: true
+      className: internal
+      annotations:
+        hajimari.io/icon: mdi:file-document-multiple
+      hosts:
+        - host: &host "paperless.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
 
     persistence:
       data:
         enabled: true
-        existingClaim: paperless-ngx-data
-        size: 15Gi
+        volumeClaimSpec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 15Gi
       media:
         enabled: true
-        existingClaim: paperless-ngx-media
-        size: 15Gi
+        volumeClaimSpec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 15Gi
 
     postgresql:
       enabled: true
@@ -83,11 +72,6 @@ spec:
             secretKeyRef:
               name: paperless-ngx-secret
               key: PAPERLESS_POSTGRES_PASSWORD
-      primary:
-        persistence:
-          enabled: true
-          storageClass: local-hostpath
-          size: 10Gi
 
     redis:
       enabled: true
@@ -98,11 +82,26 @@ spec:
             secretKeyRef:
               name: paperless-ngx-secret
               key: PAPERLESS_REDIS_PASSWORD
-      master:
-        persistence:
-          enabled: true
-          storageClass: local-hostpath
-          size: 5Gi
+
+    config:
+      auth:
+        username: "admin"
+        password:
+          valueFrom:
+            secretKeyRef:
+              name: paperless-ngx-secret
+              key: PAPERLESS_ADMIN_PASSWORD
+        email:
+          valueFrom:
+            secretKeyRef:
+              name: paperless-ngx-secret
+              key: PAPERLESS_ADMIN_EMAIL
+      paperless_url: "https://paperless.${SECRET_DOMAIN}"
+      ocr_languages:
+        - eng
+        - deu
+      consumer:
+        recursive: true
 
     resources:
       requests:
