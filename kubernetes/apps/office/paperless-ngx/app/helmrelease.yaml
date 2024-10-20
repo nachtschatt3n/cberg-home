@@ -40,7 +40,6 @@ spec:
         ports:
           http:
             port: 8000
-
     ingress:
       enabled: true
       className: internal
@@ -80,9 +79,10 @@ spec:
               storage: 15Gi
       export:
         enabled: true
-        storageClass: "local-hostpath"
-        size: 1Gi
         mountPath: /usr/src/paperless/export
+        storageClass: "local-hostpath"
+        accessMode: ReadWriteOnce
+        size: 1Gi
       consume:
         enabled: true
         retain: true
@@ -90,7 +90,6 @@ spec:
         storageClass: "local-hostpath"
         accessMode: ReadWriteOnce
         size: 4Gi
-
     postgresql:
       enabled: false
     mariadb:
