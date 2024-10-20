@@ -14,14 +14,14 @@ spec:
         kind: HelmRepository
         name: gabe565
         namespace: flux-system
-  maxHistory: 2
+  maxHistory: 1
   install:
     remediation:
-      retries: 3
+      retries: 1
   upgrade:
     cleanupOnFail: true
     remediation:
-      retries: 3
+      retries: 1
   uninstall:
     keepHistory: false
   values:
@@ -29,12 +29,24 @@ spec:
       repository: ghcr.io/paperless-ngx/paperless-ngx
       tag: "2.11.6"
       pullPolicy: IfNotPresent
+    env:
+      # -- Set the container timezone
+      TZ: UTC
+      # PAPERLESS_SECRET_KEY: ""
+    service:
+      # -- Configures service settings for the chart.
+      # @default -- See [values.yaml](./values.yaml)
+      main:
+        ports:
+          http:
+            port: 8000
 
     ingress:
       enabled: true
       className: internal
       annotations:
         hajimari.io/icon: mdi:file-document-multiple
+        nginx.ingress.kubernetes.io/proxy-body-size: 64m
       hosts:
         - host: &host "paperless.${SECRET_DOMAIN}"
           paths:
@@ -49,6 +61,7 @@ spec:
         enabled: true
         retain: true
         storageClass: "local-hostpath"
+        accessMode: ReadWriteOnce
         size: 10Gi
       log:
         enabled: true
@@ -58,27 +71,40 @@ spec:
       media:
         enabled: true
         retain: true
+        mountPath: /usr/src/paperless/media
         volumeClaimSpec:
           accessModes:
             - ReadWriteOnce
           resources:
             requests:
               storage: 15Gi
+      export:
+        enabled: true
+        storageClass: "local-hostpath"
+        size: 1Gi
+        mountPath: /usr/src/paperless/export
+      consume:
+        enabled: true
+        retain: true
+        mountPath: /usr/src/paperless/consume
+        storageClass: "local-hostpath"
+        accessMode: ReadWriteOnce
+        size: 4Gi
 
     postgresql:
+      enabled: false
+    mariadb:
       enabled: true
       auth:
         database: paperless
         username: paperless
-        existingSecret: paperless-ngx-secret
-        secretKeys:
-          adminPasswordKey: PAPERLESS_POSTGRES_PASSWORD
+        password: changeme
+        rootPassword: changeme
       primary:
         persistence:
-          enabled: true
+          enabled: false
           storageClass: "local-hostpath"
           size: 8Gi
-
     redis:
       enabled: true
       auth:
@@ -87,41 +113,12 @@ spec:
         existingSecretPasswordKey: PAPERLESS_REDIS_PASSWORD
       master:
         persistence:
-          enabled: true
+          enabled: false
           storageClass: "local-hostpath"
           size: 2Gi
-
-    env:
-      TZ: Europe/Berlin
-      PAPERLESS_URL: "https://paperless.${SECRET_DOMAIN}"
-      PAPERLESS_OCR_LANGUAGES: "eng deu"
-      PAPERLESS_CONSUMER_RECURSIVE: "true"
-      PAPERLESS_ADMIN_USER:
-        valueFrom:
-          secretKeyRef:
-            name: paperless-ngx-secret
-            key: PAPERLESS_ADMIN_USER
-      PAPERLESS_ADMIN_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: paperless-ngx-secret
-            key: PAPERLESS_ADMIN_PASSWORD
-      PAPERLESS_ADMIN_MAIL:
-        valueFrom:
-          secretKeyRef:
-            name: paperless-ngx-secret
-            key: PAPERLESS_ADMIN_EMAIL
-      PAPERLESS_DBPASS:
-        valueFrom:
-          secretKeyRef:
-            name: paperless-ngx-secret
-            key: PAPERLESS_POSTGRES_PASSWORD
-      PAPERLESS_REDIS_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: paperless-ngx-secret
-            key: PAPERLESS_REDIS_PASSWORD
-
+        replica:
+          enabled: false
+          replicaCount: 0
     resources:
       requests:
         cpu: 100m
