@@ -258,7 +258,7 @@ spec:
     livenessProbe:
       httpGet:
         path: /healthz
-        port: http
+        port: 5678  # Specify the actual port number
       # initialDelaySeconds: 30
       # periodSeconds: 10
       # timeoutSeconds: 5
@@ -271,7 +271,7 @@ spec:
     readinessProbe:
       httpGet:
         path: /healthz
-        port: http
+        port: 5678  # Specify the actual port number
       # initialDelaySeconds: 30
       # periodSeconds: 10
       # timeoutSeconds: 5
@@ -283,7 +283,7 @@ spec:
 
     service:
       type: ClusterIP
-      port: 80
+      port: 5678  # Changed from 80 to match n8n's port
       annotations: {}
 
     ingress:
