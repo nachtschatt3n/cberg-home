@@ -26,3 +26,4 @@ resources:
   - ./weave-gitops.yaml
   - ./pajikos.yaml
   - ./gabe565.yaml
+  - ./n8n.yaml
