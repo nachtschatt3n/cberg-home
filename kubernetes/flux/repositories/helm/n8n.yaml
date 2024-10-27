@@ -5,6 +5,6 @@ metadata:
   name: n8n
   namespace: flux-system
 spec:
+  type: oci
   interval: 1h
   url: oci://8gears.container-registry.com/library/n8n
-
