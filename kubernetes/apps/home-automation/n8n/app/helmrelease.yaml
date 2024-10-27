@@ -288,16 +288,14 @@ spec:
 
     ingress:
       enabled: true
-      className: external  # Note: className not ingressClassName
+      ingressClassName: external
       annotations:
         hajimari.io/enable: "true"
         hajimari.io/appName: "n8n"
         hajimari.io/icon: "robot"
       hosts:
         - host: &host "n8n.${SECRET_DOMAIN}"
-          paths:
-            - path: "/"
-              pathType: Prefix
+          paths: ["/"]    # Array with single string path
       tls:
         - hosts:
             - *host
@@ -362,6 +360,7 @@ spec:
       #    enabled: false
       # existingClaim: ""
       # size: 2Gi
+
 
 
 
