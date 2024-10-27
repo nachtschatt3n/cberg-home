@@ -290,12 +290,20 @@ spec:
       enabled: true
       ingressClassName: external
       annotations:
-        hajimari.io/icon: mdi:n8n
-      hosts:
-        - host: &host "n8n.mathiasuhl.com"
-          paths:
-            - path: /
-              pathType: Prefix
+        hajimari.io/enable: "true"
+        hajimari.io/appName: "n8n"
+        hajimari.io/icon: "robot"
+      rules:
+        - host: &host "n8n.${SECRET_DOMAIN}"
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: n8n
+                    port:
+                      number: 5678
+                path: "/"
+                pathType: Prefix
       tls:
         - hosts:
             - *host
@@ -360,4 +368,5 @@ spec:
       #    enabled: false
       # existingClaim: ""
       # size: 2Gi
+
 
