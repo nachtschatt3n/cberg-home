@@ -8,7 +8,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: n8n-0.25.2
+      chart: n8n-0.25.2 # TODO: Update to latest version
       version: 1.58.2
       sourceRef:
         kind: HelmRepository
