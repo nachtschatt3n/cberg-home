@@ -130,8 +130,8 @@ spec:
       # resources, such as Minikube. If you do want to specify resources, uncomment the following
       # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 500m
+        memory: 256Mi
       requests:
         cpu: 100m
         memory: 128Mi
@@ -146,16 +146,14 @@ spec:
 
     affinity:
       podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                      - adguard-home
-              topologyKey: "kubernetes.io/hostname"
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - adguard-home
+            topologyKey: "kubernetes.io/hostname"
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
