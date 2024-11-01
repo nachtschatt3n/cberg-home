@@ -107,7 +107,7 @@ spec:
           - hosts:
               - *host
       http:
-        enabled: false
+        enabled: true
         className: internal
         annotations: {}
         hosts:
@@ -117,7 +117,7 @@ spec:
                 pathType: Prefix
                 service:
                   name: main
-                  port: https
+                  port: http
         tls:
           - hosts:
               - *host
