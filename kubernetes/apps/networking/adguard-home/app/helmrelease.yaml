@@ -71,6 +71,8 @@ spec:
           port: 784
         port2:
           port: 8853
+        annotations:
+          service.kubernetes.io/load-balancer-class: "loadbalancer"
       dnscrypt:
         enabled: true
         type: LoadBalancer
@@ -78,18 +80,20 @@ spec:
           port: 5443
         udp:
           port: 5443
+        annotations:
+          service.kubernetes.io/load-balancer-class: "loadbalancer"
     ingresses:
       adminPanel:
         enabled: true
         className: internal
         hosts:
           - host: &host adg-admin.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: 3000
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              name: main
+              port: 3000
         tls:
           - hosts:
               - *host
@@ -182,11 +186,11 @@ spec:
         effect: "NoSchedule"
 
     # -- Strategy used to replace old Pods by new ones
-    strategy: {}
-      # type: RollingUpdate
-      # rollingUpdate:
-      #   maxSurge: 1
-      #   maxUnavailable: 33%
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
 
     # -- Host networking requested for the pod. Beware that setting this to true requires all container ports declared in the pod to be free on the node. This can be useful for example to expose AdGuard Home as a DHCP Server.
     hostNetwork: false
