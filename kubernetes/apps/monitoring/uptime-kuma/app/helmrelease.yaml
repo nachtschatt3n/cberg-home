@@ -65,7 +65,15 @@ spec:
     persistence:
       enabled: true
       storageClassName: local-hostpath
-      size: 2Gi
+    volume:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      # If you want to use a storage class other than the default, uncomment this
+      # line and define the storage class name
+      storageClassName: local-hostpath
+      # Reuse your own pre-existing PVC.
+      # existingClaim: ""
     resources:
       requests:
         cpu: 100m
