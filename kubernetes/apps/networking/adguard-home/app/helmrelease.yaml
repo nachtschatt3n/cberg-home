@@ -209,10 +209,10 @@ spec:
         memory: 128Mi
 
     autoscaling:
-      enabled: true
-      minReplicas: 1
-      maxReplicas: 100
-      targetCPUUtilizationPercentage: 80
+      enabled: false  # Temporarily disable until we confirm HPA requirements
+      # minReplicas: 1
+      # maxReplicas: 100
+      # targetCPUUtilizationPercentage: 80
       # targetMemoryUtilizationPercentage: 80
 
     nodeSelector: {}
