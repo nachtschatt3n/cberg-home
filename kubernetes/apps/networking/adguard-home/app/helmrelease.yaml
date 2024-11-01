@@ -178,6 +178,8 @@ spec:
       # If you selected `custom: true`, this field holds the definition of the livenessProbe.
       # @default -- See below
       spec:
+        tcpSocket:
+          port: 3000        # Using admin panel port
         initialDelaySeconds: 20
         periodSeconds: 30
         timeoutSeconds: 1
@@ -197,6 +199,8 @@ spec:
       # If you selected `custom: true`, this field holds the definition of the readinessProbe.
       # @default -- See below
       spec:
+        tcpSocket:
+          port: 3000        # Using admin panel port
         initialDelaySeconds: 0
         periodSeconds: 10
         timeoutSeconds: 1
@@ -216,6 +220,8 @@ spec:
       # If you selected `custom: true`, this field holds the definition of the startupProbe.
       # @default -- See below
       spec:
+        tcpSocket:
+          port: 3000        # Using admin panel port
         initialDelaySeconds: 0
         timeoutSeconds: 1
         ## This means it has a maximum of 5*30=150 seconds to start up before it fails
