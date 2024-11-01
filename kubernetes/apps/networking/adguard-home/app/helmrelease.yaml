@@ -40,22 +40,13 @@ spec:
       fsGroup: 2000
 
     securityContext: {}
-      # capabilities:
-      #   drop:
-      #   - ALL
-      # readOnlyRootFilesystem: true
-      # runAsNonRoot: true
-      # runAsUser: 1000
-
-    # service:
-    #   type: ClusterIP
-    #   port: 80
-
     services:
       adminPanel:
+        enabled: true
         type: LoadBalancer
         port: 3000
       http:
+        enabled: true
         type: LoadBalancer
         port: 80
       https:
