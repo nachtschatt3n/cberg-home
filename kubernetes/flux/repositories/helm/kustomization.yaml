@@ -27,3 +27,4 @@ resources:
   - ./pajikos.yaml
   - ./gabe565.yaml
   - ./n8n.yaml
+  - ./dirsigler.yaml
