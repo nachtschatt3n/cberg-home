@@ -1,0 +1,160 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: adguard-home
+  namespace: networking
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: adguard-home
+      version: 5.5.2
+      sourceRef:
+        kind: HelmRepository
+        name: gabe565
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      replicas: 1
+      strategy: RollingUpdate
+      annotations:
+        reloader.stakater.com/auto: "true"
+
+    service:
+      main:
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.31.64"
+        ports:
+          dns-tcp:
+            port: 53
+            protocol: TCP
+          dns-udp:
+            port: 53
+            protocol: UDP
+          http:
+            port: 3000
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          hajimari.io/icon: mdi:shield-check
+          hajimari.io/appName: "AdGuard Home"
+        hosts:
+          - host: &host "adg.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+
+    config:
+      bind_host: 0.0.0.0
+      bind_port: 3000
+      beta_bind_port: 0
+      users: []
+      auth_attempts: 5
+      block_auth_min: 15
+      http_proxy: ""
+      language: ""
+      rlimit_nofile: 0
+      debug_pprof: false
+      web_session_ttl: 720
+      dns:
+        bind_hosts:
+          - 0.0.0.0
+        port: 53
+        statistics_interval: 7
+        querylog_enabled: true
+        querylog_file_enabled: true
+        querylog_interval: 2160h
+        querylog_size_memory: 1000
+        anonymize_client_ip: false
+        protection_enabled: true
+        blocking_mode: default
+        blocking_ipv4: ""
+        blocking_ipv6: ""
+        blocked_response_ttl: 10
+        protection_disabled_until: null
+        parental_block_host: family-block.dns.adguard.com
+        safebrowsing_block_host: standard-block.dns.adguard.com
+        ratelimit: 20
+        ratelimit_whitelist: []
+        refuse_any: true
+        upstream_dns:
+          - 1.1.1.1
+          - 1.0.0.1
+        upstream_dns_file: ""
+        bootstrap_dns:
+          - 1.1.1.1
+          - 1.0.0.1
+        all_servers: false
+        fastest_addr: false
+        fastest_timeout: 1s
+        allowed_clients: []
+        disallowed_clients: []
+        blocked_hosts:
+          - version.bind
+          - id.server
+          - hostname.bind
+        trusted_proxies:
+          - 127.0.0.0/8
+          - ::1/128
+        cache_size: 4194304
+        cache_ttl_min: 0
+        cache_ttl_max: 0
+        cache_optimistic: false
+        bogus_nxdomain: []
+        aaaa_disabled: false
+        enable_dnssec: false
+        edns_client_subnet:
+          custom_ip: ""
+          enabled: false
+          use_custom: false
+        max_goroutines: 300
+        handle_ddr: true
+        ipset: []
+        filtering_enabled: true
+        filters_update_interval: 24
+        parental_enabled: false
+        safebrowsing_enabled: false
+        safebrowsing_cache_size: 1048576
+        safesearch_cache_size: 1048576
+        parental_cache_size: 1048576
+        cache_time: 30
+        safe_search:
+          enabled: false
+          bing: true
+          duckduckgo: true
+          google: true
+          pixabay: true
+          yandex: true
+          youtube: true
+        rewrites: []
+        blocked_services: []
+        upstream_timeout: 10s
+        local_ptr_upstreams: []
+        filtering:
+          blocking_mode: default
