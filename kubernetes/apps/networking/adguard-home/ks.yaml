@@ -5,16 +5,12 @@ metadata:
   name: adguard-home
   namespace: flux-system
 spec:
-  targetNamespace: networking
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: adguard-home
   path: ./kubernetes/apps/networking/adguard-home/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
+  wait: false
   interval: 30m
   retryInterval: 1m
   timeout: 5m
