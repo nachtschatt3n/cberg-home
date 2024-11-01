@@ -265,6 +265,7 @@ spec:
 
 
     persistence:
+      enabled: false
       #existingClaim: null
       volumeClaimSpec:
         storageClassName: local-hostpath
