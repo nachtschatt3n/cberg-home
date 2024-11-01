@@ -239,6 +239,7 @@ spec:
     persistence:
       #existingClaim: null
       volumeClaimSpec:
+        storageClass: "local-hostpath"
         accessModes:
           - ReadWriteOnce
         resources:
