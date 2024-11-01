@@ -575,4 +575,4 @@ spec:
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app.kubernetes.io/name: adguard-home
+            app: adguard-home
