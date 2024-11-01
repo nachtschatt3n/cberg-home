@@ -141,26 +141,39 @@ spec:
 
     nodeSelector: {}
 
-    tolerations: []
+    # Remove this empty tolerations array
+    # tolerations: []
 
     affinity:
       podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                      - adguard-home
-              topologyKey: "kubernetes.io/hostname"
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - adguard-home
+            topologyKey: "kubernetes.io/hostname"
+      # Optional: Add node affinity to exclude specific nodes if needed
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k3s-0
+                    - k3s-2
+                    - k3s-3
 
-    # Optional: Add tolerations if your nodes have taints
-    # tolerations:
-    #   - key: "node-role.kubernetes.io/master"
-    #     operator: "Exists"
-    #     effect: "NoSchedule"
+    # Keep only this tolerations section
+    tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
 
     # -- Strategy used to replace old Pods by new ones
     strategy: {}
