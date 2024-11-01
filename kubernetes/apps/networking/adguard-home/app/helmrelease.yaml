@@ -25,67 +25,78 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    # controller:
-    #   replicas: 1
-    #   #strategy: RollingUpdate
-    #   strategy:
-    #   annotations:
-    #     reloader.stakater.com/auto: "true"
     image:
-      # -- Image repository
       repository: adguard/adguardhome
-      # -- Image pull policy
+      tag: v0.107.43
       pullPolicy: IfNotPresent
-      # -- Image tag
-      tag: v0.107.53
-    service:
-      main:
+
+    services:
+      # Admin panel service
+      adminPanel:
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: "192.168.31.64"
-        ports:
-          http:
-            port: 3000
-      dns-tcp:
-        enabled: true
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        ports:
-          dns-tcp:
-            port: 53
-            protocol: TCP
-      dns-udp:
-        enabled: true
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        ports:
-          dns-udp:
-            port: 53
-            protocol: UDP
+        port: 3000
 
-    ingress:
-      enabled: true
-      className: internal
-      annotations:
-        hajimari.io/icon: mdi:shield-check
-        hajimari.io/appName: "AdGuard Home"
-      hosts:
-        - host: &host "adg.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - *host
+      # DNS Services
+      dns:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        tcp:
+          port: 53
+        udp:
+          port: 53
+
+    ingresses:
+      adminPanel:
+        enabled: true
+        className: internal
+        annotations:
+          hajimari.io/icon: mdi:shield-check
+          hajimari.io/appName: "AdGuard Home"
+        hosts:
+          - host: &host "adg.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
 
     persistence:
-      config:
-        enabled: true
-        storageClass: local-hostpath
-        accessMode: ReadWriteOnce
-        size: 1Gi
-      work:
-        enabled: true
-        storageClass: local-hostpath
-        accessMode: ReadWriteOnce
-        size: 1Gi
+      volumeClaimSpec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: local-hostpath
+
+    bootstrapEnabled: true
+    bootstrapConfig:
+      bind_host: 0.0.0.0
+      bind_port: 80
+      users: []
+      auth_attempts: 5
+      block_auth_min: 15
+      http_proxy: ""
+      language: ""
+      theme: auto
+      dns:
+        bind_hosts:
+          - 0.0.0.0
+        port: 53
+        anonymize_client_ip: false
+        protection_enabled: true
+        blocking_mode: default
+        blocking_ipv4: ""
+        blocking_ipv6: ""
+        upstream_dns:
+          - https://dns.cloudflare.com/dns-query
+          - tls://1dot1dot1dot1.cloudflare-dns.com
+        bootstrap_dns:
+          - 1.1.1.1
+          - 1.0.0.1
+        querylog_enabled: true
+        filtering_enabled: true
