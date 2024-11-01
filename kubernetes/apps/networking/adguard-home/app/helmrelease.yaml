@@ -37,14 +37,25 @@ spec:
         annotations:
           io.cilium/lb-ipam-ips: "192.168.31.64"
         ports:
-          dns-tcp:
-            port: 53
-            protocol: TCP
-          dns-udp:
-            port: 53
-            protocol: UDP
           http:
             port: 3000
+      dns-tcp:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        ports:
+          dns-tcp:
+            enabled: true
+            port: 53
+      dns-udp:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        ports:
+          dns-udp:
+            enabled: true
+            protocol: UDP
+            port: 53
 
     ingress:
       main:
@@ -65,12 +76,18 @@ spec:
     persistence:
       config:
         enabled: true
-        #type: persistentVolumeClaim
+        retain: true
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+      data:
+        enabled: true
+        retain: true
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
 
-    config:
+    config: |
       bind_host: 0.0.0.0
       bind_port: 3000
       beta_bind_port: 0
