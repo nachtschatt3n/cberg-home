@@ -7,3 +7,4 @@ metadata:
 spec:
   interval: 1h
   url: https://helm-charts.rm3l.org
+  timeout: 3m
