@@ -82,7 +82,6 @@ spec:
       adminPanel:
         enabled: true
         className: internal
-        annotations: {}
         hosts:
           - host: &host adg-admin.${SECRET_DOMAIN}
             paths:
@@ -90,7 +89,7 @@ spec:
                 pathType: Prefix
                 service:
                   name: main
-                  port: adminPanel
+                  port: 3000
         tls:
           - hosts:
               - *host
@@ -110,7 +109,7 @@ spec:
           - hosts:
               - *host
       https:
-        enabled: true
+        enabled: false
         className: internal
         annotations: {}
         hosts:
