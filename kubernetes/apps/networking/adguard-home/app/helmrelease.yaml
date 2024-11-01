@@ -168,7 +168,7 @@ spec:
     # @default -- See below
     livenessProbe:
       # -- Enable the liveness probe
-      enabled: true
+      enabled: false
       # -- Set this to `true` if you wish to specify your own livenessProbe
       custom: false
       # -- sets the probe type when not using a custom probe
@@ -189,7 +189,7 @@ spec:
     # @default -- See below
     readinessProbe:
       # -- Enable the readiness probe
-      enabled: true
+      enabled: false
       # -- Set this to `true` if you wish to specify your own readinessProbe
       custom: false
       # -- sets the probe type when not using a custom probe
@@ -210,7 +210,7 @@ spec:
     # @default -- See below
     startupProbe:
       # -- Enable the startup probe
-      enabled: true
+      enabled: false
       # -- Set this to `true` if you wish to specify your own startupProbe
       custom: false
       # -- sets the probe type when not using a custom probe
