@@ -37,7 +37,7 @@ spec:
       # -- Image pull policy
       pullPolicy: IfNotPresent
       # -- Image tag
-      tag: v0.107.52
+      tag: v0.107.53
     service:
       main:
         type: LoadBalancer
@@ -85,7 +85,8 @@ spec:
         enabled: true
         retain: true
         storageClass: local-hostpath
-        accessMode: ReadWriteOnce
+        #accessMode: ReadWriteOnce
+        accessModes: ReadWriteMany
         size: 1Gi
       data:
         enabled: true
