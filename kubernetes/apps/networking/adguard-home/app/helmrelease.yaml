@@ -25,11 +25,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      replicas: 1
-      strategy: RollingUpdate
-      annotations:
-        reloader.stakater.com/auto: "true"
+    # controller:
+    #   replicas: 1
+    #   #strategy: RollingUpdate
+    #   strategy:
+    #   annotations:
+    #     reloader.stakater.com/auto: "true"
     image:
       # -- Image repository
       repository: adguard/adguardhome
