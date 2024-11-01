@@ -129,7 +129,7 @@ spec:
                 pathType: Prefix
                 service:
                   name: main
-                  port: https
+                  port: adminPanel
         tls:
           - hosts:
               - *host
