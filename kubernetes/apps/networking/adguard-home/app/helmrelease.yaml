@@ -137,11 +137,11 @@ spec:
         memory: 128Mi
 
     autoscaling:
-      enabled: false  # Temporarily disable until we confirm HPA requirements
-      # minReplicas: 1
-      # maxReplicas: 100
-      # targetCPUUtilizationPercentage: 80
-      # targetMemoryUtilizationPercentage: 80
+      enabled: true  # Temporarily disable until we confirm HPA requirements
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
 
     nodeSelector: {}
 
@@ -263,7 +263,7 @@ spec:
       resources: {}
       aws:
         # -- For now, only AWS is supported. Setting this to `false` (while `backup.enabled` is `true`) will cause a deployment error.
-        enabled: true
+        enabled: false
         # -- AWS Access Key. Must have the permissions to write to the target bucket.
         accessKeyId: "my-aws-access-key-id"
         # -- AWS Secret Key. Must have the permissions to write to the target bucket.
