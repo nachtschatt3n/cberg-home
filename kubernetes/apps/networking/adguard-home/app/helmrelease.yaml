@@ -53,110 +53,42 @@ spec:
 
     services:
       adminPanel:
-        type: ClusterIP
-        # -- Service annotations
-        annotations: {}
+        type: LoadBalancer
         port: 3000
-        # -- Internal cluster service IP for the Admin Panel (when applicable)
-        # clusterIP: ""
-        # -- Set traffic policy for external traffic. Set to "Local" to preserve client ip address in case of service type "LoadBalancer" or "NodePort"
-        externalTrafficPolicy: Local
-        # -- Load balancer IP for the Admin Panel (when applicable)
-        # loadBalancerIP:
-        # -- (int) Node port for the Admin Panel (when applicable)
-        # nodePort:
       http:
         type: ClusterIP
-        # -- Service annotations
-        annotations: {}
-        # -- Internal cluster service IP for HTTP (when applicable)
-        clusterIP: ""
-        # -- Set traffic policy for external traffic. Set to "Local" to preserve client ip address in case of service type "LoadBalancer" or "NodePort"
-        externalTrafficPolicy:
-        # -- Load balancer IP for HTTP (when applicable)
-        loadBalancerIP:
-        # -- (int) Node port for HTTP (when applicable)
         port: 80
-        nodePort:
       https:
-        enabled: true
-        type: ClusterIP
-        # -- Service annotations
-        annotations: {}
-        # -- Internal cluster service IP for HTTPS (when applicable)
-        clusterIP: ""
-        # -- Set traffic policy for external traffic. Set to "Local" to preserve client ip address in case of service type "LoadBalancer" or "NodePort"
-        externalTrafficPolicy:
-        # -- Load balancer IP for HTTPS (when applicable)
-        loadBalancerIP:
-        # -- (int) Node port for HTTPS (when applicable)
-        nodePort:
+        enabled: false
+        type: LoadBalancer
         port: 443
       dns:
         enabled: true
-        type: NodePort
-        # -- Service annotations
-        annotations: {}
-        # -- Internal cluster service IP for DNS (when applicable)
-        clusterIP: ""
-        # -- Set traffic policy for external traffic. Set to "Local" to preserve client ip address in case of service type "LoadBalancer" or "NodePort"
-        externalTrafficPolicy:
-        # -- Load balancer IP for DNS (when applicable)
-        loadBalancerIP:
+        type: LoadBalancer
         tcp:
           port: 53
-          nodePort:
         udp:
           port: 53
-          nodePort:
       dnsOverTls:
         enabled: true
-        type: NodePort
-        # -- Service annotations
-        annotations: {}
-        # -- Internal cluster service IP for DNS over TLS (when applicable)
-        clusterIP: ""
-        # -- Set traffic policy for external traffic. Set to "Local" to preserve client ip address in case of service type "LoadBalancer" or "NodePort"
-        externalTrafficPolicy:
-        # -- Load balancer IP for DNS over TLS (when applicable)
-        loadBalancerIP:
-        # -- (int) Node port for DNS over TLS (when applicable)
+        type: LoadBalancer
         port: 853
-        nodePort:
       dnsOverQuic:
         enabled: true
-        type: NodePort
-        # -- Service annotations
-        annotations: {}
+        type: LoadBalancer
         port1:
           port: 784
           nodePort:
         port2:
           port: 8853
           nodePort:
-        # -- Internal cluster service IP for DNS Over QUIC (when applicable)
-        clusterIP: ""
-        # -- Set traffic policy for external traffic. Set to "Local" to preserve client ip address in case of service type "LoadBalancer" or "NodePort"
-        externalTrafficPolicy:
-        # -- Load balancer IP for DNS Over QUIC (when applicable)
-        loadBalancerIP:
       dnscrypt:
         enabled: true
-        type: NodePort
-        # -- Service annotations
-        annotations: {}
-        # -- Internal cluster service IP for DNSCrypt (when applicable)
-        clusterIP: ""
-        # -- Set traffic policy for external traffic. Set to "Local" to preserve client ip address in case of service type "LoadBalancer" or "NodePort"
-        externalTrafficPolicy:
-        # -- Load balancer IP for DNSCrypt (when applicable)
-        loadBalancerIP:
+        type: LoadBalancer
         tcp:
           port: 5443
-          nodePort:
         udp:
           port: 5443
-          nodePort:
 
     ingresses:
       adminPanel:
@@ -167,7 +99,10 @@ spec:
           - host: &host adg-admin.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: ImplementationSpecific
+                pathType: Prefix
+                service:
+                  name: main
+                  port: adminPanel
         tls:
           - hosts:
               - *host
@@ -179,7 +114,10 @@ spec:
           - host: &host adg.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: ImplementationSpecific
+                pathType: Prefix
+                service:
+                  name: main
+                  port: https
         tls:
           - hosts:
               - *host
@@ -191,7 +129,10 @@ spec:
           - host: &host adg.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: ImplementationSpecific
+                pathType: Prefix
+                service:
+                  name: main
+                  port: https
         tls:
           - hosts:
               - *host
