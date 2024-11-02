@@ -41,18 +41,18 @@ spec:
 
     securityContext: {}
     services:
-      adminPanel:
-        enabled: true
-        type: LoadBalancer
-        port: 3000
+      # adminPanel:
+      #   enabled: true
+      #   type: LoadBalancer
+      #   port: 3000
       http:
         enabled: true
         type: LoadBalancer
         port: 80
-      https:
-        enabled: false
-        type: LoadBalancer
-        port: 443
+      # https:
+      #   enabled: false
+      #   type: LoadBalancer
+      #   port: 443
       dns:
         enabled: true
         type: LoadBalancer
@@ -60,43 +60,43 @@ spec:
           port: 53
         udp:
           port: 53
-      dnsOverTls:
-        enabled: true
-        type: LoadBalancer
-        port: 853
-      dnsOverQuic:
-        enabled: true
-        type: LoadBalancer
-        port1:
-          port: 784
-        port2:
-          port: 8853
-        annotations:
-          service.kubernetes.io/load-balancer-class: "loadbalancer"
-      dnscrypt:
-        enabled: true
-        type: LoadBalancer
-        tcp:
-          port: 5443
-        udp:
-          port: 5443
-        annotations:
-          service.kubernetes.io/load-balancer-class: "loadbalancer"
+      # dnsOverTls:
+      #   enabled: true
+      #   type: LoadBalancer
+      #   port: 853
+      # dnsOverQuic:
+      #   enabled: true
+      #   type: LoadBalancer
+      #   port1:
+      #     port: 784
+      #   port2:
+      #     port: 8853
+      #   annotations:
+      #     service.kubernetes.io/load-balancer-class: "loadbalancer"
+      # dnscrypt:
+      #   enabled: true
+      #   type: LoadBalancer
+      #   tcp:
+      #     port: 5443
+      #   udp:
+      #     port: 5443
+      #   annotations:
+      #     service.kubernetes.io/load-balancer-class: "loadbalancer"
     ingresses:
-      adminPanel:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host adg-admin.${SECRET_DOMAIN}
-        paths:
-          - path: /
-            pathType: Prefix
-            service:
-              name: main
-              port: 3000
-        tls:
-          - hosts:
-              - *host
+      # adminPanel:
+      #   enabled: true
+      #   className: internal
+      #   hosts:
+      #     - host: &host adg-admin.${SECRET_DOMAIN}
+      #   paths:
+      #     - path: /
+      #       pathType: Prefix
+      #       service:
+      #         name: main
+      #         port: 3000
+      #   tls:
+      #     - hosts:
+      #         - *host
       http:
         enabled: true
         className: internal
@@ -116,21 +116,21 @@ spec:
         tls:
           - hosts:
               - *host
-      https:
-        enabled: false
-        className: internal
-        annotations: {}
-        hosts:
-          - host: &host adg.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: adminPanel
-        tls:
-          - hosts:
-              - *host
+      # https:
+      #   enabled: false
+      #   className: internal
+      #   annotations: {}
+      #   hosts:
+      #     - host: &host adg.${SECRET_DOMAIN}
+      #       paths:
+      #         - path: /
+      #           pathType: Prefix
+      #           service:
+      #             name: main
+      #             port: adminPanel
+      #   tls:
+      #     - hosts:
+      #         - *host
 
     resources:
       # We usually recommend not to specify default resources and to leave this as a conscious
