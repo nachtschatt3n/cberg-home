@@ -196,9 +196,9 @@ spec:
     hostNetwork: false
 
     # Explicitly set probes to null
-    livenessProbe: null
-    readinessProbe: null
-    startupProbe: null
+    #livenessProbe: null
+    #readinessProbe: null
+    #startupProbe: null
 
     # Or you can uncomment these lines in your existing config
     #priorityClassName: ""
@@ -584,3 +584,38 @@ spec:
         labelSelector:
           matchLabels:
             app: adguard-home
+
+    # Health check probes
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      tcpSocket:
+        port: 53
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+
+    startupProbe:
+      httpGet:
+        path: /
+        port: 80
+      tcpSocket:
+        port: 53
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 30
+      successThreshold: 1
