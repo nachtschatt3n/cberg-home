@@ -273,27 +273,24 @@ spec:
 
 
     persistence:
-      #existingClaim: null
-      volumeClaimSpec:
-        accessModes:
-          - ReadWriteMany
-        persistentVolumeReclaimPolicy: Retain
-        storageClassName: csi-driver-nfs
-        mountOptions:
-          - nfsvers=4.1
-        csi:
-          driver: nfs.csi.k8s.io
-          volumeHandle: "nas_csi_nextcloud_data"
-          volumeAttributes:
-            server: "192.168.31.226"
-            share: "/mnt/user/k8s_csi_nextcloud"
-            subDir: "config"
-        #storageClassName: local-hostpath
-        #accessModes:
-        #  - ReadWriteMany
-        resources:
-          requests:
-            storage: 1Gi
+      existingClaim: adguard-home-config
+      # volumeClaimSpec:
+      #   accessModes:
+      #     - ReadWriteMany
+      #   persistentVolumeReclaimPolicy: Retain
+      #   storageClassName: csi-driver-nfs
+      #   mountOptions:
+      #     - nfsvers=4.1
+      #   csi:
+      #     driver: nfs.csi.k8s.io
+      #     volumeHandle: "nas_csi_nextcloud_data"
+      #     volumeAttributes:
+      #       server: "192.168.31.226"
+      #       share: "/mnt/user/k8s_csi_nextcloud"
+      #       subDir: "config"
+      #   resources:
+      #     requests:
+      #       storage: 1Gi
 
     backup:
       # -- Note that this depends on the Access Mode set for the persistent volume claim (PVC) specified.
