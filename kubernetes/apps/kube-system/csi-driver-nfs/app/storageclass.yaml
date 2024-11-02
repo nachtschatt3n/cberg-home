@@ -8,7 +8,7 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: "192.168.31.226"  # Your NFS server
-  share: "/mnt/user/k8s_csi_nextcloud"  # Your NFS share
+  share: "/mnt/user/k8s_csi"  # Your NFS share
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
