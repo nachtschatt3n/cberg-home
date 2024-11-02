@@ -12,12 +12,6 @@ spec:
   storageClassName: csi-driver-nfs
   mountOptions:
     - nfsvers=4.1
-    - hard
-    - noatime
-    - tcp
-    - timeo=600
-    - retrans=2
-    - noresvport
   csi:
     driver: nfs.csi.k8s.io
     volumeHandle: "nas_csi_adguard_config"
@@ -31,6 +25,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: adguard-home-config
   namespace: networking
+  annotations:
+    pv.kubernetes.io/mount-options: "nfsvers=4.1,nolock,soft,timeo=180"
 spec:
   accessModes:
     - ReadWriteMany
