@@ -585,7 +585,7 @@ spec:
           matchLabels:
             app: adguard-home
 
-    # Health check probes
+    # Health check probes for HTTP
     livenessProbe:
       httpGet:
         path: /
@@ -600,8 +600,6 @@ spec:
       httpGet:
         path: /
         port: 80
-      tcpSocket:
-        port: 53
       initialDelaySeconds: 10
       periodSeconds: 10
       timeoutSeconds: 5
@@ -612,10 +610,29 @@ spec:
       httpGet:
         path: /
         port: 80
-      tcpSocket:
-        port: 53
       initialDelaySeconds: 15
       periodSeconds: 10
       timeoutSeconds: 5
       failureThreshold: 30
       successThreshold: 1
+
+    # Additional container for DNS checks
+    sidecars:
+      dns-probe:
+        name: dns-probe
+        image: busybox:1.36
+        command: ['sh', '-c', 'while true; do sleep 30; done']
+        livenessProbe:
+          tcpSocket:
+            port: 53
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          tcpSocket:
+            port: 53
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
