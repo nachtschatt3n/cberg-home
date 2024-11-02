@@ -12,19 +12,12 @@ spec:
   storageClassName: csi-driver-nfs
   mountOptions:
     - nfsvers=4.1
-    - hard            # Keep retrying if NFS server is temporarily unavailable
-    - noatime         # Don't update access times, reduces write operations
-    - nodiratime      # Don't update directory access times
-    - tcp             # Use TCP for more reliable connection
-    - rsize=262144    # Read buffer size (256KB, good for small DNS files)
-    - wsize=262144    # Write buffer size (256KB)
-    - timeo=600       # Timeout for NFS operations (60 seconds)
-    - retrans=2       # Number of retries for NFS operations
-    - noresvport      # Use new TCP port after network failure
-    - nolock          # Disable NFS file locking
-    - local_lock=none # Disable local file locking
-    - actimeo=3       # Cache attributes for 3 seconds
-    - nocto           # Disable close-to-open consistency
+    - hard
+    - noatime
+    - tcp
+    - timeo=600
+    - retrans=2
+    - noresvport
   csi:
     driver: nfs.csi.k8s.io
     volumeHandle: "nas_csi_adguard_config"
