@@ -64,56 +64,22 @@ spec:
     persistence:
       data:
         enabled: true
-        retain: true
-        storageClass: csi-driver-nfs
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        csi:
-          volumeAttributes:
-            csi.storage.k8s.io/pv/name: paperless-ngx-data-pv
-            subDir: paperless-ngx-data-pv
+        existingClaim: paperless-ngx-data
       log:
         enabled: true
-        retain: true
-        storageClass: csi-driver-nfs
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        csi:
-          volumeAttributes:
-            csi.storage.k8s.io/pv/name: paperless-ngx-log-pv
-            subDir: paperless-ngx-log-pv
+        existingClaim: paperless-ngx-log
       media:
         enabled: true
-        retain: true
         mountPath: /usr/src/paperless/media
-        storageClass: csi-driver-nfs
-        accessMode: ReadWriteOnce
-        size: 15Gi
-        csi:
-          volumeAttributes:
-            csi.storage.k8s.io/pv/name: paperless-ngx-media-pv
-            subDir: paperless-ngx-media-pv
+        existingClaim: paperless-ngx-media
       export:
         enabled: true
         mountPath: /usr/src/paperless/export
-        storageClass: csi-driver-nfs
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        csi:
-          volumeAttributes:
-            csi.storage.k8s.io/pv/name: paperless-ngx-export-pv
-            subDir: paperless-ngx-export-pv
+        existingClaim: paperless-ngx-export
       consume:
         enabled: true
-        retain: true
         mountPath: /usr/src/paperless/consume
-        storageClass: csi-driver-nfs
-        accessMode: ReadWriteOnce
-        size: 4Gi
-        csi:
-          volumeAttributes:
-            csi.storage.k8s.io/pv/name: paperless-ngx-consume-pv
-            subDir: paperless-ngx-consume-pv
+        existingClaim: paperless-ngx-consume
     postgresql:
       enabled: false
     mariadb:
