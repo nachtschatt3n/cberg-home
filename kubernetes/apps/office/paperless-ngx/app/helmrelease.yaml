@@ -68,12 +68,18 @@ spec:
         storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 10Gi
+        csi:
+          volumeAttributes:
+          subDir: "paperless"
       log:
         enabled: true
         retain: true
         storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 1Gi
+        csi:
+          volumeAttributes:
+          subDir: "paperless"
       media:
         enabled: true
         retain: true
@@ -81,12 +87,18 @@ spec:
         storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 15Gi
+        csi:
+          volumeAttributes:
+          subDir: "paperless"
       export:
         enabled: true
         mountPath: /usr/src/paperless/export
         storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 1Gi
+        csi:
+          volumeAttributes:
+          subDir: "paperless"
       consume:
         enabled: true
         retain: true
@@ -94,6 +106,9 @@ spec:
         storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 4Gi
+        csi:
+          volumeAttributes:
+          subDir: "paperless"
     postgresql:
       enabled: false
     mariadb:
