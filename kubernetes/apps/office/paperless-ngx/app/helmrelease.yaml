@@ -69,8 +69,9 @@ spec:
         accessMode: ReadWriteOnce
         size: 10Gi
         csi:
+          volumeHandle: paperless-ngx-data-pv
           volumeAttributes:
-          subDir: "paperless"
+            subDir: "paperless"
       log:
         enabled: true
         retain: true
@@ -78,8 +79,9 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         csi:
+          volumeHandle: paperless-ngx-log-pv
           volumeAttributes:
-          subDir: "paperless"
+            subDir: "paperless"
       media:
         enabled: true
         retain: true
@@ -88,8 +90,9 @@ spec:
         accessMode: ReadWriteOnce
         size: 15Gi
         csi:
+          volumeHandle: paperless-ngx-media-pv
           volumeAttributes:
-          subDir: "paperless"
+            subDir: "paperless"
       export:
         enabled: true
         mountPath: /usr/src/paperless/export
@@ -97,8 +100,9 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         csi:
+          volumeHandle: paperless-ngx-export-pv
           volumeAttributes:
-          subDir: "paperless"
+            subDir: "paperless"
       consume:
         enabled: true
         retain: true
@@ -107,8 +111,9 @@ spec:
         accessMode: ReadWriteOnce
         size: 4Gi
         csi:
+          volumeHandle: paperless-ngx-consume-pv
           volumeAttributes:
-          subDir: "paperless"
+            subDir: "paperless"
     postgresql:
       enabled: false
     mariadb:
