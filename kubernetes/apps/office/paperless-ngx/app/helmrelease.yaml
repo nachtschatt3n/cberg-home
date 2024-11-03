@@ -65,33 +65,33 @@ spec:
       data:
         enabled: true
         retain: true
-        storageClass: "local-hostpath"
+        storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 10Gi
       log:
         enabled: true
         retain: true
-        storageClass: "local-hostpath"
+        storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 1Gi
       media:
         enabled: true
         retain: true
         mountPath: /usr/src/paperless/media
-        storageClass: "local-hostpath"
+        storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 15Gi
       export:
         enabled: true
         mountPath: /usr/src/paperless/export
-        storageClass: "local-hostpath"
+        storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 1Gi
       consume:
         enabled: true
         retain: true
         mountPath: /usr/src/paperless/consume
-        storageClass: "local-hostpath"
+        storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 4Gi
     postgresql:
