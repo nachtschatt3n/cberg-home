@@ -261,7 +261,6 @@ spec:
         cpu: 250m
         memory: 2Gi
       limits:
-        cpu: 500m
         memory: 4Gi
     securityContext:
       capabilities:

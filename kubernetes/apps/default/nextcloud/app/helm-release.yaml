@@ -190,7 +190,6 @@ spec:
         cpu: 100m
         memory: 334M
       limits:
-        cpu: 500m
         memory: 512M
 
     livenessProbe:
