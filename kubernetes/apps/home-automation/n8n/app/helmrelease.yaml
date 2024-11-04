@@ -312,11 +312,11 @@ spec:
       # resources, such as Minikube. If you do want to specify resources, uncomment the following
       # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        cpu: 500m
-        memory: 500Mi
+        cpu: 800m
+        memory: 2Gi
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: false
