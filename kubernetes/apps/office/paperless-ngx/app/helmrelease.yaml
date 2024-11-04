@@ -127,7 +127,7 @@ spec:
           replicaCount: 0
     resources:
       requests:
-        cpu: 100m
-        memory: 450Mi
+        cpu: 50m
+        memory: 256Mi
       limits:
-        memory: 2Gi
+        memory: 1Gi

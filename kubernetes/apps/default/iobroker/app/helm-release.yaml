@@ -258,8 +258,8 @@ spec:
             readOnly: false
     resources:
       requests:
-        cpu: 500m
-        memory: 4G
+        cpu: 250m
+        memory: 3Gi
     securityContext:
           capabilities:
             add:
