@@ -13,6 +13,9 @@ reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
   - nfsvers=4.1
-  - soft
-  - timeo=180
+  - hard
+  - timeo=600
   - retrans=3
+  - actimeo=120
+  - sync
+  - intr
