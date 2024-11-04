@@ -128,14 +128,3 @@ spec:
       runAsGroup: 0
       fsGroup: 0
       fsGroupChangePolicy: "OnRootMismatch"
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: kubernetes.io/hostname
-            operator: NotIn
-            values:
-            - k3s-0
-
-
