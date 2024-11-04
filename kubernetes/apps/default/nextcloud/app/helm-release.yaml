@@ -186,11 +186,12 @@ spec:
         existingClaim: "nextcloud-data"
 
     resources:
-      limits:
-        memory: 512M
       requests:
-        cpu: 10m
+        cpu: 100m
         memory: 334M
+      limits:
+        cpu: 500m
+        memory: 512M
 
     livenessProbe:
       enabled: true
