@@ -259,9 +259,12 @@ spec:
     resources:
       requests:
         cpu: 250m
-        memory: 3Gi
+        memory: 2Gi
+      limits:
+        cpu: 500m
+        memory: 4Gi
     securityContext:
-          capabilities:
+      capabilities:
             add:
               - SYS_ADMIN
               - DAC_READ_SEARCH

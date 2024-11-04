@@ -69,7 +69,10 @@ spec:
       enabled: true
       useExisting: true
       name: influxdb2-data
-    # resources:
-    #   requests:
-    #     cpu: 30m
-    #     memory: 500M
+    resources:
+      requests:
+        cpu: 100m
+        memory: 500M
+      limits:
+        cpu: 500m
+        memory: 1Gi
