@@ -14,8 +14,11 @@ volumeBindingMode: Immediate
 mountOptions:
   - nfsvers=4.1
   - hard
+  - proto=tcp
   - timeo=600
-  - retrans=3
-  - actimeo=120
-  - sync
+  - retrans=2
+  - actimeo=10
+  - noatime
+  - nodiratime
   - intr
+  - local_lock=none
