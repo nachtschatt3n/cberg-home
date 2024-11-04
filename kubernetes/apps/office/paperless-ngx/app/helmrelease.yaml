@@ -37,6 +37,24 @@ spec:
             name: paperless-ngx-secret
             key: PAPERLESS_KEY
       PAPERLESS_URL: "https://paperless.${SECRET_DOMAIN}"
+      PAPERLESS_CONSUMER_DELETE_DUPLICATES: true
+      PAPERLESS_CONSUMER_RECURSIVE: true
+      PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: true
+      PAPERLESS_CONSUMER_POLLING: 10
+      PAPERLESS_CONSUMER_ENABLE_BARCODES: true
+      PAPERLESS_EMAIL_HOST: smtp.gmail.com
+      PAPERLESS_EMAIL_PORT: 587
+      PAPERLESS_EMAIL_USE_TLS: true
+      PAPERLESS_EMAIL_USERNAME:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: PAPERLESS_EMAIL_USERNAME
+      PAPERLESS_EMAIL_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: PAPERLESS_EMAIL_PASSWORD
     service:
       # -- Configures service settings for the chart.
       # @default -- See [values.yaml](./values.yaml)
@@ -47,7 +65,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: external
+        ingressClassName: "external"
         annotations:
           hajimari.io/icon: mdi:file-document-multiple
           nginx.ingress.kubernetes.io/proxy-body-size: 64m
