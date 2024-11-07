@@ -198,10 +198,11 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: internal
+        ingressClassName: "external"
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/appName: "Iobroker"
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
           - host: "iobroker.${SECRET_DOMAIN}"
             paths:
