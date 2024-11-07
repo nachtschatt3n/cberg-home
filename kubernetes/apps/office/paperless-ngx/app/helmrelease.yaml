@@ -144,11 +144,11 @@ spec:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
         - weight: 100
-          podAntiAffinityTerm:
+          podAffinityTerm:
             labelSelector:
               matchExpressions:
               - key: app.kubernetes.io/name
                 operator: In
                 values:
                 - paperless-ngx
-            topologyKey: "kubernetes.io/hostname"
+            topologyKey: kubernetes.io/hostname
