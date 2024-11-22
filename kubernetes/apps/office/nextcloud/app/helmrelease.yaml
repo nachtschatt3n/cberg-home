@@ -143,11 +143,11 @@ spec:
 
       auth:
         database: nextcloud
-        #username: nextcloud
-        #password: changeme
         # Use existing secret (auth.rootPassword, auth.password, and auth.replicationPassword will be ignored).
         # secret must contain the keys mariadb-root-password, mariadb-replication-password and mariadb-password
         existingSecret: nextcloud-config
+        usernameKey: db-username
+        passwordKey: db-password
 
       architecture: standalone
 
