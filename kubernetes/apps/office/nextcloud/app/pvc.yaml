@@ -1,0 +1,99 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nextcloud-data
+spec:
+  capacity:
+    storage: 300Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: csi-driver-nfs
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: "nas_csi_nextcloud_data"
+    volumeAttributes:
+      server: "192.168.31.226"
+      share: "/mnt/user/k8s_csi"
+      subDir: "nextcloud-data"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nextcloud-config
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: csi-driver-nfs
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: "nas_csi_nextcloud_config"
+    volumeAttributes:
+      server: "192.168.31.226"
+      share: "/mnt/user/k8s_csi"
+      subDir: "nextcloud-config"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nextcloud-mariadb
+spec:
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: csi-driver-nfs
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: "nas_csi_nextcloud_mariadb"
+    volumeAttributes:
+      server: "192.168.31.226"
+      share: "/mnt/user/k8s_csi"
+      subDir: "nextcloud-mariadb"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-data
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 300Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-config
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-mariadb
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: csi-driver-nfs

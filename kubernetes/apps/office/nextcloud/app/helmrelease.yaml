@@ -17,7 +17,6 @@ spec:
   timeout: 30m
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -159,10 +158,10 @@ spec:
         persistence:
           enabled: true
           # Use an existing Persistent Volume Claim (must be created ahead of time)
-          # existingClaim: ""
+          existingClaim: "nextcloud-mariadb"
           # storageClass: ""
-          accessMode: ReadWriteOnce
-          size: 8Gi
+          #accessMode: ReadWriteOnce
+          #size: 8Gi
 
     cronjob:
       enabled: true
