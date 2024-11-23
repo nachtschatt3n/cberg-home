@@ -190,7 +190,7 @@ spec:
         cpu: 100m
         memory: 334M
       limits:
-        memory: 512M
+        memory: 2Gi
 
     livenessProbe:
       enabled: true
