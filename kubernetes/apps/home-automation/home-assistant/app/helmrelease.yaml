@@ -88,7 +88,7 @@ spec:
         scene: !include scenes.yaml
     addons:
       codeserver:
-        enabled: true
+        enabled: false
         image:
           repository: ghcr.io/coder/code-server
           tag: 4.19.1
@@ -124,24 +124,21 @@ spec:
         memory: 1Gi
     affinity:
       nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          preference:
-            matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-              - k3s-1
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k3s-1
       podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
               matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - home-assistant
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - home-assistant
             topologyKey: kubernetes.io/hostname
 
     podSecurityContext:
