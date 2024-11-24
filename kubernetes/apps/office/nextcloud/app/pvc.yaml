@@ -14,9 +14,6 @@ spec:
     - nfsvers=4.1
     - hard
     - noatime
-    - nodiratime
-    - noresvport
-    - sync
   csi:
     driver: nfs.csi.k8s.io
     volumeHandle: "nas_csi_nextcloud_data"
@@ -40,9 +37,6 @@ spec:
     - nfsvers=4.1
     - hard
     - noatime
-    - nodiratime
-    - noresvport
-    - sync
   csi:
     driver: nfs.csi.k8s.io
     volumeHandle: "nas_csi_nextcloud_config"
@@ -66,9 +60,6 @@ spec:
     - nfsvers=4.1
     - hard
     - noatime
-    - nodiratime
-    - noresvport
-    - sync
   csi:
     driver: nfs.csi.k8s.io
     volumeHandle: "nas_csi_nextcloud_mariadb"
