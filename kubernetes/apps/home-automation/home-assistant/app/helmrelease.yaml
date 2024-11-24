@@ -52,9 +52,8 @@ spec:
             - *host
     persistence:
       enabled: true
-      storageClass: local-hostpath
-      accessMode: ReadWriteOnce
-      size: 15Gi
+      existingClaim: home-assistant
+
     # Configuration for Home Assistant
     configuration:
       # Enable or disable the configuration setup for Home Assistant
