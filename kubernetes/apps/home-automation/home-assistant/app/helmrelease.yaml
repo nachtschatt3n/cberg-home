@@ -53,6 +53,7 @@ spec:
     persistence:
       storageClass: csi-driver-nfs
       existingVolume: home-assistant-config-pv
+      existingClaim: home-assistant-config
 
     # Configuration for Home Assistant
     configuration:
