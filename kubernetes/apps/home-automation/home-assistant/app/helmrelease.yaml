@@ -25,8 +25,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: local-path-provisioner
-      namespace: kube-system
+    #- name: local-path-provisioner
+    #  namespace: kube-system
   values:
     image:
       repository: ghcr.io/home-assistant/home-assistant
@@ -121,24 +121,24 @@ spec:
         memory: 1000Mi
       limits:
         memory: 1Gi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - k3s-1
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                    - home-assistant
-            topologyKey: kubernetes.io/hostname
+    # affinity:
+    #   nodeAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       nodeSelectorTerms:
+    #         - matchExpressions:
+    #             - key: kubernetes.io/hostname
+    #               operator: In
+    #               values:
+    #                 - k3s-1
+    #   podAntiAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       - labelSelector:
+    #           matchExpressions:
+    #             - key: app.kubernetes.io/name
+    #               operator: In
+    #               values:
+    #                 - home-assistant
+    #         topologyKey: kubernetes.io/hostname
 
     podSecurityContext:
       runAsUser: 0
