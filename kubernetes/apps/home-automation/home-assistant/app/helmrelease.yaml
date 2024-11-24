@@ -51,8 +51,10 @@ spec:
         - hosts:
             - *host
     persistence:
-      enabled: true
-      existingClaim: home-assistant
+      config:
+        enabled: true
+        existingClaim: home-assistant-config
+        #mountPath: /config
 
     # Configuration for Home Assistant
     configuration:
