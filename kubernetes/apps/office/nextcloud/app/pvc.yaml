@@ -7,7 +7,7 @@ spec:
   capacity:
     storage: 300Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: csi-driver-nfs
   mountOptions:
@@ -30,7 +30,7 @@ spec:
   capacity:
     storage: 5Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: csi-driver-nfs
   mountOptions:
@@ -53,7 +53,7 @@ spec:
   capacity:
     storage: 15Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: csi-driver-nfs
   mountOptions:
@@ -74,7 +74,7 @@ metadata:
   name: nextcloud-data
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 300Gi
@@ -86,7 +86,7 @@ metadata:
   name: nextcloud-config
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi
@@ -98,7 +98,7 @@ metadata:
   name: nextcloud-mariadb
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 15Gi
