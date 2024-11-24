@@ -51,10 +51,8 @@ spec:
         - hosts:
             - *host
     persistence:
-      config:
-        enabled: true
-        existingClaim: home-assistant-config
-        #mountPath: /config
+      storageClass: csi-driver-nfs
+      existingVolume: home-assistant-config-pv
 
     # Configuration for Home Assistant
     configuration:
