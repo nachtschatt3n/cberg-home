@@ -122,24 +122,24 @@ spec:
         memory: 1000Mi
       limits:
         memory: 1Gi
-    # affinity:
-    #   nodeAffinity:
-    #     requiredDuringSchedulingIgnoredDuringExecution:
-    #       nodeSelectorTerms:
-    #         - matchExpressions:
-    #             - key: kubernetes.io/hostname
-    #               operator: In
-    #               values:
-    #                 - k3s-1
-    #   podAntiAffinity:
-    #     requiredDuringSchedulingIgnoredDuringExecution:
-    #       - labelSelector:
-    #           matchExpressions:
-    #             - key: app.kubernetes.io/name
-    #               operator: In
-    #               values:
-    #                 - home-assistant
-    #         topologyKey: kubernetes.io/hostname
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - k3s-2
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - home-assistant
+              topologyKey: kubernetes.io/hostname
 
     # podSecurityContext:
     #   runAsUser: 0
