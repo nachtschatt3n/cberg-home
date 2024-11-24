@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: home-assistant-config-pv
+  name: home-assistant-data-pv
 spec:
   capacity:
     storage: 15Gi
@@ -14,7 +14,7 @@ spec:
     - nfsvers=4.1
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: home-assistant-config-nfs
+    volumeHandle: home-assistant-data-nfs
     volumeAttributes:
       server: "192.168.31.226"
       share: "/mnt/user/k8s_csi"

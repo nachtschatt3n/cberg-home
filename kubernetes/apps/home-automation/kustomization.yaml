@@ -1,4 +1,4 @@
 resources:
   - namespace.yaml
-  - home-assistant/ks.yaml # todo: add home-assistant
+#  - home-assistant/ks.yaml # todo: add home-assistant
 #  - n8n/ks.yaml # TODO: add n8n
