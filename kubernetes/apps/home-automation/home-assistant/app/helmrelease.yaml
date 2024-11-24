@@ -51,8 +51,10 @@ spec:
         - hosts:
             - *host
     persistence:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 15Gi
       storageClass: csi-driver-nfs
-      existingVolume: home-assistant-config-pv
       existingClaim: home-assistant-config
 
     # Configuration for Home Assistant
