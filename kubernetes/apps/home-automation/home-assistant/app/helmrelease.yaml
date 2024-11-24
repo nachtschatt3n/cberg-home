@@ -88,33 +88,33 @@ spec:
     addons:
       codeserver:
         enabled: false
-        image:
-          repository: ghcr.io/coder/code-server
-          tag: 4.19.1
-        env:
-          - name: TZ
-            value: "${TIMEZONE}"
-        workingDir: "/config"
-        args:
-          - --auth
-          - "none"
-          - --user-data-dir
-          - "/config/.vscode"
-          - --extensions-dir
-          - "/config/.vscode"
-        ingress:
-          enabled: true
-          ingressClassName: internal
-          annotations:
-            hajimari.io/icon: mdi:microsoft-visual-studio-code
-          hosts:
-            - host: &codehost "hass-code.${SECRET_DOMAIN}"
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - *codehost
+        # image:
+        #   repository: ghcr.io/coder/code-server
+        #   tag: 4.19.1
+        # env:
+        #   - name: TZ
+        #     value: "${TIMEZONE}"
+        # workingDir: "/config"
+        # args:
+        #   - --auth
+        #   - "none"
+        #   - --user-data-dir
+        #   - "/config/.vscode"
+        #   - --extensions-dir
+        #   - "/config/.vscode"
+        # ingress:
+        #   enabled: true
+        #   ingressClassName: internal
+        #   annotations:
+        #     hajimari.io/icon: mdi:microsoft-visual-studio-code
+        #   hosts:
+        #     - host: &codehost "hass-code.${SECRET_DOMAIN}"
+        #       paths:
+        #         - path: /
+        #           pathType: Prefix
+        #   tls:
+        #     - hosts:
+        #         - *codehost
     resources:
       requests:
         cpu: 100m
@@ -140,8 +140,8 @@ spec:
     #                 - home-assistant
     #         topologyKey: kubernetes.io/hostname
 
-    podSecurityContext:
-      runAsUser: 0
-      runAsGroup: 0
-      fsGroup: 0
-      fsGroupChangePolicy: "OnRootMismatch"
+    # podSecurityContext:
+    #   runAsUser: 0
+    #   runAsGroup: 0
+    #   fsGroup: 0
+    #   fsGroupChangePolicy: "OnRootMismatch"
