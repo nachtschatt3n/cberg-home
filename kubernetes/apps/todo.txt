@@ -1,0 +1,5 @@
+ - https://github.com/CollaboraOnline/online
+ - https://github.com/docusealco/docuseal?tab=readme-ov-file
+ - https://github.com/semaphoreui/semaphore
+ - https://github.com/wekan/wekan
+ - https://github.com/rommapp/romm?tab=readme-ov-file#installation

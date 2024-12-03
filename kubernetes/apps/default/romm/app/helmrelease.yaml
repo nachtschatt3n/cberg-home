@@ -1,0 +1,88 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: romm
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: romm
+      version: 1.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: romm
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: ghcr.io/zurdi15/romm
+      tag: v1.1.0
+      pullPolicy: IfNotPresent
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: mdi:nintendo-switch
+          hajimari.io/appName: "ROMM"
+        hosts:
+          - host: &host "romm.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      config:
+        enabled: true
+        type: pvc
+        size: 1Gi
+        storageClass: local-hostpath
+      roms:
+        enabled: true
+        type: pvc
+        size: 100Gi
+        storageClass: local-hostpath
+        mountPath: /roms
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+
+    env:
+      - name: TZ
+        value: "${TIMEZONE}"
+      - name: PUID
+        value: "1000"
+      - name: PGID
+        value: "1000"
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 2000
+      fsGroupChangePolicy: "OnRootMismatch"
