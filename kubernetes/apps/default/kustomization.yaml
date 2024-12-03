@@ -6,3 +6,4 @@ resources:
   - ./hajimari/ks.yaml
   - ./influxdb/ks.yaml
   - ./iobroker/ks.yaml
+  - ./romm/ks.yaml
