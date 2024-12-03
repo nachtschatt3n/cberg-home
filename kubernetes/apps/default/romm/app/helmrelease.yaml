@@ -26,39 +26,45 @@ spec:
     keepHistory: false
   values:
     image:
-      repository: ghcr.io/zurdi15/romm
-      tag: v1.1.0
+      repository: zurdi15/romm
+      #tag: v1.1.0
       pullPolicy: IfNotPresent
 
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: mdi:nintendo-switch
-          hajimari.io/appName: "ROMM"
-        hosts:
-          - host: &host "romm.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
+    serviceAccount:
+      create: true
 
-    persistence:
-      config:
-        enabled: true
-        type: pvc
-        size: 1Gi
-        storageClass: local-hostpath
-      roms:
-        enabled: true
-        type: pvc
-        size: 100Gi
-        storageClass: local-hostpath
-        mountPath: /roms
+    podSecurityContext:
+      fsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroupChangePolicy: "OnRootMismatch"
+      seccompProfile:
+        type: RuntimeDefault
+
+    securityContext:
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+
+    ingress:
+      enabled: true
+      className: internal
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/icon: mdi:nintendo-switch
+        hajimari.io/appName: "ROMM"
+        nginx.ingress.kubernetes.io/proxy-body-size: 256m
+      hosts:
+        - host: &host "romm.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - hosts:
+            - *host
 
     resources:
       requests:
@@ -67,22 +73,75 @@ spec:
       limits:
         memory: 256Mi
 
+    persistence:
+      resources:
+        enabled: true
+        volumeClaimSpec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+      logs:
+        enabled: true
+        volumeClaimSpec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 256Mi
+
+    mariadb:
+      enabled: true
+      auth:
+        database: romm
+        username: romm
+
+      primary:
+        persistence:
+          enabled: true
+          storageClass: local-hostpath
+          size: 8Gi
+
+    redis:
+      enabled: true
+      redisPort: 6379
+      architecture: standalone
+      auth:
+        enabled: true
+
+    romm:
+      config:
+        auth:
+          enabled: true
+          username: admin
+        filesystem_watcher:
+          enabled: true
+          scan_delay: 5
+        scheduled_tasks:
+          filesystem_scan:
+            enabled: true
+            cron: "0 3 * * *"
+          switch_titledb_update:
+            enabled: true
+            cron: "0 4 * * *"
+          mame_xml_update:
+            enabled: true
+            cron: "0 5 * * *"
+        database:
+          type: mariadb
+
+    mediaVolume:
+      enabled: true
+      name: roms
+      readOnly: false
+      volumeSpec:
+        accessModes:
+          - ReadWriteOnce
+        capacity:
+          storage: 100Gi
+        storageClassName: local-hostpath
+
     env:
       - name: TZ
         value: "${TIMEZONE}"
-      - name: PUID
-        value: "1000"
-      - name: PGID
-        value: "1000"
-
-    service:
-      main:
-        ports:
-          http:
-            port: 8080
-
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 2000
-      fsGroupChangePolicy: "OnRootMismatch"
