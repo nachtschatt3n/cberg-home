@@ -36,8 +36,6 @@ spec:
       logs:
         enabled: true
         existingClaim: romm-logs
-      database:
-        enabled: false
 
     mariadb:
       enabled: true
@@ -59,7 +57,3 @@ spec:
         persistence:
           enabled: true
           existingClaim: romm-redis
-
-    library:
-      enabled: true
-      existingClaim: romm-resources
