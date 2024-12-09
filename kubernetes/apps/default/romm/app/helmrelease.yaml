@@ -32,10 +32,10 @@ spec:
     persistence:
       resources:
         enabled: true
-        existingClaim: romm-resources
+        existingClaim: "romm-resources"
       logs:
         enabled: true
-        existingClaim: romm-logs
+        existingClaim: "romm-logs"
 
     mariadb:
       enabled: true
@@ -46,7 +46,7 @@ spec:
       primary:
         persistence:
           enabled: true
-          existingClaim: romm-database
+          existingClaim: "romm-database"
 
     redis:
       enabled: true
@@ -56,4 +56,4 @@ spec:
       master:
         persistence:
           enabled: true
-          existingClaim: romm-redis
+          existingClaim: "romm-redis"
