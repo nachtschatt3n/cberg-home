@@ -5,6 +5,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: romm-resources
   namespace: default
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: romm
+    meta.helm.sh/release-namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
@@ -18,6 +23,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: romm-logs
   namespace: default
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: romm
+    meta.helm.sh/release-namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
@@ -31,6 +41,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: romm-database
   namespace: default
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: romm
+    meta.helm.sh/release-namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
@@ -44,6 +59,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: romm-redis
   namespace: default
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: romm
+    meta.helm.sh/release-namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
