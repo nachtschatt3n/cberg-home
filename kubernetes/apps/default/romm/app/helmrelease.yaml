@@ -32,12 +32,24 @@ spec:
     persistence:
       resources:
         enabled: true
-        existingClaim: romm-resources-pvc
+        volumeSpec:
+          storageClassName: csi-driver-nfs
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 15Gi
       logs:
         enabled: true
-        existingClaim: romm-logs-pvc
+        volumeSpec:
+          storageClassName: csi-driver-nfs
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
       database:
-        enabled: false # only needed for sqlite
+        enabled: false
 
     mariadb:
       enabled: true
@@ -48,19 +60,19 @@ spec:
       primary:
         persistence:
           enabled: true
-          existingClaim: romm-database-pvc
+          storageClass: csi-driver-nfs
+          size: 10Gi
 
     redis:
       enabled: true
       architecture: standalone
       auth:
         enabled: true
-        existingSecret: romm-redis
-        existingSecretPasswordKey: redis-password
       master:
         persistence:
           enabled: true
-          existingClaim: romm-redis-pvc
+          storageClass: csi-driver-nfs
+          size: 2Gi
 
     config:
       auth:
@@ -158,5 +170,6 @@ spec:
         storageClassName: csi-driver-nfs
         accessModes:
           - ReadWriteOnce
-        capacity:
-          storage: 5Gi
+        resources:
+          requests:
+            storage: 5Gi
