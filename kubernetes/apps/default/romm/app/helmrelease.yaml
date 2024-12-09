@@ -32,10 +32,11 @@ spec:
       resources:
         enabled: true
         existingClaim: romm-resources
-
+        storageClassName: csi-driver-nfs
       database:
         enabled: true
         existingClaim: romm-database
+        storageClassName: csi-driver-nfs
       logs:
         enabled: false
     mariadb:
