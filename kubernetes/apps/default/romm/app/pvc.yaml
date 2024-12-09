@@ -11,7 +11,7 @@ metadata:
     meta.helm.sh/release-namespace: default
 spec:
   capacity:
-    storage: 15Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -37,7 +37,7 @@ metadata:
     meta.helm.sh/release-namespace: default
 spec:
   capacity:
-    storage: 10Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -65,9 +65,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 15Gi
   storageClassName: csi-driver-nfs
 ---
 apiVersion: v1
@@ -83,7 +80,4 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
   storageClassName: csi-driver-nfs

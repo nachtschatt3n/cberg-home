@@ -40,9 +40,9 @@ spec:
       logs:
         enabled: false
     mariadb:
-      enabled: false
+      enabled: true
     redis:
-      enabled: false
+      enabled: true
 
     romm:
       config:
@@ -75,7 +75,7 @@ spec:
             cron: 0 5 * * *
         database:
           # -- type can either be mariadb or sqlite
-          type: sqlite
+          type: mariadb
 
         igdb_api:
           # -- use an pre-existing secret to provide credentials
