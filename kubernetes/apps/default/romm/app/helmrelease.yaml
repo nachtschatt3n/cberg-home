@@ -6,6 +6,14 @@ metadata:
   namespace: default
 spec:
   interval: 30m
+  serviceAccount:
+    # -- Specifies whether a service account should be created
+    create: true
+    # -- Annotations to add to the service account
+    annotations: {}
+    # -- The name of the service account to use.
+    #    If not set and create is true, a name is generated using the fullname template
+    name: ""
   chart:
     spec:
       chart: romm
@@ -98,44 +106,6 @@ spec:
               requests:
                 storage: 2Gi
             storageClassName: csi-driver-nfs
-
-serviceAccount:
-  # -- Specifies whether a service account should be created
-  create: true
-  # -- Annotations to add to the service account
-  annotations: {}
-  # -- The name of the service account to use.
-  #    If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-# -- If needed, set some annotations to the deployed pods
-podAnnotations: {}
-
-podSecurityContext:
-  # -- set filesystem group access to the same as runAsGroup
-  fsGroup: 1000
-  # -- ensure the container dosnt run with not-needed root permissions
-  runAsNonRoot: true
-  # -- run the deployment as a user with this UID
-  runAsUser: 1000
-  # -- run the deployment as a group with this GID, should match fsGroup above
-  runAsGroup: 1000
-  # -- change fs mount permissions if they are not matching desired fsGroup
-  fsGroupChangePolicy: "OnRootMismatch"
-  seccompProfile:
-    # -- secure computing mode - see: https://kubernetes.io/docs/tutorials/security/seccomp/
-    type: RuntimeDefault
-
-securityContext:
-  capabilities:
-    # -- drop unneccessary permissions
-    drop:
-    - ALL
-  # -- mount / as readonly, writeable directorys are explicitely mounted
-  readOnlyRootFilesystem: true
-  # -- Controls whether a process can gain more privileges than its parent process
-  allowPrivilegeEscalation: false
-
 romm:
   config:
     auth:
@@ -225,18 +195,18 @@ romm:
         gc: 'ngc'
         psx: 'ps'
 
-# -- The list of additional volumes that will be mounted inside romm pod, this one to `/romm/library`.
-# @default -- See [values.yaml](./values.yaml)
-mediaVolume:
-  enabled: true
-  name: library # this volume will be mounted into `/romm/library`
-  volumeSpec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 15Gi
-    storageClassName: csi-driver-nfs
+  # -- The list of additional volumes that will be mounted inside romm pod, this one to `/romm/library`.
+  # @default -- See [values.yaml](./values.yaml)
+  mediaVolume:
+    enabled: true
+    name: library # this volume will be mounted into `/romm/library`
+    volumeSpec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 15Gi
+      storageClassName: csi-driver-nfs
 
 #   readOnly: false # is this volume readonly ? (optional, default true)
 #   volumeSpec: # see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#persistentvolumespec-v1-core
