@@ -65,6 +65,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
   storageClassName: csi-driver-nfs
 ---
 apiVersion: v1
@@ -80,4 +83,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
   storageClassName: csi-driver-nfs
