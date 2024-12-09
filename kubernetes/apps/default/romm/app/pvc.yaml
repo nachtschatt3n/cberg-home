@@ -1,4 +1,5 @@
 ---
+# PersistentVolumes
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -19,19 +20,6 @@ spec:
       server: "192.168.31.226"
       share: "/mnt/user/k8s_csi"
       subDir: "romm-resources"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-resources
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 15Gi
-  storageClassName: csi-driver-nfs
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -55,19 +43,6 @@ spec:
       subDir: "romm-logs"
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-logs
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  storageClassName: csi-driver-nfs
----
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: romm-database-pv
@@ -89,19 +64,6 @@ spec:
       subDir: "romm-database"
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-database
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: csi-driver-nfs
----
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: romm-redis-pv
@@ -121,16 +83,3 @@ spec:
       server: "192.168.31.226"
       share: "/mnt/user/k8s_csi"
       subDir: "romm-redis"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-redis
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: csi-driver-nfs

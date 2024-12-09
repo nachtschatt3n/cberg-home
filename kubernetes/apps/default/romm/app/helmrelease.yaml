@@ -32,16 +32,26 @@ spec:
     persistence:
       resources:
         enabled: true
+        name: romm-resources-pvc
         volumeClaimSpec:
-          existingClaim: romm-resources
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 15Gi
+          storageClassName: csi-driver-nfs
       logs:
         enabled: true
+        name: romm-logs-pvc
         volumeClaimSpec:
-          existingClaim: romm-logs
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 15Gi
+          storageClassName: csi-driver-nfs
       database:
-        enabled: true
-        volumeClaimSpec:
-          existingClaim: romm-database
+        enabled: false # only needed for sqlite
 
     ingress:
       enabled: true
@@ -63,7 +73,15 @@ spec:
       primary:
         persistence:
           enabled: true
-          existingClaim: romm-database
+          name: romm-database-pvc
+          volumeClaimSpec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+            storageClassName: csi-driver-nfs
+
     redis:
       enabled: true
       architecture: standalone
@@ -72,4 +90,184 @@ spec:
       master:
         persistence:
           enabled: true
-          existingClaim: romm-redis
+          name: romm-redis-pvc
+          volumeClaimSpec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 2Gi
+            storageClassName: csi-driver-nfs
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  #    If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- If needed, set some annotations to the deployed pods
+podAnnotations: {}
+
+podSecurityContext:
+  # -- set filesystem group access to the same as runAsGroup
+  fsGroup: 1000
+  # -- ensure the container dosnt run with not-needed root permissions
+  runAsNonRoot: true
+  # -- run the deployment as a user with this UID
+  runAsUser: 1000
+  # -- run the deployment as a group with this GID, should match fsGroup above
+  runAsGroup: 1000
+  # -- change fs mount permissions if they are not matching desired fsGroup
+  fsGroupChangePolicy: "OnRootMismatch"
+  seccompProfile:
+    # -- secure computing mode - see: https://kubernetes.io/docs/tutorials/security/seccomp/
+    type: RuntimeDefault
+
+securityContext:
+  capabilities:
+    # -- drop unneccessary permissions
+    drop:
+    - ALL
+  # -- mount / as readonly, writeable directorys are explicitely mounted
+  readOnlyRootFilesystem: true
+  # -- Controls whether a process can gain more privileges than its parent process
+  allowPrivilegeEscalation: false
+
+# -- Limit the pods ressources if needed
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# -- Define a subset of worker nodes where the deployment can be scheduled on
+nodeSelector: {}
+
+# -- setup tolerations if you for example want to have a dedicated worker node that only runs romm
+tolerations: []
+
+# -- define affinity, to have the pod run on the same node as other specific things
+affinity: {}
+
+romm:
+  config:
+    auth:
+      # -- enable romm's integrated authentication mechanics (this requires redis to be available)
+      enabled: false
+      # -- default username for the admin user
+      username: admin
+      # -- default password for the admin user
+      password: admin
+      # -- use an pre-existing secret to provide credentials
+      #    it should contain the keys romm-user and romm-pass
+      existing_secret:
+    filesystem_watcher:
+      # -- enable inotify filesystem watcher mechanics to automatically add new roms and pick up changes as they happen
+      enabled: true
+      scan_delay: 5
+    scheduled_tasks:
+      filesystem_scan:
+        enabled: true
+        # -- Cron expression for the scheduled scan (default: 0 3 * * * - At 3:00 AM every day)
+        cron: 0 3 * * *
+      switch_titledb_update:
+        enabled: true
+        # -- Cron expression to update switch titledb (default: 0 4 * * * - At 4:00 AM every day)
+        cron: 0 4 * * *
+      mame_xml_update:
+        enabled: true
+        # -- Cron expression to update mame xml database (default: 0 5 * * * - At 5:00 AM every day)
+        cron: 0 5 * * *
+    database:
+      # -- type can either be mariadb or sqlite
+      type: mariadb
+      # -- only needed when type is mariadb and mariadb.enabled is set to false
+      #    meaning you would use an external already existing mariadb instance
+      # @default -- See [values.yaml](./values.yaml)
+    igdb_api:
+      # -- use an pre-existing secret to provide credentials
+      #    it should contain the keys igdb-client-id and igdb-client-secret
+      existing_secret:
+      # -- setup your igdb api client_id, get one from https://api-docs.igdb.com/#getting-started
+      client_id: CHANGEME_IGDB_CLIENT_ID
+      # -- setup your igdb api client_secret, get it from https://api-docs.igdb.com/#getting-started
+      client_secret: CHANGEME_IGDB_CLIENT_SECRET
+    steamgriddb_api:
+      # -- work in progress and not fully implemented yet
+      api_key: CHANGEME_STEAMGRIDDB_API_KEY
+  settings:
+    exclude:
+      # -- Exclude platforms to be scanned
+      platforms:
+        - 'romm'
+
+      # -- Exclude roms or parts of roms to be scanned
+      # @default -- See [values.yaml](./values.yaml)
+      roms:
+        # Single file games section
+        single_file:
+          # -- Exclude matched file names to be scanned
+          names:
+            - 'info.txt'
+          # -- Exclude all files with certain extensions to be scanned
+          extensions:
+            - 'xml'
+
+        # Multi files games section
+        multi_file:
+          # -- Exclude matched 'folder' (RomM identifies folders as multi file games) names to be scanned
+          names:
+            - 'my_multi_file_game'
+            - 'DLC'
+          parts:
+            # -- Exclude matched file names to be scanned from multi file roms
+            #    Keep in mind that RomM doesn't scan folders inside multi files games,
+            #    so there is no need to exclude folders from inside of multi files games.
+            names:
+              - 'data.xml'
+            # -- Exclude all files with certain extensions to be scanned from multi file roms
+            extensions:
+              - 'txt'
+
+    # Asociate different platform names to your current file system platform names
+    system:
+      # -- use to overwrite romm's expected folder names for platforms with your own custom names
+      # @default -- See [values.yaml](./values.yaml)
+      platforms:
+        # [your custom platform folder name]: [RomM platform name]
+        gc: 'ngc'
+        psx: 'ps'
+
+# -- The list of additional volumes that will be mounted inside romm pod, this one to `/romm/library`.
+# @default -- See [values.yaml](./values.yaml)
+mediaVolume:
+  enabled: true
+  name: library # this volume will be mounted into `/romm/library`
+  volumeSpec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 15Gi
+    storageClassName: csi-driver-nfs
+
+#   readOnly: false # is this volume readonly ? (optional, default true)
+#   volumeSpec: # see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#persistentvolumespec-v1-core
+#     accessModes:
+#       - ReadWriteOnce
+#     capacity:
+#       storage: 8Ti
+#     nfs:
+#       path: /nas/games
+#       server: my-nfs-server.example.com
+
+
