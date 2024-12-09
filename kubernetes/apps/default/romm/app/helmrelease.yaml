@@ -32,38 +32,12 @@ spec:
     persistence:
       resources:
         enabled: true
-        name: romm-resources-pvc
-        volumeClaimSpec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 15Gi
-          storageClassName: csi-driver-nfs
+        existingClaim: romm-resources-pvc
       logs:
         enabled: true
-        name: romm-logs-pvc
-        volumeClaimSpec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 15Gi
-          storageClassName: csi-driver-nfs
+        existingClaim: romm-logs-pvc
       database:
         enabled: false # only needed for sqlite
-
-    ingress:
-      enabled: true
-      className: internal
-      hosts:
-        - host: &host "romm.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls:
-        - hosts:
-            - *host
 
     mariadb:
       enabled: true
@@ -73,14 +47,7 @@ spec:
       primary:
         persistence:
           enabled: true
-          name: romm-database-pvc
-          volumeClaimSpec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 10Gi
-            storageClassName: csi-driver-nfs
+          existingClaim: romm-database-pvc
 
     redis:
       enabled: true
@@ -89,7 +56,9 @@ spec:
         enabled: true
       master:
         persistence:
-          enabled: false
+          enabled: true
+          existingClaim: romm-redis-pvc
+
     config:
       auth:
         # -- enable romm's integrated authentication mechanics (this requires redis to be available)
@@ -182,19 +151,5 @@ spec:
     # @default -- See [values.yaml](./values.yaml)
     mediaVolume:
       enabled: true
-      name: library # this volume will be mounted into `/romm/library`
-      # volumeSpec:
-      #   accessModes:
-      #     - ReadWriteOnce
-      #   resources:
-      #     requests:
-      #       storage: 15Gi
-      #   storageClassName: csi-driver-nfs
-
-      readOnly: false # is this volume readonly ? (optional, default true)
-      volumeSpec: # see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#persistentvolumespec-v1-core
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          storage: 15Gi
-        storageClassName: csi-driver-nfs
+      name: library
+      existingClaim: romm-resources-pvc
