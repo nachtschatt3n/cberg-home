@@ -44,6 +44,7 @@ spec:
       auth:
         database: romm
         username: romm
+        password: romm
       primary:
         persistence:
           enabled: true
@@ -54,10 +55,12 @@ spec:
       architecture: standalone
       auth:
         enabled: true
+        existingSecret: romm-redis
+        existingSecretPasswordKey: redis-password
       master:
         persistence:
-          enabled: true
-          existingClaim: romm-redis-pvc
+          enabled: false
+          #existingClaim: romm-redis-pvc
 
     config:
       auth:
