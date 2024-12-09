@@ -47,7 +47,7 @@ spec:
       config:
         auth:
           # -- enable romm's integrated authentication mechanics (this requires redis to be available)
-          enabled: true
+          enabled: false
           # -- default username for the admin user
           username: admin
           # -- default password for the admin user
