@@ -106,7 +106,6 @@ spec:
               requests:
                 storage: 2Gi
             storageClassName: csi-driver-nfs
-  romm:
     config:
       auth:
         # -- enable romm's integrated authentication mechanics (this requires redis to be available)
