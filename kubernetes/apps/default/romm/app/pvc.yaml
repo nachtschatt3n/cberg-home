@@ -14,7 +14,7 @@ spec:
     storage: 15Gi
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: csi-driver-nfs
   mountOptions:
     - nfsvers=4.1
@@ -40,7 +40,7 @@ spec:
     storage: 10Gi
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: csi-driver-nfs
   mountOptions:
     - nfsvers=4.1
