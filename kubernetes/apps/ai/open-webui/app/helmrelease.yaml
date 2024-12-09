@@ -90,16 +90,12 @@ spec:
         hajimari.io/group: "ai"
         external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
     persistence:
-      enabled: false
-      size: 2Gi
+      enabled: true
       # -- Use existingClaim if you want to re-use an existing Open WebUI PVC instead of creating a new one
-      existingClaim: ""
+      existingClaim: open-webui-data
       # -- If using multiple replicas, you must update accessModes to ReadWriteMany
       accessModes:
         - ReadWriteOnce
-      storageClass: ""
-      selector: {}
-      annotations: {}
 
     # -- Node labels for pod assignment.
     nodeSelector: {}
