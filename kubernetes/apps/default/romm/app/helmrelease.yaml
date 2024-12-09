@@ -190,23 +190,23 @@ spec:
     # @default -- See [values.yaml](./values.yaml)
     mediaVolume:
       enabled: true
-      name: library # this volume will be mounted into `/romm/library`
-      volumeSpec:
+      # name: library # this volume will be mounted into `/romm/library`
+      # volumeSpec:
+      #   accessModes:
+      #     - ReadWriteOnce
+      #   resources:
+      #     requests:
+      #       storage: 15Gi
+      #   storageClassName: csi-driver-nfs
+
+      readOnly: false # is this volume readonly ? (optional, default true)
+      volumeSpec: # see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#persistentvolumespec-v1-core
         accessModes:
           - ReadWriteOnce
-        resources:
-          requests:
-            storage: 15Gi
-        storageClassName: csi-driver-nfs
-
-  #   readOnly: false # is this volume readonly ? (optional, default true)
-  #   volumeSpec: # see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#persistentvolumespec-v1-core
-  #     accessModes:
-  #       - ReadWriteOnce
-  #     capacity:
-  #       storage: 8Ti
-  #     nfs:
-  #       path: /nas/games
-  #       server: my-nfs-server.example.com
+        capacity:
+          storage: 8Ti
+        nfs:
+          path: /mnt/user/k8s_csi/romm-resources
+          server: 192.168.31.226
 
 
