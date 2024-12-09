@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: romm
-      version: 0.2.20
+      version: 0.2.19
       sourceRef:
         kind: HelmRepository
         name: crystalnet
