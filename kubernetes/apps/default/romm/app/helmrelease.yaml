@@ -63,9 +63,7 @@ spec:
       primary:
         persistence:
           enabled: true
-          storageClass: csi-driver-nfs
-          size: 8Gi
-
+          existingClaim: romm-database
     redis:
       enabled: true
       architecture: standalone
@@ -74,5 +72,4 @@ spec:
       master:
         persistence:
           enabled: true
-          storageClass: csi-driver-nfs
-          size: 2Gi
+          existingClaim: romm-redis
