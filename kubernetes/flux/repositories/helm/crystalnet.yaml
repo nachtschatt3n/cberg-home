@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: romm
+  name: crystalnet
   namespace: flux-system
 spec:
   type: oci
   interval: 1h
-  url: oci://harbor.crystalnet.org/charts/romm
+  url: oci://harbor.crystalnet.org/charts

@@ -29,4 +29,4 @@ resources:
   - ./n8n.yaml
   - ./dirsigler.yaml
   - ./rm3l.yaml
-  - ./romm.yaml
+  - ./crystalnet.yaml
