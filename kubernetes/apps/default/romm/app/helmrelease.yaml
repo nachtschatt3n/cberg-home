@@ -59,8 +59,8 @@ spec:
         existingSecretPasswordKey: redis-password
       master:
         persistence:
-          enabled: false
-          #existingClaim: romm-redis-pvc
+          enabled: true
+          existingClaim: romm-redis-pvc
 
     config:
       auth:
@@ -154,10 +154,5 @@ spec:
     mediaVolume:
       enabled: true
       name: library
-      volumeSpec:
-        storageClassName: csi-driver-nfs
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 15Gi
+      type: pvc
+      existingClaim: romm-resources-pvc
