@@ -152,4 +152,5 @@ spec:
     mediaVolume:
       enabled: true
       name: library
+      type: pvc
       existingClaim: romm-resources-pvc
