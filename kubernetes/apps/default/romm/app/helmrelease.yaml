@@ -32,12 +32,12 @@ spec:
       resources:
         enabled: true
         existingClaim: romm-resources
+
       database:
         enabled: true
         existingClaim: romm-database
       logs:
-        enabled: true
-        existingClaim: romm-logs
+        enabled: false
     mariadb:
       enabled: false
     redis:
