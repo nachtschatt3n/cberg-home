@@ -203,12 +203,10 @@ spec:
       volumeSpec: # see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#persistentvolumespec-v1-core
         accessModes:
           - ReadWriteOnce
+        resources:
+          requests:
+            storage: 15Gi
         storageClassName: csi-driver-nfs
-        capacity:
-          storage: 50Gi
-        nfs:
-          path: /mnt/user/k8s_csi/romm-resources
-          server: 192.168.31.226
         csi:
           driver: nfs.csi.k8s.io
           volumeHandle: "nas_csi_romm_resources"
