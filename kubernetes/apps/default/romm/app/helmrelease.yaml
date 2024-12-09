@@ -17,17 +17,21 @@ spec:
   maxHistory: 2
   install:
     remediation:
-      retries: 3
+      retries: 1
   upgrade:
     cleanupOnFail: true
     remediation:
-      retries: 3
+      retries: 1
   uninstall:
     keepHistory: false
   values:
     image:
       repository: zurdi15/romm
       pullPolicy: IfNotPresent
+
+    persistence:
+      enabled: true
+      existingClaim: romm-data
 
     ingress:
       enabled: true
@@ -46,9 +50,19 @@ spec:
       auth:
         database: romm
         username: romm
+      primary:
+        persistence:
+          enabled: true
+          storageClass: csi-driver-nfs
+          size: 8Gi
 
     redis:
       enabled: true
       architecture: standalone
       auth:
         enabled: true
+      master:
+        persistence:
+          enabled: true
+          storageClass: csi-driver-nfs
+          size: 2Gi
