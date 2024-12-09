@@ -3,12 +3,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: romm-resources
-  labels:
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: romm
-    meta.helm.sh/release-namespace: default
+  name: romm-resources-pv
 spec:
   capacity:
     storage: 15Gi
@@ -29,12 +24,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: romm-logs
-  labels:
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: romm
-    meta.helm.sh/release-namespace: default
+  name: romm-logs-pv
 spec:
   capacity:
     storage: 5Gi
@@ -55,12 +45,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: romm-database
-  labels:
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: romm
-    meta.helm.sh/release-namespace: default
+  name: romm-database-pv
 spec:
   capacity:
     storage: 10Gi
@@ -81,12 +66,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: romm-redis
-  labels:
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: romm
-    meta.helm.sh/release-namespace: default
+  name: romm-redis-pv
 spec:
   capacity:
     storage: 2Gi

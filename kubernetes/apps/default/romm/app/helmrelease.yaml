@@ -30,30 +30,21 @@ spec:
       pullPolicy: IfNotPresent
 
     persistence:
+
       resources:
         enabled: true
-        existingClaim: "romm-resources"
+        existingClaim: romm-resources
+
+      database:
+        enabled: true
+        existingClaim: romm-database
+
       logs:
         enabled: true
-        existingClaim: "romm-logs"
+        existingClaim: romm-logs
 
     mariadb:
-      enabled: true
-      auth:
-        database: romm
-        username: romm
-        password: romm
-      primary:
-        persistence:
-          enabled: true
-          existingClaim: "romm-database"
+      enabled: false
 
     redis:
-      enabled: true
-      architecture: standalone
-      auth:
-        enabled: true
-      master:
-        persistence:
-          enabled: true
-          existingClaim: "romm-redis"
+      enabled: false
