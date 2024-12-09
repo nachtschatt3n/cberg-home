@@ -30,8 +30,15 @@ spec:
       pullPolicy: IfNotPresent
 
     persistence:
-      enabled: true
-      existingClaim: romm-data
+      resources:
+        enabled: true
+        existingClaim: romm-data
+      logs:
+        enabled: true
+        existingClaim: romm-data
+      database:
+        enabled: true
+        existingClaim: romm-data
 
     ingress:
       enabled: true
