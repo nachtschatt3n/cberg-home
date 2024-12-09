@@ -1,4 +1,58 @@
 ---
+# PersistentVolumeClaims
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-resources
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-logs
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-database
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-redis
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: csi-driver-nfs
+---
+
 # PersistentVolumes
 apiVersion: v1
 kind: PersistentVolume
@@ -83,56 +137,3 @@ spec:
       server: "192.168.31.226"
       share: "/mnt/user/k8s_csi"
       subDir: "romm-redis"
----
-# PersistentVolumeClaims
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-resources-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 15Gi
-  storageClassName: csi-driver-nfs
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-logs-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  storageClassName: csi-driver-nfs
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-database-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: csi-driver-nfs
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: romm-redis-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: csi-driver-nfs

@@ -158,6 +158,5 @@ spec:
         storageClassName: csi-driver-nfs
         accessModes:
           - ReadWriteOnce
-        resources:
-          requests:
-            storage: 15Gi
+        capacity:
+          storage: 5Gi
