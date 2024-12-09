@@ -148,9 +148,13 @@ spec:
           psx: 'ps'
 
     # -- The list of additional volumes that will be mounted inside romm pod, this one to `/romm/library`.
-    # @default -- See [values.yaml](./values.yaml)
     mediaVolume:
       enabled: true
       name: library
-      type: pvc
-      existingClaim: romm-resources-pvc
+      volumeSpec:
+        storageClassName: csi-driver-nfs
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 15Gi
