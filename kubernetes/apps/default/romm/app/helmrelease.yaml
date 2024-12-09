@@ -154,5 +154,10 @@ spec:
     mediaVolume:
       enabled: true
       name: library
-      type: pvc
-      existingClaim: romm-resources-pvc
+      volumeSpec:
+        storageClassName: csi-driver-nfs
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 15Gi
