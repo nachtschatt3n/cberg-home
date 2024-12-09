@@ -31,11 +31,11 @@ spec:
     persistence:
       resources:
         enabled: true
-        existingClaim: romm-resources
+        existingClaim: romm-res
 
       database:
         enabled: true
-        existingClaim: romm-database
+        existingClaim: romm-data
       logs:
         enabled: false
     mariadb:
