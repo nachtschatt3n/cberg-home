@@ -190,7 +190,7 @@ spec:
     # @default -- See [values.yaml](./values.yaml)
     mediaVolume:
       enabled: true
-      # name: library # this volume will be mounted into `/romm/library`
+      name: library # this volume will be mounted into `/romm/library`
       # volumeSpec:
       #   accessModes:
       #     - ReadWriteOnce
