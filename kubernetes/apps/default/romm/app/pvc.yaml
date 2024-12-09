@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: romm-data-pv
+  name: romm-resources-pv
 spec:
   capacity:
     storage: 15Gi
@@ -14,16 +14,16 @@ spec:
     - nfsvers=4.1
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: "nas_csi_romm_data"
+    volumeHandle: "nas_csi_romm_resources"
     volumeAttributes:
       server: "192.168.31.226"
       share: "/mnt/user/k8s_csi"
-      subDir: "romm-data"
+      subDir: "romm-resources"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: romm-data
+  name: romm-resources
   namespace: default
 spec:
   accessModes:
@@ -31,4 +31,106 @@ spec:
   resources:
     requests:
       storage: 15Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: romm-logs-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: csi-driver-nfs
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: "nas_csi_romm_logs"
+    volumeAttributes:
+      server: "192.168.31.226"
+      share: "/mnt/user/k8s_csi"
+      subDir: "romm-logs"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-logs
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: romm-database-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: csi-driver-nfs
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: "nas_csi_romm_database"
+    volumeAttributes:
+      server: "192.168.31.226"
+      share: "/mnt/user/k8s_csi"
+      subDir: "romm-database"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-database
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: csi-driver-nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: romm-redis-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: csi-driver-nfs
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: "nas_csi_romm_redis"
+    volumeAttributes:
+      server: "192.168.31.226"
+      share: "/mnt/user/k8s_csi"
+      subDir: "romm-redis"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-redis
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
   storageClassName: csi-driver-nfs

@@ -32,13 +32,13 @@ spec:
     persistence:
       resources:
         enabled: true
-        existingClaim: romm-data
+        existingClaim: romm-resources
       logs:
         enabled: true
-        existingClaim: romm-data
+        existingClaim: romm-logs
       database:
         enabled: true
-        existingClaim: romm-data
+        existingClaim: romm-database
 
     ingress:
       enabled: true
