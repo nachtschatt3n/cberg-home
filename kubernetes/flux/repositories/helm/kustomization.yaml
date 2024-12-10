@@ -29,4 +29,5 @@ resources:
   - ./n8n.yaml
   - ./dirsigler.yaml
   - ./rm3l.yaml
-  - ./crystalnet.yaml
+#  - ./crystalnet.yaml
+#  - ./truecharts.yaml
