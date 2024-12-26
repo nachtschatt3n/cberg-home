@@ -39,7 +39,7 @@ spec:
       port: 8123
     ingress:
       enabled: true
-      ingressClassName: internal
+      ingressClassName: "external"
       annotations:
         hajimari.io/icon: mdi:home-assistant
       hosts:
