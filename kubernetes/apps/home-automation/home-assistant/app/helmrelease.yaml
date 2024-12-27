@@ -42,6 +42,7 @@ spec:
       className: "external"
       annotations:
         hajimari.io/icon: mdi:home-assistant
+        external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
       hosts:
         - host: &host "hass.${SECRET_DOMAIN}"
           paths:
