@@ -1,0 +1,79 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: zigbee2mqtt
+  namespace: home-automation
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: zigbee2mqtt
+      version: 1.0.0  # Check the latest version
+      sourceRef:
+        kind: HelmRepository
+        name: zigbee2mqtt
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: koenkk/zigbee2mqtt
+      tag: 1.36.0  # Use the latest stable version
+      pullPolicy: IfNotPresent
+
+    env:
+      - name: TZ
+        value: "${TIMEZONE}"
+
+    persistence:
+      enabled: true
+      storageClass: csi-driver-nfs
+      size: 1Gi
+      accessMode: ReadWriteOnce
+
+    ingress:
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/appName: "Zigbee2MQTT"
+        hajimari.io/icon: zigbee
+      hosts:
+        - host: &host "zigbee2mqtt.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+
+    # Additional configuration might be needed depending on your specific Zigbee setup
+    # You may want to add device mappings, serial port configurations, etc.
+    # additionalVolumeMounts:
+    #   - name: zigbee-device
+    #     mountPath: /dev/ttyUSB0
+
+    # additionalVolumes:
+    #   - name: zigbee-device
+    #     hostPath:
+    #       path: /dev/ttyUSB0
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+
+    # Optional: Configure node selector if you have a specific Zigbee coordinator
+    nodeSelector:
+      zigbee-coordinator: "true"

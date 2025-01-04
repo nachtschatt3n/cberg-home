@@ -30,3 +30,4 @@ resources:
   - ./dirsigler.yaml
   - ./rm3l.yaml
   - ./romm.yaml
+  - ./zigbee2mqtt.yaml
