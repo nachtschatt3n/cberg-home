@@ -1,5 +1,6 @@
 resources:
   - namespace.yaml
+  - home-assistant/ks.yaml
   - zigbee2mqtt/ks.yaml
-  - home-assistant/ks.yaml # todo: add home-assistant
 #  - n8n/ks.yaml # TODO: add n8n
+

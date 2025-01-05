@@ -36,7 +36,7 @@ spec:
         size: 1Gi
         # -- the name for the storage class to be used in the persistent volume claim
         storageClassName: csi-driver-nfs
-        # existingVolume: ""
+        existingVolume: zigbee2mqtt-data-pvc
         ## Persistent Volume selectors
         ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector
         # matchLabels: {}
