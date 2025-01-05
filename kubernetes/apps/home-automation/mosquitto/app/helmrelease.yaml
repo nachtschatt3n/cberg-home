@@ -76,8 +76,8 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: app
-                  port: http
+                  name: mqtt
+                  port: 1883
         tls:
           - hosts:
               - mqtt.${SECRET_DOMAIN}
