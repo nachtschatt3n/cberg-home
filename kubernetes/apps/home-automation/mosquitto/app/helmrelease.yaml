@@ -67,7 +67,7 @@ spec:
     service:
       main:
         type: LoadBalancer
-        loadBalancerIP: "192.168.31.63"
+        loadBalancerIP: "192.168.31.236"
         externalTrafficPolicy: Local
         ports:
           mqtt:
