@@ -38,6 +38,10 @@ spec:
           value: "tcp://192.168.30.183:6638"
         - name: "ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY"
           value: "GENERATE"
+        - name: "ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL"
+          value: "25"
+        - name: "ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY"
+          value: "01030507090b0d0f00020406080a0c0d"
         - name: "TZ"
           value: "Europe/Berlin"
         ports:
