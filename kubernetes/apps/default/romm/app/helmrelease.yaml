@@ -9,139 +9,125 @@ spec:
   chart:
     spec:
       chart: romm
-      version: 1.1.0
+      version: 0.2.20
       sourceRef:
         kind: HelmRepository
-        name: romm
+        name: truecharts
         namespace: flux-system
   maxHistory: 2
   install:
     remediation:
-      retries: 3
+      retries: 1
   upgrade:
     cleanupOnFail: true
     remediation:
-      retries: 3
+      retries: 1
   uninstall:
     keepHistory: false
   values:
     image:
       repository: zurdi15/romm
-      #tag: v1.1.0
       pullPolicy: IfNotPresent
-
-    serviceAccount:
-      create: true
-
-    podSecurityContext:
-      fsGroup: 1000
-      runAsNonRoot: true
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroupChangePolicy: "OnRootMismatch"
-      seccompProfile:
-        type: RuntimeDefault
-
-    securityContext:
-      capabilities:
-        drop:
-        - ALL
-      readOnlyRootFilesystem: true
-      allowPrivilegeEscalation: false
-
-    ingress:
-      enabled: true
-      className: internal
-      annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/icon: mdi:nintendo-switch
-        hajimari.io/appName: "ROMM"
-        nginx.ingress.kubernetes.io/proxy-body-size: 256m
-      hosts:
-        - host: &host "romm.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls:
-        - hosts:
-            - *host
-
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        memory: 256Mi
-
     persistence:
       resources:
         enabled: true
-        volumeClaimSpec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 2Gi
-      logs:
+        existingClaim: romm-resources
+        storageClassName: csi-driver-nfs
+      database:
         enabled: true
-        volumeClaimSpec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 256Mi
-
+        existingClaim: romm-database
+        storageClassName: csi-driver-nfs
+      logs:
+        enabled: false
     mariadb:
       enabled: true
-      auth:
-        database: romm
-        username: romm
-
-      primary:
-        persistence:
-          enabled: true
-          storageClass: local-hostpath
-          size: 8Gi
-
     redis:
       enabled: true
-      redisPort: 6379
-      architecture: standalone
-      auth:
-        enabled: true
 
     romm:
       config:
         auth:
-          enabled: true
+          # -- enable romm's integrated authentication mechanics (this requires redis to be available)
+          enabled: false
+          # -- default username for the admin user
           username: admin
+          # -- default password for the admin user
+          password: admin
+          # -- use an pre-existing secret to provide credentials
+          #    it should contain the keys romm-user and romm-pass
+          #existing_secret:
         filesystem_watcher:
+          # -- enable inotify filesystem watcher mechanics to automatically add new roms and pick up changes as they happen
           enabled: true
           scan_delay: 5
         scheduled_tasks:
           filesystem_scan:
             enabled: true
-            cron: "0 3 * * *"
+            # -- Cron expression for the scheduled scan (default: 0 3 * * * - At 3:00 AM every day)
+            cron: 0 3 * * *
           switch_titledb_update:
             enabled: true
-            cron: "0 4 * * *"
+            # -- Cron expression to update switch titledb (default: 0 4 * * * - At 4:00 AM every day)
+            cron: 0 4 * * *
           mame_xml_update:
             enabled: true
-            cron: "0 5 * * *"
+            # -- Cron expression to update mame xml database (default: 0 5 * * * - At 5:00 AM every day)
+            cron: 0 5 * * *
         database:
+          # -- type can either be mariadb or sqlite
           type: mariadb
 
-    mediaVolume:
-      enabled: true
-      name: roms
-      readOnly: false
-      volumeSpec:
-        accessModes:
-          - ReadWriteOnce
-        capacity:
-          storage: 100Gi
-        storageClassName: local-hostpath
+        igdb_api:
+          # -- use an pre-existing secret to provide credentials
+          #    it should contain the keys igdb-client-id and igdb-client-secret
+          existing_secret:
+          # -- setup your igdb api client_id, get one from https://api-docs.igdb.com/#getting-started
+          client_id: CHANGEME_IGDB_CLIENT_ID
+          # -- setup your igdb api client_secret, get it from https://api-docs.igdb.com/#getting-started
+          client_secret: CHANGEME_IGDB_CLIENT_SECRET
+        steamgriddb_api:
+          # -- work in progress and not fully implemented yet
+          api_key: CHANGEME_STEAMGRIDDB_API_KEY
+      settings:
+        exclude:
+          # -- Exclude platforms to be scanned
+          platforms:
+            - 'romm'
 
-    env:
-      - name: TZ
-        value: "${TIMEZONE}"
+          # -- Exclude roms or parts of roms to be scanned
+          # @default -- See [values.yaml](./values.yaml)
+          roms:
+            # Single file games section
+            single_file:
+              # -- Exclude matched file names to be scanned
+              names:
+                - 'info.txt'
+              # -- Exclude all files with certain extensions to be scanned
+              extensions:
+                - 'xml'
+
+            # Multi files games section
+            multi_file:
+              # -- Exclude matched 'folder' (RomM identifies folders as multi file games) names to be scanned
+              names:
+                - 'my_multi_file_game'
+                - 'DLC'
+              parts:
+                # -- Exclude matched file names to be scanned from multi file roms
+                #    Keep in mind that RomM doesn't scan folders inside multi files games,
+                #    so there is no need to exclude folders from inside of multi files games.
+                names:
+                  - 'data.xml'
+                # -- Exclude all files with certain extensions to be scanned from multi file roms
+                extensions:
+                  - 'txt'
+
+        # Asociate different platform names to your current file system platform names
+        system:
+          # -- use to overwrite romm's expected folder names for platforms with your own custom names
+          # @default -- See [values.yaml](./values.yaml)
+          platforms:
+            # [your custom platform folder name]: [RomM platform name]
+            gc: 'ngc'
+            psx: 'ps'
+

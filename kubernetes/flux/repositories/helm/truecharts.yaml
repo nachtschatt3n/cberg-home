@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: romm
+  name: truecharts
   namespace: flux-system
 spec:
   type: oci
-  interval: 1h
-  url: oci://harbor.crystalnet.org/charts/romm
+  interval: 5m
+  url: oci://tccr.io/truecharts
