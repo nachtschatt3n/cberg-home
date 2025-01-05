@@ -15,26 +15,76 @@ spec:
         name: zigbee2mqtt
         namespace: flux-system
       interval: 10m
-  maxHistory: 2
+  maxHistory: 1
   install:
     remediation:
-      retries: 3
+      retries: 1
   upgrade:
     cleanupOnFail: true
     remediation:
-      retries: 3
+      retries: 1
   uninstall:
     keepHistory: false
-  values:
-    env:
-      - name: TZ
-        value: "${TIMEZONE}"
 
-    persistence:
+  statefulset:
+    storage:
       enabled: true
-      storageClass: csi-driver-nfs
       size: 1Gi
-      accessMode: ReadWriteOnce
+      # -- the name for the storage class to be used in the persistent volume claim
+      storageClassName: csi-driver-nfs
+      # existingVolume: ""
+      ## Persistent Volume selectors
+      ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector
+      # matchLabels: {}
+      # matchExpressions: {}
+    secrets:
+      # -- the name for the kubernets secret to mount as secret.yaml. This can be referenced in the config
+      # by using advanced configurations https://www.zigbee2mqtt.io/guide/configuration/frontend.html#advanced-configuration
+      name: ""
+    # -- pod dns policy
+    dnsPolicy: ClusterFirst
+    # -- CPU/Memory configuration for the pods
+    resources:
+      requests:
+        memory: 600Mi
+        cpu: 200m
+      limits:
+        memory: 600Mi
+        cpu: 200m
+    # -- Overrides the entrypoint of the container
+    # command: {}
+    # -- Node taint tolerations for the pods
+    # tolerations: {}
+    # -- Select specific kube node, this will allow enforcing zigbee2mqtt running
+    # only on the node with the USB adapter connected
+    # nodeSelector: {}
+    # -- Configure Pods Security Context
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    # -- Configure Container Security Context
+    securityContext:
+      privileged: true
+      capabilities:
+        add: ["SYS_ADMIN"]
+    # -- Configures Container liveness probe
+    livenessProbe:
+      failureThreshold: 5
+      httpGet:
+        path: /
+        port: web
+      initialDelaySeconds: 60
+      timeoutSeconds: 10
+      periodSeconds: 30
+    # -- Additional volumeMounts to the server main container
+    # volumeMounts: []
+    #  - mountPath: /usr/local/bin/my-binary
+    #    name: custom-tools
+    #    subPath: my-binary
+    # -- Additional volumes to the server pod
+    # volumes: []
+    #  - name: custom-tools
+    #    emptyDir: {}
 
     ingress:
       enabled: true
@@ -192,9 +242,3 @@ spec:
     # -- Ingress configuration. Zigbee2mqtt does use webssockets, which is not part of the Ingress standart settings.
     # most of the popular ingresses supports them through annotations. Please check https://www.zigbee2mqtt.io/guide/installation/08_kubernetes.html
     # for examples.
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        memory: 512Mi
