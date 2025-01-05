@@ -7,14 +7,14 @@ metadata:
 spec:
   interval: 30m
   chart:
-      spec:
-          chart: zigbee2mqtt
-          version: '2.0.0'
-          sourceRef:
-              kind: HelmRepository
-              name: zigbee2mqtt
-              namespace: flux-system
-          interval: 10m
+    spec:
+      chart: zigbee2mqtt
+      version: '2.0.0'
+      sourceRef:
+        kind: HelmRepository
+        name: zigbee2mqtt
+        namespace: flux-system
+      interval: 10m
   maxHistory: 2
   install:
     remediation:
@@ -29,16 +29,7 @@ spec:
     env:
       - name: TZ
         value: "${TIMEZONE}"
-      - name: ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC
-        value: "zigbee2mqtt"
-      - name: ZIGBEE2MQTT_CONFIG_PERMIT_JOIN
-        value: "true"
-      - name: ZIGBEE2MQTT_CONFIG_MQTT_SERVER
-        value: "mqtt://localhost:1883"
-      - name: ZIGBEE2MQTT_CONFIG_SERIAL_PORT
-        value: "tcp://192.168.30.183:6638"
-      - name: ZIGBEE2MQTT_CONFIG_FRONTEND_ENABLED
-        value: "true"
+
     persistence:
       enabled: true
       storageClass: csi-driver-nfs
@@ -61,16 +52,24 @@ spec:
         - hosts:
             - *host
 
-    # Additional configuration might be needed depending on your specific Zigbee setup
-    # You may want to add device mappings, serial port configurations, etc.
-    # additionalVolumeMounts:
-    #   - name: zigbee-device
-    #     mountPath: "tcp://192.168.30.183:6638"
+    # Configuration for Zigbee2MQTT
+    config:
+      advanced:
+        transmit_power: 20
+        permit_join: true
+        mqtt_server: mqtt://localhost:1883
+        serial_port: tcp://192.168.30.183:6638
+        frontend_enabled: true
 
-    # additionalVolumes:
-    #   - name: zigbee-device
-    #     hostPath:
-    #       path: /dev/ttyUSB0
+      homeassistant:
+        discovery_topic: "homeassistant"
+        enabled: true
+
+      serial:
+        baudrate: 115200
+        port: tcp://192.168.30.183:6638
+        disable_led: true
+        adapter: zstack
 
     resources:
       requests:
@@ -78,7 +77,3 @@ spec:
         memory: 256Mi
       limits:
         memory: 512Mi
-
-    # Optional: Configure node selector if you have a specific Zigbee coordinator
-    # nodeSelector:
-    #   zigbee-coordinator: "true"
