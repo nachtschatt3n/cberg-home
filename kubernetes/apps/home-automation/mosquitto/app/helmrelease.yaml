@@ -73,20 +73,6 @@ spec:
         ports:
           http:
             port: 1883
-    ingress:
-      enabled: true
-      className: "internal"
-      annotations:
-        hajimari.io/icon: mdi:home-assistant
-        external-dns.alpha.kubernetes.io/target: "mqtt.${SECRET_DOMAIN}"
-      hosts:
-        - host: &host "mqtt.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - *host
     persistence:
       data:
         existingClaim: mosquitto
