@@ -84,7 +84,7 @@ spec:
     service:
       app:
         controller: mosquitto
-        type: ClusterIP
+        type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: mqtt.${SECRET_DOMAIN}
         ports:
