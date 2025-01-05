@@ -35,6 +35,3 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: csi-driver-nfs
-  selector:
-    matchLabels:
-      app: zigbee2mqtt
