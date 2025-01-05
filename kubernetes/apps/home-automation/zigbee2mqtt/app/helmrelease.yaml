@@ -58,9 +58,9 @@ spec:
 
     # Additional configuration might be needed depending on your specific Zigbee setup
     # You may want to add device mappings, serial port configurations, etc.
-    # additionalVolumeMounts:
-    #   - name: zigbee-device
-    #     mountPath: /dev/ttyUSB0
+    additionalVolumeMounts:
+      - name: zigbee-device
+        mountPath: "tcp://192.168.30.183:6638"
 
     # additionalVolumes:
     #   - name: zigbee-device
