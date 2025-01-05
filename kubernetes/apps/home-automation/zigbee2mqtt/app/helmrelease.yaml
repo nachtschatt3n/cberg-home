@@ -32,13 +32,13 @@ spec:
       - name: ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC
         value: "zigbee2mqtt"
       - name: ZIGBEE2MQTT_CONFIG_PERMIT_JOIN
-        value: true
+        value: "true"
       - name: ZIGBEE2MQTT_CONFIG_MQTT_SERVER
         value: "mqtt://localhost:1883"
       - name: ZIGBEE2MQTT_CONFIG_SERIAL_PORT
         value: "tcp://192.168.30.183:6638"
       - name: ZIGBEE2MQTT_CONFIG_FRONTEND_ENABLED
-        value: true
+        value: "true"
     persistence:
       enabled: true
       storageClass: csi-driver-nfs
