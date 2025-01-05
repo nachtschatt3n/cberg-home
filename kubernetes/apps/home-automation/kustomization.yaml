@@ -2,6 +2,6 @@ resources:
   - namespace.yaml
   - home-assistant/ks.yaml
   - mosquitto/ks.yaml
-#  - zigbee2mqtt/ks.yaml # TODO: add zigbee2mqtt
+  - zigbee2mqtt/ks.yaml # TODO: add zigbee2mqtt
   # - n8n/ks.yaml # TODO: add n8n
 
