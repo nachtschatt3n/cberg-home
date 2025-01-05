@@ -64,6 +64,19 @@ spec:
             runAsNonRoot: true
             fsGroup: 65534
             fsGroupChangePolicy: OnRootMismatch
+    ingress:
+      enabled: true
+      className: "internal"
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: mqtt.${SECRET_DOMAIN}
+      hosts:
+        - host: mqtt.${SECRET_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - mqtt.${SECRET_DOMAIN}
     service:
       app:
         controller: mosquitto
