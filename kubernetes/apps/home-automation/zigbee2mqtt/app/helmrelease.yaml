@@ -56,18 +56,11 @@ spec:
         limits:
           memory: 600Mi
           cpu: 200m
-    # -- Overrides the entrypoint of the container
-    # command: {}
-    # -- Node taint tolerations for the pods
-    # tolerations: {}
-    # -- Select specific kube node, this will allow enforcing zigbee2mqtt running
-    # only on the node with the USB adapter connected
-    # nodeSelector: {}
-    # -- Configure Pods Security Context
       podSecurityContext:
-        seccompProfile:
-          type: RuntimeDefault
-      # -- Configure Container Security Context
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+        fsGroupChangePolicy: "OnRootMismatch"
       securityContext:
         privileged: true
         capabilities:
