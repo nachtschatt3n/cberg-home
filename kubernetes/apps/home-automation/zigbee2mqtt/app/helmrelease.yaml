@@ -101,7 +101,9 @@ spec:
         - host: &host "zigbee2mqtt.${SECRET_DOMAIN}"
           paths:
             - path: /
-              pathType: Prefix
+              pathType: ImplementationSpecific
+            - path: /api
+              pathType: ImplementationSpecific
       tls:
         - hosts:
             - *host
