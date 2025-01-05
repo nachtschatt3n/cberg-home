@@ -25,32 +25,36 @@ spec:
       retries: 1
   uninstall:
     keepHistory: false
+  values:
+    env:
+      - name: TZ
+        value: "${TIMEZONE}"
 
-  statefulset:
-    storage:
-      enabled: true
-      size: 1Gi
-      # -- the name for the storage class to be used in the persistent volume claim
-      storageClassName: csi-driver-nfs
-      # existingVolume: ""
-      ## Persistent Volume selectors
-      ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector
-      # matchLabels: {}
-      # matchExpressions: {}
-    secrets:
-      # -- the name for the kubernets secret to mount as secret.yaml. This can be referenced in the config
-      # by using advanced configurations https://www.zigbee2mqtt.io/guide/configuration/frontend.html#advanced-configuration
-      name: ""
-    # -- pod dns policy
-    dnsPolicy: ClusterFirst
-    # -- CPU/Memory configuration for the pods
-    resources:
-      requests:
-        memory: 600Mi
-        cpu: 200m
-      limits:
-        memory: 600Mi
-        cpu: 200m
+    statefulset:
+      storage:
+        enabled: true
+        size: 1Gi
+        # -- the name for the storage class to be used in the persistent volume claim
+        storageClassName: csi-driver-nfs
+        # existingVolume: ""
+        ## Persistent Volume selectors
+        ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector
+        # matchLabels: {}
+        # matchExpressions: {}
+      #secrets:
+        # -- the name for the kubernets secret to mount as secret.yaml. This can be referenced in the config
+        # by using advanced configurations https://www.zigbee2mqtt.io/guide/configuration/frontend.html#advanced-configuration
+        # name: ""
+      # -- pod dns policy
+      # dnsPolicy: ClusterFirst
+      # -- CPU/Memory configuration for the pods
+      resources:
+        requests:
+          memory: 600Mi
+          cpu: 200m
+        limits:
+          memory: 600Mi
+          cpu: 200m
     # -- Overrides the entrypoint of the container
     # command: {}
     # -- Node taint tolerations for the pods
@@ -59,32 +63,32 @@ spec:
     # only on the node with the USB adapter connected
     # nodeSelector: {}
     # -- Configure Pods Security Context
-    podSecurityContext:
-      seccompProfile:
-        type: RuntimeDefault
-    # -- Configure Container Security Context
-    securityContext:
-      privileged: true
-      capabilities:
-        add: ["SYS_ADMIN"]
-    # -- Configures Container liveness probe
-    livenessProbe:
-      failureThreshold: 5
-      httpGet:
-        path: /
-        port: web
-      initialDelaySeconds: 60
-      timeoutSeconds: 10
-      periodSeconds: 30
-    # -- Additional volumeMounts to the server main container
-    # volumeMounts: []
-    #  - mountPath: /usr/local/bin/my-binary
-    #    name: custom-tools
-    #    subPath: my-binary
-    # -- Additional volumes to the server pod
-    # volumes: []
-    #  - name: custom-tools
-    #    emptyDir: {}
+      podSecurityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      # -- Configure Container Security Context
+      securityContext:
+        privileged: true
+        capabilities:
+          add: ["SYS_ADMIN"]
+      # -- Configures Container liveness probe
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /
+          port: web
+        initialDelaySeconds: 60
+        timeoutSeconds: 10
+        periodSeconds: 30
+      # -- Additional volumeMounts to the server main container
+      # volumeMounts: []
+      #  - mountPath: /usr/local/bin/my-binary
+      #    name: custom-tools
+      #    subPath: my-binary
+      # -- Additional volumes to the server pod
+      # volumes: []
+      #  - name: custom-tools
+      #    emptyDir: {}
 
     ingress:
       enabled: true
@@ -183,7 +187,7 @@ spec:
         port: 80
         # -- Optional, empty by default to listen on both IPv4 and IPv6. Opens a unix socket when given a path instead of an address (e.g. '/run/zigbee2mqtt/zigbee2mqtt.sock')
         # Don't set this if you use Docker or the Home Assistant add-on unless you're sure the chosen IP is available inside the container
-        host: 0.0.0.0
+        #host: 0.0.0.0
         # -- Optional, enables authentication, disabled by default, cleartext (no hashing required)
         auth_token: null
         # -- Optional, url on which the frontend can be reached, currently only used for the Home Assistant device configuration page
