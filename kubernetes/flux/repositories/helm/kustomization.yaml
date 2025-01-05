@@ -29,6 +29,6 @@ resources:
   - ./n8n.yaml
   - ./dirsigler.yaml
   - ./rm3l.yaml
-  - ./zigbee2mqtt.yaml
+#  - ./zigbee2mqtt.yaml
 #  - ./crystalnet.yaml
 #  - ./truecharts.yaml
