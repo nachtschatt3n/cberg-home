@@ -178,7 +178,7 @@ spec:
         update_check_interval: 1440
         # -- Disable automatic update checks
         disable_automatic_update_check: false
-      frontend:
+      #frontend:
         # -- Mandatory, default 8080
         # port: 80
         # -- Optional, empty by default to listen on both IPv4 and IPv6. Opens a unix socket when given a path instead of an address (e.g. '/run/zigbee2mqtt/zigbee2mqtt.sock')
