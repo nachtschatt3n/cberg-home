@@ -26,7 +26,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: zigbee2mqtt-data
+  name: zigbee2mqtt-data-pvc
   namespace: home-automation
 spec:
   accessModes:
