@@ -22,3 +22,19 @@ spec:
       share: "/mnt/user/k8s_csi"
       subDir: "zigbee2mqtt-data"
 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zigbee2mqtt-data
+  namespace: home-automation
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: csi-driver-nfs
+  selector:
+    matchLabels:
+      app: zigbee2mqtt
