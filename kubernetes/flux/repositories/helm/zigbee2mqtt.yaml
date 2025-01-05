@@ -2,8 +2,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: zigbee2mqtt
-  namespace: flux-system
+    name: zigbee2mqtt
+    namespace: flux-system
 spec:
-  interval: 1h
-  url: https://koenkk.github.io/zigbee2mqtt-chart/
+    interval: 10m
+    url: https://charts.zigbee2mqtt.io/index
