@@ -39,12 +39,12 @@ spec:
       main:
         ports:
           http:
-            port: 1880
+            port: &port 1880
 
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: internal
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: mdi:nodejs
@@ -53,9 +53,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                service:
-                  name: main
-                  port: 1880
         tls:
           - hosts:
               - *host
