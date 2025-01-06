@@ -42,22 +42,23 @@ spec:
             port: &port 1880
 
     ingress:
+      # -- Enable an ingress resource for the server
       enabled: true
-      ingressClassName: internal
-      annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/icon: mdi:nodejs
-        hajimari.io/appName: "Node-RED"
+      # -- Defines which ingress controller will implement the resource
+      className: "internal"
+      # -- Additional ingress annotations
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
       hosts:
+        #  Ingress accepted hostnames
         - host: &host "node.${SECRET_DOMAIN}"
           paths:
+              # -- The base path
             - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: node-red
-                  port:
-                    number: *port
+              # --  Ingress type of path
+              pathType: ImplementationSpecific
+      # --  Ingress TLS configuration
       tls:
         - hosts:
             - *host
