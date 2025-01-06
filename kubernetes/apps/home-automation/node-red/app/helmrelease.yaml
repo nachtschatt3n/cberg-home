@@ -65,9 +65,9 @@ spec:
           - node.${SECRET_DOMAIN}
           certificate:
             enabled: true
-#            issuerRef:
-#              kind: ClusterIssuer
-#              name: letsencrypt
+            issuerRef:
+              kind: ClusterIssuer
+              name: letsencrypt-production
 
 
       # tls:
