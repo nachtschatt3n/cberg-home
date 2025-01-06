@@ -42,26 +42,25 @@ spec:
             port: &port 1880
 
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: mdi:nodejs
-          hajimari.io/appName: "Node-RED"
-        hosts:
-          - host: &host "node.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: node-red
-                    port:
-                      number: *port
-        tls:
-          - hosts:
-              - *host
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/icon: mdi:nodejs
+        hajimari.io/appName: "Node-RED"
+      hosts:
+        - host: &host "node.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: node-red
+                  port:
+                    number: *port
+      tls:
+        - hosts:
+            - *host
 
     persistence:
       data:
