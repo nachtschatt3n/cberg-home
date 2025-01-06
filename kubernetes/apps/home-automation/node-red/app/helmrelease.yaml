@@ -69,18 +69,10 @@ spec:
               kind: ClusterIssuer
               name: letsencrypt-production
 
-
-      # tls:
-      #   hosts:
-      #     - *host
-
-
     persistence:
       data:
         enabled: true
-        storageClass: csi-driver-nfs
-        accessMode: ReadWriteOnce
-        size: 1Gi
+        existingClaim: node-red-data
 
     resources:
       requests:
