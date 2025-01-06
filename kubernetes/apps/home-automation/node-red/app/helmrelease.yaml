@@ -58,31 +58,16 @@ spec:
             - path: /
               # --  Ingress type of path
               pathType: ImplementationSpecific
-      # --  Ingress TLS configuration
+
       tls:
-        # -- Secret name for the certificate
-        # - secretName: chart-example-tls
-        # -- Hostnames for the Ingress
-        hosts:
+        - secretName: node-red
+          hosts:
           - node.${SECRET_DOMAIN}
-        #  - chart-example.local
-        # -- Certificate used by the Cert-Manager
-        certificate:
-          enabled: true
-          name: node-red-cert
-          issuerRef:
-            kind: ClusterIssuer
-            name: letsencrypt-prod
-        # -- Enable certificate
-        #   enabled: true
-        # -- Name of the certificate default: `$fullname-cert-$index`
-        #   name: ""
-        # -- Reference of ClusterIssuers or Issuer
-        #   issuerRef:
-        # -- Kind of the Issuer
-        #     kind: ClusterIssuer
-        # -- Name of the Issuer
-        #     name: "test"
+          certificate:
+            enabled: true
+            issuerRef:
+              kind: ClusterIssuer
+              name: letsencrypt
 
 
       # tls:
