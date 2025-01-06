@@ -30,5 +30,6 @@ resources:
   - ./dirsigler.yaml
   - ./rm3l.yaml
   - ./zigbee2mqtt.yaml
+  - ./node-red.yaml
 #  - ./crystalnet.yaml
 #  - ./truecharts.yaml
