@@ -60,6 +60,30 @@ spec:
               pathType: ImplementationSpecific
       # --  Ingress TLS configuration
 
+        # -- Secret name for the certificate
+        # - secretName: chart-example-tls
+        # -- Hostnames for the Ingress
+        # hosts:
+        #  - chart-example.local
+        # -- Certificate used by the Cert-Manager
+        # certificate:
+        # -- Enable certificate
+        #   enabled: true
+        # -- Name of the certificate default: `$fullname-cert-$index`
+        #   name: ""
+        # -- Reference of ClusterIssuers or Issuer
+        #   issuerRef:
+        # -- Kind of the Issuer
+        #     kind: ClusterIssuer
+        # -- Name of the Issuer
+        #     name: "test"
+
+
+      tls:
+        hosts:
+          - *host
+
+
     persistence:
       data:
         enabled: true
