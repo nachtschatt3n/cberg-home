@@ -74,8 +74,9 @@ spec:
         enabled: true
         existingClaim: node-red-data
         #storageClassName: csi-driver-nfs
-        accessMode: ReadWriteOnce
-        size: 1Gi
+        #accessMode: ReadWriteOnce
+        #size: 1Gi
+        mountPath: /data
 
     resources:
       requests:
