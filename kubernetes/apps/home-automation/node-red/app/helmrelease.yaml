@@ -78,7 +78,7 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: local-hostpath
+        storageClass: csi-driver-nfs
         accessMode: ReadWriteOnce
         size: 1Gi
 
