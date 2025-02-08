@@ -1,0 +1,31 @@
+---
+# Source configuration using local storage
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: zigbee2mqtt
+  namespace: home-automation
+spec:
+  sourcePVC: zigbee2mqtt-data
+  trigger:
+    schedule: "0 */6 * * *"  # Every 6 hours
+  rsync:
+    copyMethod: Direct
+    capacity: 1Gi
+    accessModes: ["ReadWriteOnce"]
+    storageClassName: local-path  # Using local storage
+---
+# Backup to NFS for safety
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: zigbee2mqtt-nfs-backup
+  namespace: home-automation
+spec:
+  trigger:
+    schedule: "5 */6 * * *"  # Every 6 hours, 5 minutes after source
+  rsync:
+    copyMethod: Direct
+    capacity: 1Gi
+    accessModes: ["ReadWriteOnce"]
+    storageClassName: csi-driver-nfs  # NFS backup
