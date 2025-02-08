@@ -13,7 +13,7 @@ spec:
     copyMethod: Direct
     capacity: 1Gi
     accessModes: ["ReadWriteOnce"]
-    storageClassName: local-path  # Using local storage
+    storageClassName: local-hostpath  # Using local storage
 ---
 # Backup to NFS for safety
 apiVersion: volsync.backube/v1alpha1
