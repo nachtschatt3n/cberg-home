@@ -43,6 +43,8 @@ spec:
     env:
       - name: TZ
         value: "${TIMEZONE}"
+      - name: INFLUXD_HTTP_AUTH_ENABLED
+        value: "false"
     service:
       type: LoadBalancer
       ports:
